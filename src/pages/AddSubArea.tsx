@@ -15,7 +15,7 @@ function AddSubArea() {
     // ################ VARIABLES ################
 
     const dispatch = useDispatch();
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<any>(null);
 
     let [cityValues, setCityValues] = useState('');
     let [areaValues, setAreaValues] = useState('');

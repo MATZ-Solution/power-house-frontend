@@ -379,3 +379,30 @@ export const AddMeetingMember = async (data: any) => {
     }
 };
 
+export const createSOP = async (data: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(
+            `${BASE_URL}/createSOP
+        `,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+            }
+        );
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+

@@ -103,13 +103,19 @@ const Sidebar = () => {
                                         <li>
                                             <NavLink to="/scouts-member">{t('Scouts Member')}</NavLink>
                                         </li>
-                                        <li>
+
+                                        {/* Meeting Member */}
+                                        {/* <li>
                                             <NavLink to="/create-meeting-member">{t('Create Meeting Member')}</NavLink>
+                                        </li> */}
+
+                                        <li>
+                                            <NavLink to="/create-sop">{t('Create SOP')}</NavLink>
                                         </li>
+
                                         {/* <li>
                                             <NavLink to="/add-area">{t('Add Area')}</NavLink>
                                         </li> */}
-                                       
 
                                         {/* <li>
                                             <NavLink to='#' onClick={() => {

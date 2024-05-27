@@ -22,7 +22,7 @@ const Cards = lazy(() => import('../pages/Components/Cards'));
 const Carousel = lazy(() => import('../pages/Components/Carousel'));
 const Countdown = lazy(() => import('../pages/Components/Countdown'));
 const Counter = lazy(() => import('../pages/Components/Counter'));
-const SweetAlert = lazy(() => import('../pages/Components/SweetAlert'));
+// const SweetAlert = lazy(() => import('../pages/Components/SweetAlert'));
 const Timeline = lazy(() => import('../pages/Components/Timeline'));
 const Notification = lazy(() => import('../pages/Components/Notification'));
 const MediaObject = lazy(() => import('../pages/Components/MediaObject'));
@@ -107,7 +107,7 @@ const Clipboard = lazy(() => import('../pages/Forms/Clipboard'));
 const SetupCities = lazy(() => import('../pages/AddCities'));
 const AddSubArea = lazy(() => import('../pages/AddSubArea'));
 const CreateMeetingMember = lazy(() => import('../pages/CreateMeetingMember'));
-
+const CreateSOP = lazy(() => import('../pages/CreateSOP'));
 
 const routes = [
     // dashboard
@@ -124,7 +124,7 @@ const routes = [
 
     {
         path: '/dashboard',
-        element: <Index/>,
+        element: <Index />,
     },
 
     // analytics page
@@ -164,14 +164,19 @@ const routes = [
 
     {
         path: '/add-sub-area',
-        element: <AddSubArea/>,
+        element: <AddSubArea />,
     },
+
+    // CREATE-MEETING-MEMBER
+    // {
+    //     path: '/create-meeting-member',
+    //     element: <CreateMeetingMember />,
+    // },
 
     {
-        path: '/create-meeting-member',
-        element: <CreateMeetingMember />,
+        path: '/create-sop',
+        element: <CreateSOP />,
     },
-
 
     // crypto page
     {
@@ -253,10 +258,10 @@ const routes = [
         path: '/components/counter',
         element: <Counter />,
     },
-    {
-        path: '/components/sweetalert',
-        element: <SweetAlert />,
-    },
+    // {
+    //     path: '/components/sweetalert',
+    //     element: <SweetAlert />,
+    // },
     {
         path: '/components/timeline',
         element: <Timeline />,

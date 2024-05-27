@@ -5,11 +5,9 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Select from 'react-select';
 import * as Yup from 'yup';
-import { AddMeetingMember, getCity } from '../Fetcher/Api';
+import { AddMeetingMember, getAreas, getCity, getSubAreas } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { setPageTitle } from '../store/themeConfigSlice';
-import { getAreas } from '../Fetcher/Api';
-import { getSubAreas } from '../Fetcher/Api';
 
 function CreateMeetingMember() {
     const dispatch = useDispatch();
@@ -76,12 +74,36 @@ function CreateMeetingMember() {
         }, 3000);
     }, [mutation.isSuccess, mutation.isError]);
 
-    const cityOptions = cityData?.map((data: any) => ({ value: data?.id, label: data?.cityName}));
-    const areaOptions = areaData?.map((data: any) => ({ value: data?.id, label: data?.AreaName }))
-    
-    
-    
-    const subAreaOptions = subAreaData?.map((data: any) => ({ value: data?.id, label: data?.subAreaName }));
+    interface Option {
+        value: string;
+        label: string;
+      }
+
+      interface FormValues {
+        Name: string;
+        email: string;
+        phoneNumber: string;
+        address: string;
+        position: string;
+        cityId: string[];
+        areasId: string[];
+        subareasId: string[];
+      }
+
+      const initialValues: FormValues = {
+        Name: '',
+        email: '',
+        phoneNumber: '',
+        address: '',
+        position: '',
+        cityId: [],
+        areasId: [],
+        subareasId: [],
+      };
+
+    const cityOptions: Option[] = cityData?.map((data: any) => ({ value: data?.id, label: data?.cityName})) || [];
+    const areaOptions: Option[]  = areaData?.map((data: any) => ({ value: data?.id, label: data?.AreaName })) || [];
+    const subAreaOptions: Option[] = subAreaData?.map((data: any) => ({ value: data?.id, label: data?.subAreaName })) || [];
 
 
     const CreateMeetingMemberSchema = Yup.object().shape({
@@ -115,16 +137,7 @@ function CreateMeetingMember() {
             </ul>
             <div className="pt-5">
                 <Formik
-                    initialValues={{
-                        Name: '',
-                        email: '',
-                        phoneNumber: '',
-                        address: '',
-                        position: '',
-                        cityId: [],
-                        areasId: [],
-                        subareasId: [],
-                    }}
+                   initialValues={initialValues}
                     validationSchema={CreateMeetingMemberSchema}
                     onSubmit={ (values, {resetForm}) => {
                         console.log("this is values", values)
@@ -177,7 +190,7 @@ function CreateMeetingMember() {
                                         name="cityId"
                                         placeholder="Select an option"
                                         options={cityOptions}
-                                        value={cityOptions?.filter((option: any) => values?.cityId?.includes(option.value))}
+                                        value={cityOptions?.filter((option :Option) => values?.cityId?.includes(option.value))}
                                         isMulti
                                         isSearchable={false}
                                         onChange={(selected: any) => {

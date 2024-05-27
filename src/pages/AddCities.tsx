@@ -9,7 +9,7 @@ function SetupCities() {
     let queryClient: any = useQueryClient();
     // let [file, setFile] = useState(null);
     let [wrongFile, setWrongFile] = useState(false);
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef<any>(null);
     const mutation = useMutation({
         mutationKey: ['AddCity'],
         mutationFn: AddCity,
