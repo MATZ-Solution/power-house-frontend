@@ -432,7 +432,7 @@ const Finance = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                     <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Total Scouts</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Total Scouts</div>
                             <div className="dropdown">
                                 {/* <Dropdown
                                     offset={[0, 5]}
@@ -464,7 +464,7 @@ const Finance = () => {
                     {/* Pending */}
                     <div className="panel bg-gradient-to-r from-yellow-500  to-yellow-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Pending Scouts</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Pending Scouts</div>
                             {/* <div className="dropdown">
                                 <Dropdown
                                     offset={[0, 5]}
@@ -496,7 +496,7 @@ const Finance = () => {
                     {/*  Success */}
                     <div className="panel bg-gradient-to-r from-green-500  to-green-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Success Scout</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Success Scout</div>
                             {/* <div className="dropdown">
                                 <Dropdown
                                     offset={[0, 5]}
@@ -528,7 +528,7 @@ const Finance = () => {
                     {/* Reject */}
                     <div className="panel bg-gradient-to-r from-red-500  to-red-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-md font-semibold">Reject Scouts</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Reject Scouts</div>
                             {/* <div className="dropdown">
                                 <Dropdown
                                     offset={[0, 5]}

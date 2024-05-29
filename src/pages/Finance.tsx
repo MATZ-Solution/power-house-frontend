@@ -807,7 +807,7 @@ const Index = () => {
                     </div>
 
                     <div className="panel h-full p-0 border-0 overflow-hidden">
-                        <div className="p-6 bg-gradient-to-r from-[#4361ee] to-[#160f6b] min-h-[190px]">
+                        <div className="p-6 bg-gradient-to-r from-[#F59927] to-[#160f6b] min-h-[190px]">
                             <div className="flex justify-between items-center mb-6">
                                 <div className="bg-black/50 rounded-full p-1 ltr:pr-3 rtl:pl-3 flex items-center text-white font-semibold">
                                     <img className="w-8 h-8 rounded-full border-2 border-white/50 block object-cover ltr:mr-1 rtl:ml-1" src="/assets/images/profile-34.jpeg" alt="avatar" />

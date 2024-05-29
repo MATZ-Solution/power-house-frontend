@@ -11,6 +11,25 @@ import { setPageTitle } from '../store/themeConfigSlice';
 import { getScoutMember, createSOP } from '../Fetcher/Api';
 
 function CreateSOP() {
+    const customStyles = {
+        option: (provided: any, state: any) => ({
+            ...provided,
+            color: 'none',
+            backgroundColor: 'transparent',
+            cursor: 'pointer',
+            ':hover': {
+                backgroundColor: '#F59927',
+                color: 'white',
+            },
+        }),
+
+        control: (provided: any, state: any) => ({
+            ...provided,
+            minHeight: '45px',
+        }),
+        indicatorSeparator: () => ({ display: 'none' }),
+    };
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Create SOP'));
@@ -127,6 +146,8 @@ function CreateSOP() {
         areasId: Yup.array().of(Yup.string()).min(1, 'At least one area must be selected').required('Required'),
     });
 
+    console.log("this is city Options", cityOptions)
+
     return (
         <div>
             {mutation.isSuccess && <ModalInfo message="Successfully add SOP" success={mutation.isSuccess} />}
@@ -149,7 +170,7 @@ function CreateSOP() {
                         console.log('this is values', values);
                         mutation.mutate(values, {
                             onSuccess: () => {
-                                // resetForm();
+                                resetForm();
                             },
                         });
                     }}
@@ -160,13 +181,23 @@ function CreateSOP() {
                                 <div>
                                     <label htmlFor="gridName">City</label>
                                     <Select
+                                        className="border-none"
                                         name="cityId"
-                                        placeholder="Select an option"
+                                        placeholder="Select City"
                                         options={cityOptions}
-                                        value={cityOptions.find((option) => option.value === values.cityId)} // Find the selected option
+                                        value={cityOptions.filter((option) => option.label === values.cityId)}
                                         isSearchable={false}
+                                        styles={customStyles}
+                                        theme={(theme) => ({
+                                            ...theme,
+                                            colors: {
+                                                ...theme.colors,
+                                                primary25: 'transparent',
+                                                primary: '#F59927',
+                                            },
+                                        })}
                                         onChange={(selected: any) => {
-                                            setFieldValue('cityId', selected ? selected.value : '');
+                                            setFieldValue('cityId', selected ? selected.label : '');
                                             setGetCityIds(selected.value);
                                         }}
                                     />
@@ -178,11 +209,20 @@ function CreateSOP() {
                                         name="areasId"
                                         placeholder="Select an option"
                                         options={areaOptions}
-                                        value={areaOptions?.filter((option: any) => values?.areasId?.includes(option.value))}
+                                        value={areaOptions?.filter((option: any) => values?.areasId?.includes(option.label))}
                                         isMulti
                                         isSearchable={false}
+                                        styles={customStyles}
+                                        theme={(theme) => ({
+                                            ...theme,
+                                            colors: {
+                                                ...theme.colors,
+                                                primary25: 'transparent',
+                                                primary: '#F59927',
+                                            },
+                                        })}
                                         onChange={(selected: any) => {
-                                            let selectedids = selected ? selected.map((data: any) => data.value) : [];
+                                            let selectedids = selected ? selected.map((data: any) => data.label) : [];
                                             setFieldValue('areasId', selectedids);
                                             setGetAreaIds(selectedids);
                                         }}
@@ -197,8 +237,18 @@ function CreateSOP() {
                                         name="userIds"
                                         placeholder="Select an option"
                                         options={scoutMemberOptions}
+                                        value={scoutMemberOptions?.filter((option: any) => values?.userIds?.includes(option.value))}
                                         isMulti
                                         isSearchable={false}
+                                        styles={customStyles}
+                                        theme={(theme) => ({
+                                            ...theme,
+                                            colors: {
+                                                ...theme.colors,
+                                                primary25: 'transparent',
+                                                primary: '#F59927',
+                                            },
+                                        })}
                                         onChange={(selected: any) => {
                                             setFieldValue('userIds', selected ? selected.map((data: any) => data.value) : []);
                                         }}
@@ -211,7 +261,18 @@ function CreateSOP() {
                                         name="projectType"
                                         placeholder="Select an option"
                                         options={projectTypeOptions}
+                                        value={projectTypeOptions.filter((option) => option.label === values.projectType)}
+
                                         isSearchable={false}
+                                        styles={customStyles}
+                                        theme={(theme) => ({
+                                            ...theme,
+                                            colors: {
+                                                ...theme.colors,
+                                                primary25: 'transparent',
+                                                primary: '#F59927',
+                                            },
+                                        })}
                                         onChange={(selected: any) => {
                                             setFieldValue('projectType', selected.label);
                                         }}
@@ -228,6 +289,17 @@ function CreateSOP() {
                                             placeholder="Select an option"
                                             options={projectDomainOption}
                                             isSearchable={false}
+                                            styles={customStyles}
+                                        value={projectDomainOption.filter((option) => option.label === values.projectDomain)}
+
+                                            theme={(theme) => ({
+                                                ...theme,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary25: 'transparent',
+                                                    primary: '#F59927',
+                                                },
+                                            })}
                                             onChange={(selected: any) => {
                                                 setFieldValue('projectDomain', selected.label);
                                             }}

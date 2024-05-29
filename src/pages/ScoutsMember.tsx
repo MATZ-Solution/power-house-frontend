@@ -52,14 +52,14 @@ function ScoutsMember() {
             <div className="pt-5">
                 <div className="table-responsive mb-5">
                     <table>
-                        <thead>
-                            <tr>
+                        <thead >
+                            <tr className='text-[#F59927]'>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Phone Number</th>
                                 <th>Email</th>
                                 <th>Address</th>
-                                <th>Position</th>
+                                <th>Designation</th>
 
                                 {/* <th>Email</th>
                                 <th>Status</th> */}

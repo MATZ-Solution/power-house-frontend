@@ -1,11 +1,11 @@
+import sortBy from 'lodash/sortBy';
 import { DataTable, DataTableSortStatus } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import sortBy from 'lodash/sortBy';
 import ReactApexChart from 'react-apexcharts';
 import { useDispatch } from 'react-redux';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import IconBell from '../../components/Icon/IconBell';
 import IconStar from '../../components/Icon/IconStar';
+import { setPageTitle } from '../../store/themeConfigSlice';
 
 const Basic = () => {
     const dispatch = useDispatch();
@@ -626,7 +626,7 @@ const Basic = () => {
     }, [sortStatus]);
 
     const randomColor = () => {
-        const color = ['#4361ee', '#805dca', '#00ab55', '#e7515a', '#e2a03f', '#2196f3'];
+        const color = ['#F59927', '#805dca', '#00ab55', '#e7515a', '#e2a03f', '#2196f3'];
         const random = Math.floor(Math.random() * color.length);
         return color[random];
     };

@@ -59,8 +59,8 @@ const Sidebar = () => {
                 <div className="bg-white dark:bg-black h-full">
                     <div className="flex justify-between items-center px-4 py-3">
                         <NavLink to="/" className="main-logo flex items-center shrink-0">
-                            {/* <img className="w-8 ml-[5px] flex-none" src="/assets/images/logo.svg" alt="logo" /> */}
-                            <span className="text-2xl ltr:ml-1.5 rtl:mr-1.5 font-semibold align-middle lg:inline dark:text-white-light">{t('PH')}</span>
+                            <img className="w-7 h-9 ml-[5px] flex-none" src="/assets/images/logo.png" alt="logo" />
+                            <span className="text-xl font-extrabold text-black ltr:ml-1.5 rtl:mr-1.5 align-middle lg:inline dark:text-white-light">{t('Power House')}</span>
                         </NavLink>
 
                         <button
@@ -68,7 +68,7 @@ const Sidebar = () => {
                             className="collapse-icon w-8 h-8 rounded-full flex items-center hover:bg-gray-500/10 dark:hover:bg-dark-light/10 dark:text-white-light transition duration-300 rtl:rotate-180"
                             onClick={() => dispatch(toggleSidebar())}
                         >
-                            <IconCaretsDown className="m-auto rotate-90" />
+                            <IconCaretsDown className="text-[#F59927]  m-auto rotate-90" />
                         </button>
                     </div>
                     <PerfectScrollbar className="h-[calc(100vh-80px)] relative">
@@ -90,9 +90,10 @@ const Sidebar = () => {
                                     height={'auto'}
                                     // height={currentMenu === 'dashboard' ? 'auto' : 0}
                                 >
-                                    <ul className="sub-menu text-gray-500">
+                                    <ul className="sub-menu text-gray-500 ">
                                         <li>
-                                            <NavLink to="/dashboard">{t('Analytics')}</NavLink>
+                                            <NavLink to="/dashboard">
+                                                {t('Analytics')}</NavLink>
                                         </li>
                                         <li>
                                             <NavLink to="/addScoutsUser">{t('Add Scout User')}</NavLink>

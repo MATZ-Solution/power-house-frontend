@@ -30,7 +30,7 @@ function AddScoutUser() {
             .min(11, 'Phone Number lenght should be 11')
             .required('Please Enter Phone Number'),
         address: Yup.string().required('Please Enter Address'),
-        position: Yup.string().required('Please Enter position'),
+        position: Yup.string().required('Please Enter Designation'),
     });
 
     const mutation = useMutation({
@@ -116,8 +116,8 @@ function AddScoutUser() {
                                     </div>
 
                                     <div>
-                                        <label htmlFor="gridPosition">Position</label>
-                                        <Field name="position" id="gridPosition" type="text" placeholder="Enter Position" className="form-input" />
+                                        <label htmlFor="gridPosition">Designation</label>
+                                        <Field name="position" id="gridPosition" type="text" placeholder="Enter Designation" className="form-input" />
                                         {errors.position && touched.position ? <div className="text-red-600 mt-2">{errors.position}</div> : null}
                                     </div>
 

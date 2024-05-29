@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { setPageTitle } from '../../store/themeConfigSlice';
 
 const Colorlibrary = () => {
     const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const Colorlibrary = () => {
                                 <div className="w-20 h-[84px] -m-2.5 ltr:mr-4 rtl:ml-4 ltr:rounded-l-md rtl:rounded-r-md transition-all duration-700 group-hover:scale-110 bg-primary"></div>
                                 <div>
                                     <h5 className="text-sm sm:text-base">Primary</h5>
-                                    <span className="text-white-dark">#4361ee</span>
+                                    <span className="text-white-dark">#F59927</span>
                                 </div>
                             </div>
                             <div className="panel p-2.5 rounded-md flex items-center group">

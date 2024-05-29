@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from '../store';
-import { Link } from 'react-router-dom';
 import ReactApexChart from 'react-apexcharts';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Dropdown from '../components/Dropdown';
-import { setPageTitle } from '../store/themeConfigSlice';
 import IconArrowLeft from '../components/Icon/IconArrowLeft';
-import IconMenu from '../components/Icon/IconMenu';
 import IconCaretDown from '../components/Icon/IconCaretDown';
+import IconMenu from '../components/Icon/IconMenu';
+import { IRootState } from '../store';
+import { setPageTitle } from '../store/themeConfigSlice';
 
 const coins = [
     {
@@ -725,7 +725,7 @@ const Crypto = () => {
             markers: {
                 size: 0,
             },
-            colors: ['#4361ee'],
+            colors: ['#F59927'],
             grid: {
                 padding: {
                     top: 0,

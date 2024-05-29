@@ -49,14 +49,13 @@ const LoginBoxed = () => {
             }
             const response = await loginRequest.json();
             localStorage.setItem('token', response.token);
-                navigate('/dashboard');
-            dispatch(addAdminDetails(response?.data))
+            navigate('/dashboard');
+            dispatch(addAdminDetails(response?.data));
         } catch (err) {
             console.log(err);
             setErrorHandle({ ...errorHandle, error: true, message: 'Server Cannot Respond' });
         }
     };
-
 
     const SignupSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Please Enter Email'),
@@ -95,17 +94,17 @@ const LoginBoxed = () => {
     return (
         <div>
             {/* <Modals/> */}
-            <div className="absolute inset-0">
+            {/* <div className="absolute inset-0">
                 <img src="/assets/images/auth/bg-gradient.png" alt="image" className="h-full w-full object-cover" />
-            </div>
+            </div> */}
 
-            <div className="relative flex min-h-screen items-center justify-center bg-[url(/assets/images/auth/map.png)] bg-cover bg-center bg-no-repeat px-6 py-10 dark:bg-[#060818] sm:px-16">
-                <img src="/assets/images/auth/coming-soon-object1.png" alt="image" className="absolute left-0 top-1/2 h-full max-h-[893px] -translate-y-1/2" />
-                <img src="/assets/images/auth/coming-soon-object2.png" alt="image" className="absolute left-24 top-0 h-40 md:left-[30%]" />
-                <img src="/assets/images/auth/coming-soon-object3.png" alt="image" className="absolute right-0 top-0 h-[300px]" />
-                <img src="/assets/images/auth/polygon-object.svg" alt="image" className="absolute bottom-0 end-[28%]" />
+            <div className="relative flex min-h-screen items-center justify-center  bg-cover bg-center bg-no-repeat px-6 py-10 dark:bg-[#060818] sm:px-16">
+                {/* <img src="/assets/images/auth/coming-soon-object1.png" alt="image" className="absolute left-0 top-1/2 h-full max-h-[893px] -translate-y-1/2" /> */}
+                {/* <img src="/assets/images/auth/coming-soon-object2.png" alt="image" className="absolute left-24 top-0 h-40 md:left-[30%]" /> */}
+                {/* <img src="/assets/images/auth/coming-soon-object3.png" alt="image" className="absolute right-0 top-0 h-[300px]" /> */}
+                {/* <img src="/assets/images/auth/polygon-object.svg" alt="image" className="absolute bottom-0 end-[28%]" /> */}
                 <div className="relative w-full max-w-[870px] rounded-md bg-[linear-gradient(45deg,#fff9f9_0%,rgba(255,255,255,0)_25%,rgba(255,255,255,0)_75%,_#fff9f9_100%)] p-2 dark:bg-[linear-gradient(52.22deg,#0E1726_0%,rgba(14,23,38,0)_18.66%,rgba(14,23,38,0)_51.04%,rgba(14,23,38,0)_80.07%,#0E1726_100%)]">
-                    <div className="relative flex flex-col justify-center rounded-md bg-white/60 backdrop-blur-lg dark:bg-black/50 px-6  py-20">
+                    <div className="relative flex flex-col justify-center rounded-md bg-[#ffffff] backdrop-blur-lg dark:bg-black/50 px-6  py-20">
                         {/* lg:min-h-[758px] */}
                         <div className="absolute top-6 end-6">
                             {/* <div className="dropdown">
@@ -149,9 +148,13 @@ const LoginBoxed = () => {
                             </div> */}
                         </div>
                         <div className="mx-auto w-full max-w-[440px]">
-                            <div className="mb-10">
-                                <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign in</h1>
-                                <p className="text-base font-bold leading-normal text-white-dark">Enter your email and password to login</p>
+                            <div className="flex items-center justify-center">
+                                <img className="w-12 h-13 ml-[5px] flex-none" src="/assets/images/logo.png" alt="logo" />
+                                <span className="text-4xl font-extrabold text-black ltr:ml-1.5 rtl:mr-1.5 align-middle lg:inline dark:text-white-light">Power House</span>
+                            </div>
+                            <div className="mb-5 mt-3">
+                                <h1 className="text-3xl font-extrabold text-[#F59927]">Sign in</h1>
+                                <p className="text-base font-extrabold leading-normal text-black">Enter your email and password to login</p>
                             </div>
                             {(errorHandle.message === 'Email not found' || errorHandle.message === 'Incorrect Password') && (
                                 <div className="flex items-center bg-red-200 h-8 px-2 pb-6 pt-6 rounded">
@@ -171,9 +174,9 @@ const LoginBoxed = () => {
                                 }}
                             >
                                 {({ errors, touched }) => (
-                                    <Form className="mt-4 space-y-5 dark:text-white">
+                                    <Form className=" space-y-5 dark:text-white">
                                         <div>
-                                            <label htmlFor="Email">Email</label>
+                                            <label htmlFor="Email" className='font-extrabold'>Email*</label>
                                             <div className="relative text-white-dark">
                                                 <Field name="email" id="Email" type="email" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" />
                                                 <span className="absolute start-4 top-1/2 -translate-y-1/2">
@@ -183,7 +186,7 @@ const LoginBoxed = () => {
                                             {errors.email && touched.email ? <div className="text-red-600 mt-2">{errors.email}</div> : null}
                                         </div>
                                         <div>
-                                            <label htmlFor="Password">Password</label>
+                                            <label htmlFor="Password" className='font-extrabold'>Password*</label>
                                             <div className="relative text-white-dark">
                                                 <Field name="password" id="Password" type="password" placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" />
                                                 <span className="absolute start-4 top-1/2 -translate-y-1/2">
@@ -198,7 +201,7 @@ const LoginBoxed = () => {
                                                 <span className="text-white-dark">Subscribe to weekly newsletter</span>
                                             </label>
                                         </div> */}
-                                        <button type="submit" className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
+                                        <button type="submit" className="btn  !mt-6 w-full border-0 uppercase bg-[#F59927] text-white">
                                             Sign in
                                         </button>
                                     </Form>

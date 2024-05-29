@@ -55,14 +55,14 @@ function Scouts() {
                 <div className="table-responsive mb-5">
                     <table>
                         <thead>
-                            <tr>
+                            <tr className='text-[#F59927]'>
                                 <th>ID</th>
                                 <th>Project Type</th>
                                 <th>Project Name</th>
                                 <th>Address</th>
                                 <th>Contractor Name</th>
                                 <th>Contractor Phone Number</th>
-                                <th>Status</th>
+                                {/* <th>Status</th> */}
 
                                 {/* <th>Email</th>
                                 <th>Status</th> */}
@@ -90,7 +90,7 @@ function Scouts() {
                                             <div className="whitespace-nowrap">{data?.contractorNumber}</div>
                                         </td>
                                        
-                                        <td>
+                                        {/* <td>
                                             <span
                                                 className={`badge whitespace-nowrap ${
                                                     data?.status === 'Success'
@@ -106,7 +106,7 @@ function Scouts() {
                                             >
                                                 {data.status}
                                             </span>
-                                        </td>
+                                        </td> */}
                                         <td className="text-center">{data.register}</td>
                                     </tr>
                                 );
