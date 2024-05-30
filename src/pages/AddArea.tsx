@@ -60,17 +60,11 @@ function AddArea() {
         dispatch(setPageTitle('Add Area'));
     });
 
-    useEffect(() => {
-        setTimeout(() => {
-            mutation.reset();
-        }, 3000);
-    }, [mutation.isSuccess, mutation.isError]);
-
-    useEffect(() => {
-        setTimeout(() => {
-            mutationAreaCSVfile.reset();
-        }, 3000);
-    }, [mutationAreaCSVfile.isSuccess, mutationAreaCSVfile.isError]);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         mutationAreaCSVfile.reset();
+    //     }, 3000);
+    // }, [mutationAreaCSVfile.isSuccess, mutationAreaCSVfile.isError]);
 
     useEffect(() => {
         setTimeout(() => {
@@ -88,7 +82,18 @@ function AddArea() {
         if (!values.areaName) {
             return setValues({ ...values, areaError: true });
         }
-        mutation.mutate(values);
+        mutation.mutate(values,{
+            onSuccess: ()=>{
+                setTimeout(() => {
+                    mutation.reset();
+                }, 3000)
+            },
+            onError: ()=>{
+                setTimeout(() => {
+                    mutation.reset();
+                }, 3000)
+            }
+        });
     }
 
     const onSubmitAreaCSVfile = (e: any) => {
@@ -109,7 +114,18 @@ function AddArea() {
             return setWrongFile(true);
         }
 
-        mutationAreaCSVfile.mutate(form);
+        mutationAreaCSVfile.mutate(form,{
+            onSuccess: ()=>{
+                setTimeout(() => {
+                    mutationAreaCSVfile.reset();
+                }, 3000);
+            },
+            onError: ()=>{
+                setTimeout(() => {
+                    mutationAreaCSVfile.reset();
+                }, 3000);
+            }
+        });
         fileInputRef.current.value = null;
     };
 

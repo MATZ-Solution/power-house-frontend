@@ -84,11 +84,11 @@ function CreateSOP() {
         mutationFn: createSOP,
     });
 
-    useEffect(() => {
-        setTimeout(() => {
-            mutation.reset();
-        }, 3000);
-    }, [mutation.isSuccess, mutation.isError]);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         mutation.reset();
+    //     }, 3000);
+    // }, [mutation.isSuccess, mutation.isError]);
 
     interface Option {
         value: string;
@@ -146,10 +146,11 @@ function CreateSOP() {
         areasId: Yup.array().of(Yup.string()).min(1, 'At least one area must be selected').required('Required'),
     });
 
-    console.log("this is city Options", cityOptions)
 
     return (
         <div>
+            {/* <ModalInfo message="Successfully add SOP" success={mutation.isSuccess}/> */}
+
             {mutation.isSuccess && <ModalInfo message="Successfully add SOP" success={mutation.isSuccess} />}
             {mutation.isError && <ModalInfo message={mutation.error.message} success={mutation.isSuccess} />}
             <ul className="flex space-x-2 rtl:space-x-reverse">
@@ -167,11 +168,18 @@ function CreateSOP() {
                     initialValues={initialValues}
                     validationSchema={CreateMeetingMemberSchema}
                     onSubmit={(values, { resetForm }) => {
-                        console.log('this is values', values);
                         mutation.mutate(values, {
                             onSuccess: () => {
                                 resetForm();
+                                setTimeout(() => {
+                                    mutation.reset();
+                                }, 3000);
                             },
+                            onError: ()=>{
+                                setTimeout(() => {
+                                    mutation.reset();
+                                }, 3000);
+                            }
                         });
                     }}
                 >

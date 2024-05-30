@@ -15,6 +15,9 @@ module.exports = {
             center: true,
         },
         extend: {
+            zIndex: {
+                '100': '100',
+              },
             colors: {
                 primary: {
                     DEFAULT: '#F59927',

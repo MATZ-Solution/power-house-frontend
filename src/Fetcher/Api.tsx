@@ -23,7 +23,6 @@ export const Authentication = async () => {
         return response;
     }catch(err){
         throw err
-        
     }
 };
 

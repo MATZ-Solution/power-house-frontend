@@ -20,6 +20,7 @@ import Modals from '../Components/Modals';
 import { addAdminDetails } from '../../store/adminDetails';
 import Maintenence from '../Pages/Maintenence';
 import { BASE_URL } from '../../Constants/Constant';
+import { error } from 'console';
 const LoginBoxed = () => {
     const dispatch = useDispatch();
 
@@ -27,9 +28,11 @@ const LoginBoxed = () => {
         error: false,
         message: '',
         serverError: false,
+        isLoading: false,
     });
 
     const login = async (data: object) => {
+        setErrorHandle({ ...errorHandle, isLoading: true });
         localStorage.removeItem('token');
         try {
             const loginRequest = await fetch(`${BASE_URL}/signin`, {
@@ -49,6 +52,7 @@ const LoginBoxed = () => {
             }
             const response = await loginRequest.json();
             localStorage.setItem('token', response.token);
+            setErrorHandle({ ...errorHandle, isLoading: false });
             navigate('/dashboard');
             dispatch(addAdminDetails(response?.data));
         } catch (err) {
@@ -176,7 +180,9 @@ const LoginBoxed = () => {
                                 {({ errors, touched }) => (
                                     <Form className=" space-y-5 dark:text-white">
                                         <div>
-                                            <label htmlFor="Email" className='font-extrabold'>Email*</label>
+                                            <label htmlFor="Email" className="font-extrabold">
+                                                Email*
+                                            </label>
                                             <div className="relative text-white-dark">
                                                 <Field name="email" id="Email" type="email" placeholder="Enter Email" className="form-input ps-10 placeholder:text-white-dark" />
                                                 <span className="absolute start-4 top-1/2 -translate-y-1/2">
@@ -186,7 +192,9 @@ const LoginBoxed = () => {
                                             {errors.email && touched.email ? <div className="text-red-600 mt-2">{errors.email}</div> : null}
                                         </div>
                                         <div>
-                                            <label htmlFor="Password" className='font-extrabold'>Password*</label>
+                                            <label htmlFor="Password" className="font-extrabold">
+                                                Password*
+                                            </label>
                                             <div className="relative text-white-dark">
                                                 <Field name="password" id="Password" type="password" placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" />
                                                 <span className="absolute start-4 top-1/2 -translate-y-1/2">
@@ -201,8 +209,8 @@ const LoginBoxed = () => {
                                                 <span className="text-white-dark">Subscribe to weekly newsletter</span>
                                             </label>
                                         </div> */}
-                                        <button type="submit" className="btn  !mt-6 w-full border-0 uppercase bg-[#F59927] text-white">
-                                            Sign in
+                                        <button type="submit" className="btn !mt-6 w-full border-0 uppercase bg-[#F59927] text-white" disabled={errorHandle.isLoading}>
+                                            {errorHandle.isLoading ? 'Signing in...' : 'Sign in'}
                                         </button>
                                     </Form>
                                 )}

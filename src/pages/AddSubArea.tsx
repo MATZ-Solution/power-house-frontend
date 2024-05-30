@@ -36,6 +36,16 @@ function AddSubArea() {
     const mutationSubAreaCSVfile = useMutation({
         mutationKey: ['AddSubAreaCSVfile'],
         mutationFn: AddSubAreaCSVfile,
+        onSuccess: () => {
+            setTimeout(() => {
+                mutationSubAreaCSVfile.reset();
+            }, 3000);
+        },
+        onError: () => {
+            setTimeout(() => {
+                mutationSubAreaCSVfile.reset();
+            }, 3000);
+        },
     });
 
     let { isError, data: cityData } = useQuery({
@@ -65,6 +75,14 @@ function AddSubArea() {
             setCityValues('');
             setAreaValues('');
             setValues({ ...values, cityError: false, areaError: false, subAreaError: false, subAreaName: '' });
+            setTimeout(() => {
+                mutation.reset();
+            }, 3000);
+        },
+        onError: () => {
+            setTimeout(() => {
+                mutation.reset();
+            }, 3000);
         },
     });
 
@@ -76,21 +94,10 @@ function AddSubArea() {
 
     useEffect(() => {
         setTimeout(() => {
-            mutation.reset();
-        }, 3000);
-    }, [mutation.isSuccess, mutation.isError]);
-
-    useEffect(() => {
-        setTimeout(() => {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
 
-    useEffect(() => {
-        setTimeout(() => {
-            mutationSubAreaCSVfile.reset();
-        }, 3000);
-    }, [mutationSubAreaCSVfile.isSuccess, mutationSubAreaCSVfile.isError]);
 
     // ################ FUNCTIONS ################
 
@@ -243,8 +250,8 @@ function AddSubArea() {
                     <input ref={fileInputRef} type="file" onChange={onSubmitSubAreaCSVfile} />
                 </div>
             </div>
-            <div className='w-auto'>
-                <a href="/subArea.csv" className='inline-block' download>
+            <div className="w-auto">
+                <a href="/subArea.csv" className="inline-block" download>
                     <button type="button" className="mt-4 btn btn-primary rounded-full h-11">
                         Download Sample CSV File
                     </button>

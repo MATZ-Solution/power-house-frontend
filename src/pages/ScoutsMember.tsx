@@ -53,13 +53,13 @@ function ScoutsMember() {
                 <div className="table-responsive mb-5">
                     <table>
                         <thead >
-                            <tr className='text-[#F59927]'>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Phone Number</th>
-                                <th>Email</th>
-                                <th>Address</th>
-                                <th>Designation</th>
+                            <tr className='text-black'>
+                                <th className='font-extrabold'>ID</th>
+                                <th className='font-extrabold'>Name</th>
+                                <th className='font-extrabold'>Phone Number</th>
+                                <th className='font-extrabold'>Email</th>
+                                <th className='font-extrabold'>Address</th>
+                                <th className='font-extrabold'>Designation</th>
 
                                 {/* <th>Email</th>
                                 <th>Status</th> */}

@@ -10,6 +10,7 @@ import Footer from './Footer';
 import Header from './Header';
 import Setting from './Setting';
 import Sidebar from './Sidebar';
+import SomeThingWentWrong from '../../pages/Pages/SomethingWentWrong';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
     let navigate = useNavigate();
@@ -50,6 +51,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
     }, []);
 
     let [showApp, setShowApp] = useState(false);
+    let [isError, setIsError] = useState(false);
     useEffect(() => {
         async function Authenticate() {
             let token = localStorage.getItem('token');
@@ -63,17 +65,25 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                 });
                 if (!request.ok) {
                     let response = await request.json();
-                    navigate('/');
+                    if(response?.message === "token expired"){
+                        console.log("this is token expired block")
+                        return navigate('/');
+                    }
+                    setIsError(true)
                 }
                 let response = await request.json();
                 setShowApp(true);
                 return response;
-            } catch (err) {
-                navigate('/');
+            } catch (err:any) {
+                setIsError(true)
             }
         }
         Authenticate();
     }, [location.pathname]);
+
+    if(isError){
+        return <SomeThingWentWrong message="SomeThing went Wrong"/>
+    }
 
     return (
         <>

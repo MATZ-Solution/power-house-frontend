@@ -205,8 +205,8 @@ const Header = () => {
                                 <IconSearch className="w-4.5 h-4.5 mx-auto dark:text-[#d0d2d6]" />
                             </button>
                         </div> */}
-                        {/* <div>
-                            {themeConfig.theme === 'light' ? (
+                        <div>
+                            {themeConfig.theme === 'light' && (
                                 <button
                                     className={`${
                                         themeConfig.theme === 'light' &&
@@ -218,8 +218,6 @@ const Header = () => {
                                 >
                                     <IconSun />
                                 </button>
-                            ) : (
-                                ''
                             )}
                             {themeConfig.theme === 'dark' && (
                                 <button
@@ -228,13 +226,13 @@ const Header = () => {
                                         'flex items-center p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:text-primary hover:bg-white-light/90 dark:hover:bg-dark/60'
                                     }`}
                                     onClick={() => {
-                                        dispatch(toggleTheme('system'));
+                                        dispatch(toggleTheme('light'));
                                     }}
                                 >
                                     <IconMoon />
                                 </button>
                             )}
-                            {themeConfig.theme === 'system' && (
+                            {/* {themeConfig.theme === 'system' && (
                                 <button
                                     className={`${
                                         themeConfig.theme === 'system' &&
@@ -246,8 +244,8 @@ const Header = () => {
                                 >
                                     <IconLaptop />
                                 </button>
-                            )}
-                        </div> */}
+                            )} */}
+                        </div>
                         {/* <div className="dropdown shrink-0">
                             <Dropdown
                                 offset={[0, 8]}

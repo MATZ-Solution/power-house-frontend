@@ -52,16 +52,18 @@ function Scouts() {
                 </li>
             </ul>
             <div className="pt-5">
+
+                
                 <div className="table-responsive mb-5">
                     <table>
                         <thead>
-                            <tr className='text-[#F59927]'>
-                                <th>ID</th>
-                                <th>Project Type</th>
-                                <th>Project Name</th>
-                                <th>Address</th>
-                                <th>Contractor Name</th>
-                                <th>Contractor Phone Number</th>
+                            <tr className='text-black '>
+                                <th className='font-extrabold'>ID</th>
+                                <th className='font-extrabold whitespace-nowrap' >Project Type</th>
+                                <th className='font-extrabold whitespace-nowrap'>Project Name</th>
+                                <th className='font-extrabold whitespace-nowrap'>Address</th>
+                                <th className='font-extrabold whitespace-nowrap'>Contractor Name</th>
+                                <th className='font-extrabold whitespace-nowrap'>Contractor Phone Number</th>
                                 {/* <th>Status</th> */}
 
                                 {/* <th>Email</th>
@@ -81,7 +83,7 @@ function Scouts() {
                                             <div className="whitespace-nowrap">{data?.projectName}</div>
                                         </td>
                                         <td>
-                                            <div className="whitespace-nowrap">{data?.address}</div>
+                                            <div className="">{data?.address}</div>
                                         </td>
                                         <td>
                                             <div className="whitespace-nowrap">{data?.contractorName}</div>

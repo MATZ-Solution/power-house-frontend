@@ -38,13 +38,6 @@ function AddScoutUser() {
         mutationFn: AddScoutMember,
     });
 
-    useEffect(() => {
-        setTimeout(() => {
-            mutation.reset();
-        }, 3000);
-    }, [mutation.isSuccess, mutation.isError]);
-
-
     return (
         <div>
             {mutation.isSuccess && <ModalInfo message="Successfully added Scout Member" success={mutation.isSuccess} />}
@@ -75,7 +68,16 @@ function AddScoutUser() {
                                 mutation.mutate(values, {
                                     onSuccess: ()=>{
                                         resetForm()
-                                    }}
+                                        setTimeout(()=>{
+                                            mutation.reset();
+                                        },3000)
+                                    },
+                                    onError: ()=>{
+                                        setTimeout(()=>{
+                                            mutation.reset();
+                                        },3000)
+                                    }
+                                }
                                 );
                             }}
                         >

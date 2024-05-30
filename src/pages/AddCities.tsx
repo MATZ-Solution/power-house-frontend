@@ -16,6 +16,14 @@ function SetupCities() {
         onSuccess: () => {
             queryClient.invalidateQueries(['getCities']);
             setCity('');
+            setTimeout(() => {
+                mutation.reset();
+            }, 3000);
+        },
+        onError: () => {
+            setTimeout(() => {
+                mutation.reset();
+            }, 3000);
         },
     });
 
@@ -26,6 +34,18 @@ function SetupCities() {
     const mutationCityCSVfile = useMutation({
         mutationKey: ['AddCityCSVfile'],
         mutationFn: AddCityCSVfile,
+        onSuccess: () => {
+            queryClient.invalidateQueries(['getCities']);
+            setCity('');
+            setTimeout(() => {
+                mutationCityCSVfile.reset();
+            }, 3000);
+        },
+        onError: () => {
+            setTimeout(() => {
+                mutationCityCSVfile.reset();
+            }, 3000);
+        },
     });
 
     const onSubmitCityCSVfile = (e: any) => {
@@ -43,12 +63,6 @@ function SetupCities() {
 
     useEffect(() => {
         setTimeout(() => {
-            mutation.reset();
-        }, 3000);
-    }, [mutation.isSuccess, mutation.isError]);
-
-    useEffect(() => {
-        setTimeout(() => {
             mutationCityCSVfile.reset();
         }, 3000);
     }, [mutationCityCSVfile.isSuccess, mutationCityCSVfile.isError]);
@@ -59,7 +73,6 @@ function SetupCities() {
         }, 3000);
     }, [wrongFile]);
 
-    // console.log('file', file);
     return (
         <>
             {mutation.isSuccess && <ModalInfo message="Successfully add City" success={mutation.isSuccess} />}

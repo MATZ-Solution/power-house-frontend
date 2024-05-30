@@ -18,6 +18,8 @@ import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { getScoutCount } from '../Fetcher/Api';
 import { useQuery } from '@tanstack/react-query';
+import { getAllScouts } from '../Fetcher/Api';
+
 const Finance = () => {
     const dispatch = useDispatch();
     useEffect(() => {
@@ -389,14 +391,100 @@ const Finance = () => {
         },
     };
 
+    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
+    const [loading] = useState(false);
+
+    const salesByCategory: any = {
+        series: [985, 737, 270],
+        options: {
+            chart: {
+                type: 'donut',
+                height: 460,
+                fontFamily: 'Nunito, sans-serif',
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            stroke: {
+                show: true,
+                width: 25,
+                colors: isDark ? '#0e1726' : '#fff',
+            },
+            colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
+            legend: {
+                position: 'bottom',
+                horizontalAlign: 'center',
+                fontSize: '14px',
+                markers: {
+                    width: 10,
+                    height: 10,
+                    offsetX: -2,
+                },
+                height: 50,
+                offsetY: 20,
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '65%',
+                        background: 'transparent',
+                        labels: {
+                            show: true,
+                            name: {
+                                show: true,
+                                fontSize: '29px',
+                                offsetY: -10,
+                            },
+                            value: {
+                                show: true,
+                                fontSize: '26px',
+                                color: isDark ? '#bfc9d4' : undefined,
+                                offsetY: 16,
+                                formatter: (val: any) => {
+                                    return val;
+                                },
+                            },
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                color: '#888ea8',
+                                fontSize: '29px',
+                                formatter: (w: any) => {
+                                    return w.globals.seriesTotals.reduce(function (a: any, b: any) {
+                                        return a + b;
+                                    }, 0);
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+            labels: ['Apparel', 'Sports', 'Others'],
+            states: {
+                hover: {
+                    filter: {
+                        type: 'none',
+                        value: 0.15,
+                    },
+                },
+                active: {
+                    filter: {
+                        type: 'none',
+                        value: 0.15,
+                    },
+                },
+            },
+        },
+    };
+
     const [errorHandle, setErrorHandle] = useState({
         error: false,
         message: '',
         serverError: false,
         isLoading: false,
     });
-    
+
     let { isLoading, isError, data, error } = useQuery({
         queryKey: ['scoutCount'],
         queryFn: getScoutCount,
@@ -404,12 +492,27 @@ const Finance = () => {
         retry: 1,
     });
 
-    if (isLoading) {
+    let {
+        isLoading: isLoadingScouts,
+        isError: isErrorScouts,
+        data: ScoutsData,
+        error: scoutsError,
+    } = useQuery({
+        queryKey: ['getAllScout1'],
+        queryFn: getAllScouts,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+
+    console.log('this is isLoadingScouts: ', isLoadingScouts);
+    console.log('this is isLoading: ', isLoading);
+
+    if (isLoading || isLoadingScouts) {
         return <ScreenLoader />;
     }
 
-    if (isError) {
-        if (error?.message === 'Failed to fetch') {
+    if (isError || isErrorScouts) {
+        if (error?.message === 'Failed to fetch' ) {
             return <SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
         }
         return <SomeThingWentWrong message="Internal Server Error" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
@@ -555,6 +658,71 @@ const Finance = () => {
                             <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
                             Last Week 50.01%
                         </div> */}
+                    </div>
+                </div>
+                <div className="w-full h-[80vh] overflow-y-scroll overflow-x-scroll panel">
+                    <div className="mb-5 text-lg font-extrabold">Recent Scouts</div>
+                    <div className="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th className="text-black font-extrabold">ID</th>
+                                    <th className="text-black font-extrabold whitespace-nowrap">Project Type</th>
+                                    <th className="text-black font-extrabold whitespace-nowrap">Project Name</th>
+                                    <th className="text-black font-extrabold ">Address</th>
+                                    <th className="text-black font-extrabold ">Contractor Name</th>
+                                    <th className="text-black font-extrabold whitespace-nowrap">Contractor Phone Number</th>
+                                    {/* <th>Status</th> */}
+
+                                    {/* <th>Email</th>
+                                <th>Status</th> */}
+                                    {/* <th className="text-center">Register</th> */}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {ScoutsData?.map((data: any) => {
+                                    return (
+                                        <tr key={data.id}>
+                                            <td>{data.id}</td>
+                                            <td>
+                                                <div className="whitespace-nowrap">{data?.projectType}</div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap">{data?.projectName}</div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap md:whitespace-normal">{data?.address}</div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap">{data?.contractorName}</div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap">{data?.contractorNumber}</div>
+                                            </td>
+
+                                            {/* <td>
+                                            <span
+                                                className={`badge whitespace-nowrap ${
+                                                    data?.status === 'Success'
+                                                        ? 'border-green-500 text-green-500'
+                                                        : data.status === 'Pending'
+                                                        ? 'border-yellow-500 text-yellow-500'
+                                                        : // : data.status === 'In Progress'
+                                                        // ? 'badge-outline-info'
+                                                        data.status === 'Rejected'
+                                                        ? 'badge-outline-danger'
+                                                        : 'badge-outline-primary'
+                                                }`}
+                                            >
+                                                {data.status}
+                                            </span>
+                                        </td> */}
+                                            <td className="text-center">{data.register}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 
