@@ -1,0 +1,12 @@
+.custom-scrollbar {
+    scrollbar-width: auto; /* For Firefox */
+    scrollbar-color: black transparent; /* For Firefox */
+    border-radius: 20px;
+  }
+
+  .custom-scrollbar-dark-mode {
+    scrollbar-width: auto; /* For Firefox */
+    scrollbar-color: #F59927 transparent; /* For Firefox */
+    border-radius: 20px;
+  }
+  

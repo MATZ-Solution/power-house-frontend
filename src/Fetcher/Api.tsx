@@ -1,12 +1,11 @@
 import { error } from 'console';
 import { BASE_URL } from '../Constants/Constant';
 
-
 // ##############  Authentication  #############
 
 export const Authentication = async () => {
     let token = localStorage.getItem('token');
-    try{
+    try {
         const request = await fetch(`${BASE_URL}/protected`, {
             method: 'GET',
             headers: {
@@ -16,16 +15,15 @@ export const Authentication = async () => {
         });
         if (!request.ok) {
             let response = await request.json();
-            console.log("this is request.ok")
+            console.log('this is request.ok');
             throw new Error(response.message);
         }
         let response = await request.json();
         return response;
-    }catch(err){
-        throw err
+    } catch (err) {
+        throw err;
     }
 };
-
 
 // ##############  SCOUT COUNT #################
 
@@ -43,7 +41,6 @@ export const getScoutCount = async () => {
     return response.data;
 };
 
-
 // ############## GET ALL SCOUT  ###############
 
 export const getAllScouts = async () => {
@@ -60,7 +57,6 @@ export const getAllScouts = async () => {
     return response.data;
 };
 
-
 // ############## GET ALL SCOUT  #################
 
 export const getScoutMember = async () => {
@@ -76,7 +72,6 @@ export const getScoutMember = async () => {
     let response = await request.json();
     return response.data;
 };
-
 
 // ############## ADD SCOUT MEMBER  #################
 
@@ -102,7 +97,6 @@ export const AddScoutMember = async (data: Object) => {
         throw error;
     }
 };
-
 
 // ############## ADD CITY  #################
 
@@ -133,22 +127,18 @@ export const AddCity = async (data: string) => {
     }
 };
 
-
 // ############## ADD CITY CSV FILE  #################
 
 export const AddCityCSVfile = async (data: any) => {
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(
-            `${BASE_URL}/scout/AddCityCSV`,
-            {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                body: data,
-            }
-        );
+        const request = await fetch(`${BASE_URL}/scout/AddCityCSV`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
 
         if (!request.ok) {
             let response = await request.json();
@@ -160,7 +150,6 @@ export const AddCityCSVfile = async (data: any) => {
         throw error;
     }
 };
-
 
 // ############## GET CITY #################
 
@@ -177,7 +166,6 @@ export const getCity = async () => {
     let response = await request.json();
     return response.data;
 };
-
 
 // ############## ADD AREA  #################
 
@@ -208,22 +196,18 @@ export const AddAreas = async (data: any) => {
     }
 };
 
-
 // ############## ADD AREA CSV File  #################
 
 export const AddAreaCSVfile = async (data: any) => {
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(
-            `${BASE_URL}/scout/AddAreaCSV`,
-            {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                body: data,
-            }
-        );
+        const request = await fetch(`${BASE_URL}/scout/AddAreaCSV`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
 
         if (!request.ok) {
             let response = await request.json();
@@ -235,7 +219,6 @@ export const AddAreaCSVfile = async (data: any) => {
         throw error;
     }
 };
-
 
 // ############## GET AREA #################
 
@@ -259,7 +242,6 @@ export const getAreas = async (cityId: any) => {
     let response = await request.json();
     return response.data;
 };
-
 
 // ############## ADD SUB AREA  #################
 
@@ -295,16 +277,13 @@ export const AddSubAreas = async (areaId: any, subAreaName: any) => {
 export const AddSubAreaCSVfile = async (data: any) => {
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(
-            `${BASE_URL}/scout/AddSubAreaCSV`,
-            {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-                body: data,
-            }
-        );
+        const request = await fetch(`${BASE_URL}/scout/AddSubAreaCSV`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
 
         if (!request.ok) {
             let response = await request.json();
@@ -316,26 +295,22 @@ export const AddSubAreaCSVfile = async (data: any) => {
         throw error;
     }
 };
-
-
 
 // ############## ADD SUB AREA  #################
 
 export const getSubAreas = async (areaId: any) => {
     let token = localStorage.getItem('token');
-    let url = new URL(`${BASE_URL}/scout/getSubAreas`)
-    url.searchParams.append('areaId',areaId)
+    let url = new URL(`${BASE_URL}/scout/getSubAreas`);
+    url.searchParams.append('areaId', areaId);
 
     try {
-        const request = await fetch(url.toString(),
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        );
+        const request = await fetch(url.toString(), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
 
         if (!request.ok) {
             let response = await request.json();
@@ -347,7 +322,6 @@ export const getSubAreas = async (areaId: any) => {
         throw error;
     }
 };
-
 
 // ############## ADD AREA  #################
 
@@ -405,3 +379,26 @@ export const createSOP = async (data: any) => {
     }
 };
 
+// ############## GET Locations #################
+
+export const getLocations = async () => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/scout/getLocation`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+};

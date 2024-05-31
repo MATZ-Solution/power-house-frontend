@@ -8,7 +8,6 @@ import IconBitcoin from '../components/Icon/IconBitcoin';
 import IconCircleCheck from '../components/Icon/IconCircleCheck';
 import IconEthereum from '../components/Icon/IconEthereum';
 import IconHorizontalDots from '../components/Icon/IconHorizontalDots';
-import IconInfoCircle from '../components/Icon/IconInfoCircle';
 import IconLitecoin from '../components/Icon/IconLitecoin';
 import IconSolana from '../components/Icon/IconSolana';
 import IconTether from '../components/Icon/IconTether';
@@ -19,6 +18,10 @@ import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { getScoutCount } from '../Fetcher/Api';
 import { useQuery } from '@tanstack/react-query';
 import { getAllScouts } from '../Fetcher/Api';
+import '../assets/css/scollbar.css';
+import IconX from '../components/Icon/IconX';
+import IconInfoCircle from '../components/Icon/IconInfoCircle';
+import ModalInfo from '../components/ModaLInfo';
 
 const Finance = () => {
     const dispatch = useDispatch();
@@ -512,7 +515,7 @@ const Finance = () => {
     }
 
     if (isError || isErrorScouts) {
-        if (error?.message === 'Failed to fetch' ) {
+        if (error?.message === 'Failed to fetch') {
             return <SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
         }
         return <SomeThingWentWrong message="Internal Server Error" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
@@ -520,6 +523,9 @@ const Finance = () => {
 
     return (
         <div className="">
+
+{/* <ModalInfo message='Successfully add scouts'/> */}
+
             {/* <ScreenLoader/> */}
             <ul className="flex space-x-2 rtl:space-x-reverse">
                 <li>
@@ -660,18 +666,18 @@ const Finance = () => {
                         </div> */}
                     </div>
                 </div>
-                <div className="w-full h-[80vh] overflow-y-scroll overflow-x-scroll panel">
+                <div className={`${isDark ? 'custom-scrollbar-dark-mode' : 'custom-scrollbar'} w-full h-[80vh] overflow-y-scroll panel`}>
                     <div className="mb-5 text-lg font-extrabold">Recent Scouts</div>
                     <div className="table-responsive">
                         <table>
                             <thead>
                                 <tr>
-                                    <th className="text-black font-extrabold">ID</th>
-                                    <th className="text-black font-extrabold whitespace-nowrap">Project Type</th>
-                                    <th className="text-black font-extrabold whitespace-nowrap">Project Name</th>
-                                    <th className="text-black font-extrabold ">Address</th>
-                                    <th className="text-black font-extrabold ">Contractor Name</th>
-                                    <th className="text-black font-extrabold whitespace-nowrap">Contractor Phone Number</th>
+                                    <th className={`text-black font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
+                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
+                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
+                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
+                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
+                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
                                     {/* <th>Status</th> */}
 
                                     {/* <th>Email</th>

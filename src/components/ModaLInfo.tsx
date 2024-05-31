@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import IconCircleCheck from './Icon/IconCircleCheck';
+import IconServer from './Icon/IconServer';
+import IconInfoCircle from './Icon/IconInfoCircle';
 function ModalInfo({ message, success }: any) {
     // console.log('this is success from info modal', success)
     return (
-        <div className="w-full h-[100vh] fixed z-50 top-0 inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <div className="px-2 sm:px-0 w-full h-[100vh] fixed z-50 top-0 inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-md w-full">
                 {/* <div className="flex justify-between items-center h-28 border-b border-gray-200"> */}
                 {/* <h2 className="text-xl font-semibold">{title}</h2> */}
@@ -16,10 +19,29 @@ function ModalInfo({ message, success }: any) {
                         </svg>
                     </button> */}
                 {/* </div> */}
-                <div className="h-32 p-4 flex items-center justify-center gap-3">
+                {success ? (
+                    <div className="h-24 relative  flex items-center border sm:p-3.5 rounded text-success bg-success-light border-success ltr:border-l-[64px] rtl:border-r-[64px] dark:bg-success-dark-light">
+                        <span className="absolute ltr:-left-11 rtl:-right-11 inset-y-0 text-white w-6 h-6 m-auto">
+                            <IconCircleCheck className="w-8 h-8" />
+                        </span>
+                        <span className="ltr:pr-2 rtl:pl-2">
+                            <strong className="ltr:mr-1 rtl:ml-1 sm:text-lg">{message}</strong>.
+                        </span>
+                    </div>
+                ) : (
+                    <div className="h-24 relative flex items-center border p-3.5 rounded text-[#e75151] bg-[#f1cfcf] border-[#e75151] ltr:border-l-[64px] rtl:border-r-[64px] dark:bg-success-dark-light">
+                        <span className="absolute ltr:-left-11 rtl:-right-11 inset-y-0 text-white w-6 h-6 m-auto">
+                            <IconInfoCircle className="w-8 h-8" />
+                        </span>
+                        <span className="ltr:pr-2 rtl:pl-2">
+                            <strong className="ltr:mr-1 rtl:ml-1 sm:text-lg">{message}</strong>.
+                        </span>
+                    </div>
+                )}
+
+                {/* <div className="h-32 p-4 flex items-center justify-center gap-3">
                     {success ? (
-                         <CheckCircleOutlineIcon className="text-green-700 w-10 h-10" style={{ strokeWidth: 4 }} />
-                    //    <CheckCircleOutlineIcon style={{strokeWidth: 4}} className='text-green-700 w-10 h-10'/>
+                        <CheckCircleOutlineIcon className="text-green-700 w-10 h-10" style={{ strokeWidth: 4 }} />
                     ) : (
                         <svg className="h-10 w-10 text-red-600" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true">
                             <path
@@ -29,9 +51,8 @@ function ModalInfo({ message, success }: any) {
                             />
                         </svg>
                     )}
-
                     <p className={`inline leading-6  text-wrap text-left text-lg ${success ? 'text-green-700' : 'text-red-600'} text-base font-bold`}>{message}</p>
-                </div>
+                </div> */}
 
                 {/* <div className="p-4 border-t border-gray-200 text-right">
                     <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"

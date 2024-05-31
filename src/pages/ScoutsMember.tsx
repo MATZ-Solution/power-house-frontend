@@ -7,8 +7,12 @@ import 'tippy.js/dist/tippy.css';
 import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { useQuery } from '@tanstack/react-query';
+import {  useSelector } from 'react-redux';
+import { IRootState } from '../store';
 
 function ScoutsMember() {
+    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Scouts Member'));
@@ -54,12 +58,12 @@ function ScoutsMember() {
                     <table>
                         <thead >
                             <tr className='text-black'>
-                                <th className='font-extrabold'>ID</th>
-                                <th className='font-extrabold'>Name</th>
-                                <th className='font-extrabold'>Phone Number</th>
-                                <th className='font-extrabold'>Email</th>
-                                <th className='font-extrabold'>Address</th>
-                                <th className='font-extrabold'>Designation</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>ID</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Name</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Phone Number</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Email</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Address</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Designation</th>
 
                                 {/* <th>Email</th>
                                 <th>Status</th> */}

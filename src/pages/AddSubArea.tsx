@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Suspense, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from '../store/themeConfigSlice';
 import { useEffect } from 'react';
@@ -48,7 +48,7 @@ function AddSubArea() {
         },
     });
 
-    let { isError, data: cityData } = useQuery({
+    let { isError, data: cityData, isLoading: cityLoading } = useQuery({
         queryKey: ['getCity'],
         queryFn: getCity,
         staleTime: 1000 * 60 * 3,
@@ -58,6 +58,7 @@ function AddSubArea() {
 
     let {
         isError: areaIsError,
+        isLoading: areaLoading,
         data: areaData,
         error: areaError,
     } = useQuery({
@@ -97,7 +98,6 @@ function AddSubArea() {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
-
 
     // ################ FUNCTIONS ################
 
@@ -169,14 +169,18 @@ function AddSubArea() {
             <div className="pt-5 flex flex-col gap-5">
                 <div>
                     <div className="font-semibold mb-1.5">Select City</div>
-
                     <select
                         value={cityValues}
                         onChange={handleCity}
                         className="w-full form-input shadow-[0_0_4px_2px_rgb(31_45_61_/_10%)] bg-white rounded-full h-11 placeholder:tracking-wider ltr:pr-11 rtl:pl-11"
                     >
-                        <option value="">Not Selected</option>
-                        {isError ? (
+                        {/* <option value="">Not Selected</option> */}
+                        {
+                        
+                        cityLoading ? (
+                            <option value="">Loading..</option>
+                        ):
+                        isError ? (
                             <p className="text-red-700">Falied To Get Cities</p>
                         ) : (
                             <>
@@ -203,6 +207,10 @@ function AddSubArea() {
                         {!values.cityId ? (
                             <option value="" className="text-red-700">
                                 Please Select City First
+                            </option>
+                        ) : areaLoading ? (
+                            <option value="" className="text-red-700">
+                                Loading...
                             </option>
                         ) : areaIsError ? (
                             <option value="" className="text-red-700">

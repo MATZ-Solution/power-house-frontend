@@ -58,6 +58,7 @@ function CreateSOP() {
         isError: areaIsError,
         data: areaData,
         error: areaError,
+        isLoading: areaLoading,
     } = useQuery({
         queryKey: ['getAreas', getCityIDs],
         queryFn: () => getAreas(getCityIDs),
@@ -146,7 +147,6 @@ function CreateSOP() {
         areasId: Yup.array().of(Yup.string()).min(1, 'At least one area must be selected').required('Required'),
     });
 
-
     return (
         <div>
             {/* <ModalInfo message="Successfully add SOP" success={mutation.isSuccess}/> */}
@@ -175,11 +175,11 @@ function CreateSOP() {
                                     mutation.reset();
                                 }, 3000);
                             },
-                            onError: ()=>{
+                            onError: () => {
                                 setTimeout(() => {
                                     mutation.reset();
                                 }, 3000);
-                            }
+                            },
                         });
                     }}
                 >
@@ -234,6 +234,16 @@ function CreateSOP() {
                                             setFieldValue('areasId', selectedids);
                                             setGetAreaIds(selectedids);
                                         }}
+                                        components={{
+                                            NoOptionsMessage: () => <div style={{ padding: 10 }}>
+                                                {
+                                                !values.cityId ? 
+                                                <p>Please Select City First</p> : 
+                                                areaLoading ? <p>Loading...</p> : 
+                                                areaError ? <p>{areaError?.message}</p> :
+                                                ''}
+                                                </div>,
+                                        }}
                                     />
                                     {errors.areasId && touched.areasId ? <div className="text-red-600 mt-2">{errors.areasId}</div> : null}
                                 </div>
@@ -270,7 +280,6 @@ function CreateSOP() {
                                         placeholder="Select an option"
                                         options={projectTypeOptions}
                                         value={projectTypeOptions.filter((option) => option.label === values.projectType)}
-
                                         isSearchable={false}
                                         styles={customStyles}
                                         theme={(theme) => ({
@@ -298,8 +307,7 @@ function CreateSOP() {
                                             options={projectDomainOption}
                                             isSearchable={false}
                                             styles={customStyles}
-                                        value={projectDomainOption.filter((option) => option.label === values.projectDomain)}
-
+                                            value={projectDomainOption.filter((option) => option.label === values.projectDomain)}
                                             theme={(theme) => ({
                                                 ...theme,
                                                 colors: {

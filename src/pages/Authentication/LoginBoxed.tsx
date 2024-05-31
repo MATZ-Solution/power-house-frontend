@@ -158,14 +158,13 @@ const LoginBoxed = () => {
                             </div>
                             <div className="mb-5 mt-3">
                                 <h1 className="text-3xl font-extrabold text-[#F59927]">Sign in</h1>
-                                <p className="text-base font-extrabold leading-normal text-black">Enter your email and password to login</p>
+                                <p className={`text-base font-extrabold leading-normal ${isDark ? 'text-white': 'text-black'}`} >Enter your email and password to login</p>
                             </div>
                             {(errorHandle.message === 'Email not found' || errorHandle.message === 'Incorrect Password') && (
                                 <div className="flex items-center bg-red-200 h-8 px-2 pb-6 pt-6 rounded">
                                     <p className="text-red-700">{errorHandle.message}</p>
                                 </div>
                             )}
-
                             <Formik
                                 initialValues={{
                                     email: '',

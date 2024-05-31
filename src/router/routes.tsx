@@ -108,6 +108,7 @@ const SetupCities = lazy(() => import('../pages/AddCities'));
 const AddSubArea = lazy(() => import('../pages/AddSubArea'));
 const CreateMeetingMember = lazy(() => import('../pages/CreateMeetingMember'));
 const CreateSOP = lazy(() => import('../pages/CreateSOP'));
+const Location = lazy(() => import('../pages/Locations'));
 
 const routes = [
     // dashboard
@@ -177,6 +178,12 @@ const routes = [
         path: '/create-sop',
         element: <CreateSOP />,
     },
+
+    {
+        path: '/location',
+        element: <Location/>,
+    },
+
 
     // crypto page
     {
