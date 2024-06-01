@@ -114,9 +114,9 @@ const Sidebar = () => {
                                             <NavLink to="/create-sop">{t('Create SOP')}</NavLink>
                                         </li>
 
-                                        {/* <li>
+                                        <li>
                                             <NavLink to="/location">{t('Locations')}</NavLink>
-                                        </li> */}
+                                        </li>
 
                                         {/* <li>
                                             <NavLink to="/add-area">{t('Add Area')}</NavLink>
