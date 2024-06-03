@@ -109,6 +109,8 @@ const AddSubArea = lazy(() => import('../pages/AddSubArea'));
 const CreateMeetingMember = lazy(() => import('../pages/CreateMeetingMember'));
 const CreateSOP = lazy(() => import('../pages/CreateSOP'));
 const Location = lazy(() => import('../pages/Locations'));
+const AllotedLocation = lazy(() => import('../pages/AllotedLocations'));
+const UnAllotedLocation = lazy(() => import('../pages/UnAllotedLocation'));
 
 const routes = [
     // dashboard
@@ -182,6 +184,17 @@ const routes = [
     {
         path: '/location',
         element: <Location/>,
+    },
+
+    
+    {
+        path: '/alloted-location',
+        element: <AllotedLocation />,
+    },
+
+    {
+        path: '/unalloted-location',
+        element: <UnAllotedLocation />,
     },
 
 

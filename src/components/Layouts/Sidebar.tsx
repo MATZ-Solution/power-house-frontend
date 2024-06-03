@@ -9,6 +9,10 @@ import { toggleSidebar } from '../../store/themeConfigSlice';
 import IconCaretsDown from '../Icon/IconCaretsDown';
 import IconMenuDashboard from '../Icon/Menu/IconMenuDashboard';
 import IconMinus from '../Icon/IconMinus';
+import IconMenuInvoice from '../Icon/Menu/IconMenuInvoice';
+import IconCaretDown from '../Icon/IconCaretDown';
+import IconMenuNotes from '../Icon/Menu/IconMenuNotes';
+
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
     const [errorSubMenu, setErrorSubMenu] = useState(false);
@@ -92,11 +96,10 @@ const Sidebar = () => {
                                 >
                                     <ul className="sub-menu text-gray-500 ">
                                         <li>
-                                            <NavLink to="/dashboard">
-                                                {t('Analytics')}</NavLink>
+                                            <NavLink to="/dashboard">{t('Analytics')}</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink to="/addScoutsUser">{t('Add Scout User')}</NavLink>
+                                            <NavLink to="/addScoutsUser">{t('Create User')}</NavLink>
                                         </li>
                                         <li>
                                             <NavLink to="/scouts">{t('Scouts')}</NavLink>
@@ -114,9 +117,9 @@ const Sidebar = () => {
                                             <NavLink to="/create-sop">{t('Create SOP')}</NavLink>
                                         </li>
 
-                                        <li>
-                                            <NavLink to="/location">{t('Locations')}</NavLink>
-                                        </li>
+                                        {/* <li>
+                                            <NavLink to="/location">{t('Scouted Location')}</NavLink>
+                                        </li> */}
 
                                         {/* <li>
                                             <NavLink to="/add-area">{t('Add Area')}</NavLink>
@@ -736,17 +739,45 @@ const Sidebar = () => {
 
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
                             <li className="menu nav-item">
-                                <button type="button" className={`${currentMenu === 'setupForms' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('setupForms')}>
+                                <button type="button" className={`${currentMenu === 'locations' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('locations')}>
                                     <div className="flex items-center">
-                                        <IconMenuDashboard className="group-hover:!text-primary shrink-0" />
-                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Set Up Forms')}</span>
+                                        <IconMenuNotes className="group-hover:!text-primary shrink-0" />
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Scouted locations')}</span>
+                                    </div>
+                                    <div className={currentMenu !== 'locations' ? 'rtl:rotate-90 -rotate-90' : ''}>
+                                        <IconCaretDown />
+                                    </div>
+                                </button>
+                                <AnimateHeight duration={300} height={currentMenu === 'locations' ? 'auto' : 0}>
+                                    <ul className="sub-menu text-gray-500">
+                                        <li>
+                                            <NavLink to="/alloted-location">{t('Alloted Locations')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/unalloted-location">{t('Unalloted Locations')}</NavLink>
+                                        </li>
+                                    </ul>
+                                </AnimateHeight>
+                            </li>
+                        </ul>
+
+                        <ul className="relative font-semibold space-y-0.5 p-4 py-0">
+                            <li className="menu nav-item">
+                                <button type="button" className={`${currentMenu === 'setUpForms' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('setUpForms')}>
+                                    <div className="flex items-center">
+                                        <IconMenuNotes className="group-hover:!text-primary shrink-0" />
+                                        {/* <IconMenuDashboard className="group-hover:!text-primary shrink-0" /> */}
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('SetUp Forms')}</span>
+                                    </div>
+                                    <div className={currentMenu !== 'setUpForms' ? 'rtl:rotate-90 -rotate-90' : ''}>
+                                        <IconCaretDown />
                                     </div>
                                 </button>
 
                                 <AnimateHeight
                                     duration={300}
-                                    height={'auto'}
-                                    // height={currentMenu === 'dashboard' ? 'auto' : 0}
+                                    // height={'auto'}
+                                    height={currentMenu === 'setUpForms' ? 'auto' : 0}
                                 >
                                     <ul className="sub-menu text-gray-500">
                                         <li>

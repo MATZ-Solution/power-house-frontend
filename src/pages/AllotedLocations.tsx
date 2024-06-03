@@ -16,7 +16,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { getScoutMember, ManuallyAddScoutMember } from '../Fetcher/Api';
 
-function Locations() {
+function AllotedLocation() {
     // ####  Modal Preparation ###########33
     let [user, setUser] = useState('');
     let queryClient = useQueryClient();
@@ -107,7 +107,7 @@ function Locations() {
 
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ['getLocations'],
-        queryFn: getLocations,
+        queryFn: () => getLocations('Alloted Location'),
         refetchOnWindowFocus: false,
         retry: 1,
     });
@@ -139,7 +139,7 @@ function Locations() {
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Locations</span>
+                        <span>Alloted-Locations</span>
                     </li>
                 </ul>
                 <div className="pt-5">
@@ -207,4 +207,5 @@ function Locations() {
     );
 }
 
-export default Locations;
+export default AllotedLocation;
+

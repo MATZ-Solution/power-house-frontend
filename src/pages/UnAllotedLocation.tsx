@@ -16,7 +16,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { getScoutMember, ManuallyAddScoutMember } from '../Fetcher/Api';
 
-function Locations() {
+function UnAllotedLocation() {
     // ####  Modal Preparation ###########33
     let [user, setUser] = useState('');
     let queryClient = useQueryClient();
@@ -107,7 +107,7 @@ function Locations() {
 
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ['getLocations'],
-        queryFn: getLocations,
+        queryFn: () => getLocations('UnAllocated Location'),
         refetchOnWindowFocus: false,
         retry: 1,
     });
@@ -119,6 +119,7 @@ function Locations() {
     }
 
     if (isError) {
+        console.log("this is error: ", error.message)
         if (error?.message === 'Failed to fetch') {
             return <SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
         }
@@ -139,7 +140,7 @@ function Locations() {
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                        <span>Locations</span>
+                        <span>UnAlloted-Locations</span>
                     </li>
                 </ul>
                 <div className="pt-5">
@@ -207,4 +208,5 @@ function Locations() {
     );
 }
 
-export default Locations;
+export default UnAllotedLocation;
+

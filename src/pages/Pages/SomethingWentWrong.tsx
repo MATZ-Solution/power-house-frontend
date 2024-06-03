@@ -30,9 +30,9 @@ const SomeThingWentWrong = ({ message, errorHandle, setErrorHandle }: any) => {
                         className="mx-auto -mt-10 w-full max-w-xs object-cover md:-mt-14 md:max-w-xl"
                     />
                     <p className="mt-5 text-base dark:text-white">{message}</p>
-                    {/* <div onClick={home} className="btn btn-gradient mx-auto !mt-7 w-max border-0 uppercase shadow-none">
+                    <div onClick={home} className="btn bg-[#F59927] text-white mx-auto !mt-7 w-max border-0 uppercase shadow-none">
                         Home
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>

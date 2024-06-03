@@ -63,7 +63,7 @@ function ScoutsMember() {
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Phone Number</th>
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Email</th>
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Address</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Designation</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>User Role</th>
 
                                 {/* <th>Email</th>
                                 <th>Status</th> */}

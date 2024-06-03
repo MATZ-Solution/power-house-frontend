@@ -381,10 +381,10 @@ export const createSOP = async (data: any) => {
 
 // ############## GET Locations #################
 
-export const getLocations = async () => {
+export const getLocations = async (location: any) => {
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(`${BASE_URL}/scout/getLocation`, {
+        const request = await fetch(`${BASE_URL}/scout/getLocation/${location}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
