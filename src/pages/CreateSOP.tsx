@@ -66,7 +66,7 @@ function CreateSOP() {
         retry: 1,
     });
 
-    // GET SUB AREA DATA
+    // GET Scout Member
     // let getsubAreasIdString = getAreaIDs.join('');
     const {
         isLoading: scoutMemberIsLoading,

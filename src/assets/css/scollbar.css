@@ -9,4 +9,8 @@
     scrollbar-color: #F59927 transparent; /* For Firefox */
     border-radius: 20px;
   }
+
+  .no-scroll {
+    overflow: hidden;
+}
   

@@ -402,3 +402,34 @@ export const getLocations = async () => {
         throw err;
     }
 };
+
+// ############## Manually Add Scout Member #################
+
+export const ManuallyAddScoutMember = async (data: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(
+            `${BASE_URL}/scout/addUnassignedScouter
+        `,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(data),
+            }
+        );
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.message;
+    } catch (error) {
+        throw error;
+    }
+};
+
+

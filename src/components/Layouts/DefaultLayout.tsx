@@ -65,24 +65,24 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                 });
                 if (!request.ok) {
                     let response = await request.json();
-                    if(response?.message === "token expired"){
-                        console.log("this is token expired block")
+                    if (response?.message === 'token expired') {
+                        console.log('this is token expired block');
                         return navigate('/');
                     }
-                    setIsError(true)
+                    setIsError(true);
                 }
                 let response = await request.json();
                 setShowApp(true);
                 return response;
-            } catch (err:any) {
-                setIsError(true)
+            } catch (err: any) {
+                setIsError(true);
             }
         }
         Authenticate();
     }, [location.pathname]);
 
-    if(isError){
-        return <SomeThingWentWrong message="SomeThing went Wrong"/>
+    if (isError) {
+        return <SomeThingWentWrong message="SomeThing went Wrong" />;
     }
 
     return (
@@ -91,6 +91,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                 <App>
                     {/* BEGIN MAIN CONTAINER */}
                     <div className="relative">
+                        {/* <p className='fixed z-100 bg red-400 top-0 left-50'></p> */}
                         {/* sidebar menu overlay */}
                         <div className={`${(!themeConfig.sidebar && 'hidden') || ''} fixed inset-0 bg-[black]/60 z-50 lg:hidden`} onClick={() => dispatch(toggleSidebar())}></div>
                         {/* screen loader */}
@@ -134,6 +135,7 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
                                 <Suspense>
                                     <div className={`${themeConfig.animation} p-6 animate__animated`}>{children}</div>
                                 </Suspense>
+
                                 {/* END CONTENT AREA */}
 
                                 {/* BEGIN FOOTER */}
