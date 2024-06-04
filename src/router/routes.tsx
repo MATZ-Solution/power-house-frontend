@@ -142,17 +142,17 @@ const routes = [
     },
 
     {
-        path: '/addScoutsUser',
+        path: '/create-user',
         element: <AddScoutUser />,
     },
 
     {
-        path: '/scouts',
+        path: '/scouted-location',
         element: <Scouts />,
     },
 
     {
-        path: '/scouts-member',
+        path: '/view-user',
         element: <ScoutsMember />,
     },
     {

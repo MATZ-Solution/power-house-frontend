@@ -523,8 +523,7 @@ const Finance = () => {
 
     return (
         <div className="">
-
-{/* <ModalInfo message='Successfully add scouts'/> */}
+            {/* <ModalInfo message='Successfully add scouts'/> */}
 
             {/* <ScreenLoader/> */}
             <ul className="flex space-x-2 rtl:space-x-reverse">
@@ -561,7 +560,9 @@ const Finance = () => {
                             </div>
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {data[3]?.count} </div>
+                            {/* <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {data[3]?.count} </div> */}
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.total}</div>
+
                             {/* <div className="badge bg-white/30">+ 2.35% </div> */}
                         </div>
                         {/* <div className="flex items-center font-semibold mt-5">
@@ -593,7 +594,7 @@ const Finance = () => {
                             </div> */}
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {data[0]?.count} </div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.pending}</div>
                             {/* <div className="badge bg-white/30">- 2.35% </div> */}
                         </div>
                         {/* <div className="flex items-center font-semibold mt-5">
@@ -625,7 +626,7 @@ const Finance = () => {
                             </div> */}
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {data[2]?.count} </div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.success}</div>
                             {/* <div className="badge bg-white/30">+ 1.35% </div> */}
                         </div>
                         {/* <div className="flex items-center font-semibold mt-5">
@@ -657,7 +658,7 @@ const Finance = () => {
                             </div> */}
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {data[1]?.count} </div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.rejected}</div>
                             {/* <div className="badge bg-white/30">- 0.35% </div> */}
                         </div>
                         {/* <div className="flex items-center font-semibold mt-5">

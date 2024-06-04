@@ -77,7 +77,7 @@ function AddScoutUser() {
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="#" className="text-primary hover:underline">
-                            Dashboard
+                            Users
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
@@ -139,7 +139,7 @@ function AddScoutUser() {
                                         {errors.Name && touched.Name ? <div className="text-red-600 mt-2">{errors.Name}</div> : null}
                                     </div>
                                     <div>
-                                        <label htmlFor="gridPhoneNumber">Phone Number</label>
+                                        <label htmlFor="gridPhoneNumber">Phone Number*</label>
                                         <Field name="phoneNumber" id="gridPhoneNumber" type="text" placeholder="Enter Phone Number" className="form-input" />
                                         {errors.phoneNumber && touched.phoneNumber ? <div className="text-red-600 mt-2">{errors.phoneNumber}</div> : null}
                                     </div>

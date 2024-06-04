@@ -54,7 +54,7 @@ function Scouts() {
                     </Link>
                 </li>
                 <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <span>Scouts</span>
+                    <span>Scouted-Location</span>
                 </li>
             </ul>
             <div className="pt-5">
@@ -83,10 +83,10 @@ function Scouts() {
                                     <tr key={data.id}>
                                         <td>{data.id}</td>
                                         <td>
-                                            <div className="whitespace-nowrap">{data?.projectType}</div>
+                                            <div className={`whitespace-nowrap badge  ${data?.projectType === 'Market' ? 'bg-success' : data?.projectType === 'Project' ? ' bg-info': ''} flex justify-center`}>{data?.projectType}</div>
                                         </td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.projectName}</div>
+                                        <td >
+                                            <div className="whitespace-nowrap ">{data?.projectName}</div>
                                         </td>
                                         <td>
                                             <div className="">{data?.address}</div>

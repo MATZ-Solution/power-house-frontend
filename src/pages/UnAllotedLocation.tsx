@@ -136,7 +136,7 @@ function UnAllotedLocation() {
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <li>
                         <Link to="#" className="text-primary hover:underline">
-                            Dashboard
+                            locations
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
@@ -187,7 +187,7 @@ function UnAllotedLocation() {
                                                 <div className="whitespace-wrap">
                                                     {!data?.assignedToMember ? (
                                                         <div>
-                                                            <button type="button" className="btn btn-primary static" onClick={() => handleOpen(true, data?.id)}>
+                                                            <button type="button" className="btn btn-primary static whitespace-nowrap" onClick={() => handleOpen(true, data?.id)}>
                                                                 Add Scoute User
                                                             </button>
                                                         </div>

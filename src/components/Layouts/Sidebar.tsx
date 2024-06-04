@@ -12,7 +12,9 @@ import IconMinus from '../Icon/IconMinus';
 import IconMenuInvoice from '../Icon/Menu/IconMenuInvoice';
 import IconCaretDown from '../Icon/IconCaretDown';
 import IconMenuNotes from '../Icon/Menu/IconMenuNotes';
-
+import IconUser from '../Icon/IconUser';
+import IconMapPin from '../Icon/IconMapPin';
+import LocationSVG from '../Icon/location.svg'
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
     const [errorSubMenu, setErrorSubMenu] = useState(false);
@@ -98,15 +100,15 @@ const Sidebar = () => {
                                         <li>
                                             <NavLink to="/dashboard">{t('Analytics')}</NavLink>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                             <NavLink to="/addScoutsUser">{t('Create User')}</NavLink>
-                                        </li>
+                                        </li> */}
                                         <li>
-                                            <NavLink to="/scouts">{t('Scouts')}</NavLink>
+                                            <NavLink to="/scouted-location">{t('Scouted Location')}</NavLink>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                             <NavLink to="/scouts-member">{t('Scouts Member')}</NavLink>
-                                        </li>
+                                        </li> */}
 
                                         {/* Meeting Member */}
                                         {/* <li>
@@ -736,13 +738,38 @@ const Sidebar = () => {
                                 </NavLink>
                             </li> */}
                         </ul>
+                        <ul className="relative font-semibold space-y-0.5 p-4 py-0">
+                            <li className="menu nav-item">
+                                <button type="button" className={`${currentMenu === 'users' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('users')}>
+                                    <div className="flex items-center">
+                                        <IconUser fill={true} className="group-hover:!text-primary shrink-0" />
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Users')}</span>
+                                    </div>
+                                    <div className={currentMenu !== 'users' ? 'rtl:rotate-90 -rotate-90' : ''}>
+                                        <IconCaretDown />
+                                    </div>
+                                </button>
+                                <AnimateHeight duration={300} height={currentMenu === 'users' ? 'auto' : 0}>
+                                    <ul className="sub-menu text-gray-500">
+                                        <li>
+                                            <NavLink to="/create-user">{t('Create User')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/view-user">{t('View User')}</NavLink>
+                                        </li>
+                                    </ul>
+                                </AnimateHeight>
+                            </li>
+                        </ul>
 
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
                             <li className="menu nav-item">
                                 <button type="button" className={`${currentMenu === 'locations' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('locations')}>
                                     <div className="flex items-center">
-                                        <IconMenuNotes className="group-hover:!text-primary shrink-0" />
-                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Scouted locations')}</span>
+                                        <img src={LocationSVG}  className="group-hover:!text-primary shrink-0 w-5 h-5"></img>
+                                    {/* <IconMapPin fill={true} className="group-hover:!text-primary shrink-0 "/> */}
+                                        {/* <IconMenuNotes className="group-hover:!text-primary shrink-0" /> */}
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('locations')}</span>
                                     </div>
                                     <div className={currentMenu !== 'locations' ? 'rtl:rotate-90 -rotate-90' : ''}>
                                         <IconCaretDown />
