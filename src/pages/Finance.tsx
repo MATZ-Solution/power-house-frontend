@@ -48,7 +48,7 @@ const Index = () => {
             chart: {
                 height: 325,
                 type: 'area',
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'plusJakarta, sans-serif',
                 zoom: {
                     enabled: false,
                 },
@@ -189,7 +189,7 @@ const Index = () => {
             chart: {
                 type: 'donut',
                 height: 460,
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'plusJakarta, sans-serif',
             },
             dataLabels: {
                 enabled: false,
@@ -282,7 +282,7 @@ const Index = () => {
             chart: {
                 height: 160,
                 type: 'bar',
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'plusJakarta, sans-serif',
                 toolbar: {
                     show: false,
                 },
@@ -359,7 +359,7 @@ const Index = () => {
             chart: {
                 height: 290,
                 type: 'area',
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'plusJakarta, sans-serif',
                 sparkline: {
                     enabled: true,
                 },

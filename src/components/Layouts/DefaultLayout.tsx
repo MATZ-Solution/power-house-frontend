@@ -13,6 +13,8 @@ import Sidebar from './Sidebar';
 import SomeThingWentWrong from '../../pages/Pages/SomethingWentWrong';
 
 const DefaultLayout = ({ children }: PropsWithChildren) => {
+    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
+
     let navigate = useNavigate();
     let location = useLocation();
     const themeConfig = useSelector((state: IRootState) => state.themeConfig);
@@ -90,10 +92,10 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
             {showApp && (
                 <App>
                     {/* BEGIN MAIN CONTAINER */}
-                    <div className="relative">
+                    <div className={`relative ${isDark ? 'bg-[#0e1726]' : 'bg-[#eee9]'} `}>
                         {/* <p className='fixed z-100 bg red-400 top-0 left-50'></p> */}
                         {/* sidebar menu overlay */}
-                        <div className={`${(!themeConfig.sidebar && 'hidden') || ''} fixed inset-0 bg-[black]/60 z-50 lg:hidden`} onClick={() => dispatch(toggleSidebar())}></div>
+                        <div className={`${(!themeConfig.sidebar && 'hidden') || ''} fixed inset-0 bg-[black]/60 z-50 lg:hidden `} onClick={() => dispatch(toggleSidebar())}></div>
                         {/* screen loader */}
                         {/* {showLoader && (
          <div className="screen_loader fixed inset-0 bg-[#fafafa] dark:bg-[#060818] z-[60] grid place-content-center animate__animated">
@@ -133,15 +135,16 @@ const DefaultLayout = ({ children }: PropsWithChildren) => {
 
                                 {/* BEGIN CONTENT AREA */}
                                 <Suspense>
-                                    <div className={`${themeConfig.animation} p-6 animate__animated`}>{children}</div>
+                                    <div className={`${themeConfig.animation} p-6 animate__animated `}>{children}</div>
                                 </Suspense>
 
                                 {/* END CONTENT AREA */}
 
                                 {/* BEGIN FOOTER */}
+
                                 <Footer />
-                                {/* END FOOTER */}
                                 <Portals />
+                                {/* END FOOTER */}
                             </div>
                         </div>
                     </div>

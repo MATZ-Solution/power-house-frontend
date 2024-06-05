@@ -1,27 +1,13 @@
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import Dropdown from '../components/Dropdown';
-import IconBinance from '../components/Icon/IconBinance';
-import IconBitcoin from '../components/Icon/IconBitcoin';
-import IconCircleCheck from '../components/Icon/IconCircleCheck';
-import IconEthereum from '../components/Icon/IconEthereum';
-import IconHorizontalDots from '../components/Icon/IconHorizontalDots';
-import IconLitecoin from '../components/Icon/IconLitecoin';
-import IconSolana from '../components/Icon/IconSolana';
-import IconTether from '../components/Icon/IconTether';
+import { getAllScouts, getScoutCount } from '../Fetcher/Api';
+import '../assets/css/scollbar.css';
 import { IRootState } from '../store';
 import { setPageTitle } from '../store/themeConfigSlice';
 import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
-import { getScoutCount } from '../Fetcher/Api';
-import { useQuery } from '@tanstack/react-query';
-import { getAllScouts } from '../Fetcher/Api';
-import '../assets/css/scollbar.css';
-import IconX from '../components/Icon/IconX';
-import IconInfoCircle from '../components/Icon/IconInfoCircle';
-import ModalInfo from '../components/ModaLInfo';
 
 const Finance = () => {
     const dispatch = useDispatch();
@@ -404,7 +390,7 @@ const Finance = () => {
             chart: {
                 type: 'donut',
                 height: 460,
-                fontFamily: 'Nunito, sans-serif',
+                fontFamily: 'plusJakarta, sans-serif',
             },
             dataLabels: {
                 enabled: false,
@@ -526,7 +512,10 @@ const Finance = () => {
             {/* <ModalInfo message='Successfully add scouts'/> */}
 
             {/* <ScreenLoader/> */}
-            <ul className="flex space-x-2 rtl:space-x-reverse">
+            <div className="border-l-[5px] border-[#F59927] px-3 ">
+                <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Analytics</p>
+            </div>
+            {/* <ul className="flex space-x-2 rtl:space-x-reverse">
                 <li>
                     <Link to="#" className="text-primary hover:underline">
                         Dashboard
@@ -535,10 +524,11 @@ const Finance = () => {
                 <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                     <span>Analytics</span>
                 </li>
-            </ul>
+            </ul> */}
             <div className="pt-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                     <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
+                    {/* <div className="panel bg-[#ffffff]"> */}
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Total Scouts</div>
                             <div className="dropdown">
@@ -572,7 +562,7 @@ const Finance = () => {
                     </div>
 
                     {/* Pending */}
-                    <div className="panel bg-gradient-to-r from-yellow-500  to-yellow-400">
+                    <div className="panel  bg-gradient-to-r from-violet-500 to-violet-400">
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Pending Scouts</div>
                             {/* <div className="dropdown">
@@ -604,9 +594,9 @@ const Finance = () => {
                     </div>
 
                     {/*  Success */}
-                    <div className="panel bg-gradient-to-r from-green-500  to-green-400">
+                    <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Success Scout</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Success Scouts</div>
                             {/* <div className="dropdown">
                                 <Dropdown
                                     offset={[0, 5]}
@@ -636,7 +626,7 @@ const Finance = () => {
                     </div>
 
                     {/* Reject */}
-                    <div className="panel bg-gradient-to-r from-red-500  to-red-400">
+                    <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Reject Scouts</div>
                             {/* <div className="dropdown">
@@ -667,18 +657,21 @@ const Finance = () => {
                         </div> */}
                     </div>
                 </div>
-                <div className={`${isDark ? 'custom-scrollbar-dark-mode' : 'custom-scrollbar'} w-full h-[80vh] overflow-y-scroll panel`}>
-                    <div className="mb-5 text-lg font-extrabold">Recent Scouts</div>
-                    <div className="table-responsive">
+                <div className=" px-3 ">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Recent Scouts</p>
+                </div>
+                <div className={`mt-4 ${isDark ? 'custom-scrollbar-dark-mode' : 'custom-scrollbar'} w-full h-[80vh] overflow-y-scroll panel`}>
+                    {/* <div className="mb-5 text-lg font-extrabold">Recent Scouts</div> */}
+                    <div className="table-responsive ">
                         <table>
                             <thead>
-                                <tr>
-                                    <th className={`text-black font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
-                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
-                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
-                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
-                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
-                                    <th className={`text-black font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
+                                <tr className="border-b-[1px] border-[#e5e7eb]">
+                                    <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
+                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
+                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
+                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
+                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
+                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
                                     {/* <th>Status</th> */}
 
                                     {/* <th>Email</th>

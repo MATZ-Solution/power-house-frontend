@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { setPageTitle } from '../../store/themeConfigSlice';
 import IconArrowLeft from '../../components/Icon/IconArrowLeft';
+import { setPageTitle } from '../../store/themeConfigSlice';
 
 const Typography = () => {
     const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const Typography = () => {
                                 <p className="text-4xl text-[#515365] leading-[60px] dark:text-white-light">The quick brown fox</p>
                             </div>
                             <div className="p-4 bg-dark-light dark:bg-[#191e3a] border-t border-border-white-dark/20 dark:border-black">
-                                <h5 className="text-base dark:text-white-light">Nunito</h5>
+                                <h5 className="text-base dark:text-white-light">plusJakarta</h5>
                                 <button className="text-primary text-[13px]">Google Fonts</button>
                                 <div className="flex justify-center mt-7">
                                     <button className="btn btn-primary">View Family</button>

@@ -7,7 +7,7 @@ import 'tippy.js/dist/tippy.css';
 import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { useQuery } from '@tanstack/react-query';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 
 function ScoutsMember() {
@@ -27,8 +27,8 @@ function ScoutsMember() {
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ['scoutMember'],
         queryFn: getScoutMember,
-        refetchOnWindowFocus : false,
-        retry: 1
+        refetchOnWindowFocus: false,
+        retry: 1,
     });
 
     if (isLoading) {
@@ -36,34 +36,37 @@ function ScoutsMember() {
     }
 
     if (isError) {
-        if(error?.message === 'Failed to fetch'){
-            return <SomeThingWentWrong message='Server Cannot Respond' errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
+        if (error?.message === 'Failed to fetch') {
+            return <SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
         }
-        return <SomeThingWentWrong message='Internal Server Error' errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
+        return <SomeThingWentWrong message="Internal Server Error" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
     }
     return (
         <div>
             <ul className="flex space-x-2 rtl:space-x-reverse">
-                <li>
+                <div className="border-l-[5px] border-[#F59927] px-3 ">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View User</p>
+                </div>
+                {/* <li>
                     <Link to="#" className="text-primary hover:underline">
                         Users
                     </Link>
                 </li>
                 <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                     <span>View User</span>
-                </li>
+                </li> */}
             </ul>
             <div className="pt-5">
-                <div className="table-responsive mb-5">
+                <div className="panel rounded-[20px] table-responsive mb-5">
                     <table>
-                        <thead >
-                            <tr className='text-black'>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>ID</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Name</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Phone Number</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Email</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>Address</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white': 'text-black'}`}>User Role</th>
+                        <thead>
+                            <tr className="text-black border-b-[1px] border-[#e5e7eb]">
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Name</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Phone Number</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Email</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>User Role</th>
 
                                 {/* <th>Email</th>
                                 <th>Status</th> */}
@@ -71,7 +74,7 @@ function ScoutsMember() {
                             </tr>
                         </thead>
                         <tbody>
-                            {data?.map((data:any) => {
+                            {data?.map((data: any) => {
                                 return (
                                     <tr key={data.id}>
                                         <td>{data.id}</td>

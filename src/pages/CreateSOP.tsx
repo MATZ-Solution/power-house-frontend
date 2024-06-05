@@ -9,8 +9,11 @@ import { AddMeetingMember, getAreas, getCity, getSubAreas } from '../Fetcher/Api
 import ModalInfo from '../components/ModaLInfo';
 import { setPageTitle } from '../store/themeConfigSlice';
 import { getScoutMember, createSOP } from '../Fetcher/Api';
-
+import { useSelector } from 'react-redux';
+import { IRootState } from '../store';
 function CreateSOP() {
+    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
+
     const customStyles = {
         option: (provided: any, state: any) => ({
             ...provided,
@@ -154,16 +157,19 @@ function CreateSOP() {
             {mutation.isSuccess && <ModalInfo message="Successfully add SOP" success={mutation.isSuccess} />}
             {mutation.isError && <ModalInfo message={mutation.error.message} success={mutation.isSuccess} />}
             <ul className="flex space-x-2 rtl:space-x-reverse">
-                <li>
+                <div className="border-l-[5px] border-[#F59927] px-3 ">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Create SOP</p>
+                </div>
+                {/* <li>
                     <Link to="#" className="text-primary hover:underline">
                         Dashboard
                     </Link>
                 </li>
                 <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                     <span>Create SOP</span>
-                </li>
+                </li> */}
             </ul>
-            <div className="pt-5">
+            <div className={`mt-5 p-5 ${isDark ? 'bg-[#0e1726]' : 'bg-white'} rounded-[20px] `}>
                 <Formik
                     initialValues={initialValues}
                     validationSchema={CreateMeetingMemberSchema}
@@ -235,14 +241,11 @@ function CreateSOP() {
                                             setGetAreaIds(selectedids);
                                         }}
                                         components={{
-                                            NoOptionsMessage: () => <div style={{ padding: 10 }}>
-                                                {
-                                                !values.cityId ? 
-                                                <p>Please Select City First</p> : 
-                                                areaLoading ? <p>Loading...</p> : 
-                                                areaError ? <p>{areaError?.message}</p> :
-                                                ''}
-                                                </div>,
+                                            NoOptionsMessage: () => (
+                                                <div style={{ padding: 10 }}>
+                                                    {!values.cityId ? <p>Please Select City First</p> : areaLoading ? <p>Loading...</p> : areaError ? <p>{areaError?.message}</p> : ''}
+                                                </div>
+                                            ),
                                         }}
                                     />
                                     {errors.areasId && touched.areasId ? <div className="text-red-600 mt-2">{errors.areasId}</div> : null}

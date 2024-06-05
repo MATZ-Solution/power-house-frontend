@@ -3,8 +3,12 @@ import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AddCity, AddCityCSVfile } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
+import { useSelector } from 'react-redux';
+import { IRootState } from '../store';
 
 function SetupCities() {
+    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
+
     let [city, setCity] = useState('');
     let queryClient: any = useQueryClient();
     // let [file, setFile] = useState(null);
@@ -83,16 +87,19 @@ function SetupCities() {
 
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
-                    <li>
+                <div className="border-l-[5px] border-[#F59927] px-3 ">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Cities</p>
+                </div>
+                    {/* <li>
                         <Link to="#" className="text-primary hover:underline">
                             SetUp Forms
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                         <span>Add Cities</span>
-                    </li>
+                    </li> */}
                 </ul>
-                <div className="pt-5 ">
+                <div className={`mt-5 p-5 ${isDark ? 'bg-[#0e1726]' : 'bg-white'} rounded-[20px]`}>
                     <div className="flex flex-col gap-2">
                         {/* <Form className="w-full flex gap-2" onSubmit={mutation.mutate}> */}
                         <div className="w-full flex gap-2 ">

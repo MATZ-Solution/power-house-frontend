@@ -7,9 +7,11 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
 import { AddAreaCSVfile, AddAreas, getCity } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
-
+import { useSelector } from 'react-redux';
+import { IRootState } from '../store';
 function AddArea() {
     // ################ VARIABLES ################
+    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
 
     const dispatch = useDispatch();
 
@@ -82,17 +84,17 @@ function AddArea() {
         if (!values.areaName) {
             return setValues({ ...values, areaError: true });
         }
-        mutation.mutate(values,{
-            onSuccess: ()=>{
+        mutation.mutate(values, {
+            onSuccess: () => {
                 setTimeout(() => {
                     mutation.reset();
-                }, 3000)
+                }, 3000);
             },
-            onError: ()=>{
+            onError: () => {
                 setTimeout(() => {
                     mutation.reset();
-                }, 3000)
-            }
+                }, 3000);
+            },
         });
     }
 
@@ -114,17 +116,17 @@ function AddArea() {
             return setWrongFile(true);
         }
 
-        mutationAreaCSVfile.mutate(form,{
-            onSuccess: ()=>{
+        mutationAreaCSVfile.mutate(form, {
+            onSuccess: () => {
                 setTimeout(() => {
                     mutationAreaCSVfile.reset();
                 }, 3000);
             },
-            onError: ()=>{
+            onError: () => {
                 setTimeout(() => {
                     mutationAreaCSVfile.reset();
                 }, 3000);
-            }
+            },
         });
         fileInputRef.current.value = null;
     };
@@ -142,74 +144,79 @@ function AddArea() {
             {mutationAreaCSVfile.isError && <ModalInfo message={mutationAreaCSVfile.error?.message} success={mutationAreaCSVfile.isSuccess} />}
             {wrongFile && <ModalInfo message={csvFileMessage} success={false} />}
             <ul className="flex space-x-2 rtl:space-x-reverse">
-                <li>
+                <div className="border-l-[5px] border-[#F59927] px-3 ">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Areas</p>
+                </div>
+                {/* <li>
                     <Link to="#" className="text-primary hover:underline">
-                    SetUp Forms
+                        SetUp Forms
                     </Link>
                 </li>
                 <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                     <span>Add Area</span>
-                </li>
+                </li> */}
             </ul>
-            <div className="pt-5 flex flex-col gap-5">
-                <div>
-                    <div className="font-semibold mb-1.5">Select City</div>
+            <div className={`mt-5 p-5 ${isDark ? 'bg-[#0e1726]' : 'bg-white'} rounded-[20px]`}>
+                <div className={`flex flex-col gap-5 `}>
+                    <div>
+                        <div className="font-semibold mb-1.5">Select City</div>
 
-                    <select
-                        value={cityValues}
-                        onChange={handleCity}
-                        className="w-full form-input shadow-[0_0_4px_2px_rgb(31_45_61_/_10%)] bg-white rounded-full h-11 placeholder:tracking-wider ltr:pr-11 rtl:pl-11"
-                    >
-                        <option value="">Not Selected</option>
-                        {isError ? (
-                            <p className="text-red-700">Falied To Get Cities</p>
-                        ) : (
-                            <>
-                                {data?.map((city: any, index: any) => {
-                                    return (
-                                        <option key={index} value={city?.id}>
-                                            {city.cityName}
-                                        </option>
-                                    );
-                                })}
-                            </>
-                        )}
-                    </select>
-                    {values.cityError && <p className="mt-4 text-red-800">Please Select City</p>}
-                </div>
-                <div>
-                    <div className="font-semibold mb-1.5">Add Area</div>
-                    <div className="w-full flex gap-2 ">
-                        <div className="w-full">
-                            <input
-                                value={values.areaName}
-                                type="text"
-                                onChange={(e) => setValues({ ...values, areaName: e.target.value })}
-                                placeholder="Add Area"
-                                className="w-full form-input shadow-[0_0_4px_2px_rgb(31_45_61_/_10%)] bg-white rounded-full h-11 placeholder:tracking-wider ltr:pr-11 rtl:pl-11"
-                            />
-                        </div>
-                        <div className="">
-                            <button type="button" className=" btn btn-primary rounded-full px-10 py-3" onClick={handleArea}>
-                                Add
-                            </button>
+                        <select
+                            value={cityValues}
+                            onChange={handleCity}
+                            className="w-full form-input shadow-[0_0_4px_2px_rgb(31_45_61_/_10%)] bg-white rounded-full h-11 placeholder:tracking-wider ltr:pr-11 rtl:pl-11"
+                        >
+                            <option value="">Not Selected</option>
+                            {isError ? (
+                                <p className="text-red-700">Falied To Get Cities</p>
+                            ) : (
+                                <>
+                                    {data?.map((city: any, index: any) => {
+                                        return (
+                                            <option key={index} value={city?.id}>
+                                                {city.cityName}
+                                            </option>
+                                        );
+                                    })}
+                                </>
+                            )}
+                        </select>
+                        {values.cityError && <p className="mt-4 text-red-800">Please Select City</p>}
+                    </div>
+                    <div>
+                        <div className="font-semibold mb-1.5">Add Area</div>
+                        <div className="w-full flex gap-2 ">
+                            <div className="w-full">
+                                <input
+                                    value={values.areaName}
+                                    type="text"
+                                    onChange={(e) => setValues({ ...values, areaName: e.target.value })}
+                                    placeholder="Add Area"
+                                    className="w-full form-input shadow-[0_0_4px_2px_rgb(31_45_61_/_10%)] bg-white rounded-full h-11 placeholder:tracking-wider ltr:pr-11 rtl:pl-11"
+                                />
+                            </div>
+                            <div className="">
+                                <button type="button" className=" btn btn-primary rounded-full px-10 py-3" onClick={handleArea}>
+                                    Add
+                                </button>
+                            </div>
                         </div>
                     </div>
+                    {values.areaError && <p className=" text-red-800">Please Select Area</p>}
                 </div>
-                {values.areaError && <p className=" text-red-800">Please Select Area</p>}
-            </div>
-            <div className="mt-4 flex flex-col gap-3">
-                <h1 className="font-bold text-medium">Add A CSV File To Add Area</h1>
-                <div>
-                    <input ref={fileInputRef} type="file" onChange={onSubmitAreaCSVfile} />
+                <div className="mt-4 flex flex-col gap-3">
+                    <h1 className="font-bold text-medium">Add A CSV File To Add Area</h1>
+                    <div>
+                        <input ref={fileInputRef} type="file" onChange={onSubmitAreaCSVfile} />
+                    </div>
                 </div>
-            </div>
-            <div className="w-auto">
-                <a href="/Area.csv" className="inline-block" download>
-                    <button type="button" className="mt-4 btn btn-primary rounded-full h-11">
-                        Download Sample CSV File
-                    </button>
-                </a>
+                <div className="w-auto">
+                    <a href="/Area.csv" className="inline-block" download>
+                        <button type="button" className="mt-4 btn btn-primary rounded-full h-11">
+                            Download Sample CSV File
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
     );

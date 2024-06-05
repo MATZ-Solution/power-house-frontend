@@ -127,26 +127,29 @@ function AllotedLocation() {
 
     return (
         <>
-        <ModalAddScout open={open} handleOpen={handleOpen} projectID={projectID} />
+            <ModalAddScout open={open} handleOpen={handleOpen} projectID={projectID} />
             {/* <div>{open && <ModalAddScout handleOpen={handleOpen} projectID={projectID} />}</div> */}
             <div className="">
                 {/* <div className="absolute top-0 left-0 " style={{zIndex: 3}}>{open && <ModalAddScout handleOpen={handleOpen} projectID={projectID} />}</div> */}
 
                 <ul className="flex space-x-2 rtl:space-x-reverse">
-                    <li>
+                    <div className="border-l-[5px] border-[#F59927] px-3 ">
+                        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Alloted Location</p>
+                    </div>
+                    {/* <li>
                         <Link to="#" className="text-primary hover:underline">
                             locations
                         </Link>
                     </li>
                     <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
                         <span>Alloted-Locations</span>
-                    </li>
+                    </li> */}
                 </ul>
                 <div className="pt-5">
-                    <div className="table-responsive mb-5">
+                    <div className="panel rounded-[20px] table-responsive mb-5">
                         <table>
                             <thead>
-                                <tr className="text-black ">
+                                <tr className="text-black border-b-[1px] border-[#e5e7eb]">
                                     <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
                                     <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Building Type</th>
                                     <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>City</th>
@@ -208,4 +211,3 @@ function AllotedLocation() {
 }
 
 export default AllotedLocation;
-

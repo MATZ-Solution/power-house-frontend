@@ -1,9 +1,8 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { IRootState } from './store';
-import { toggleRTL, toggleTheme, toggleLocale, toggleMenu, toggleLayout, toggleAnimation, toggleNavbar, toggleSemidark } from './store/themeConfigSlice';
-import store from './store';
-import { QueryClient,QueryClientProvider} from '@tanstack/react-query'
+import store, { IRootState } from './store';
+import { toggleAnimation, toggleLayout, toggleLocale, toggleMenu, toggleNavbar, toggleRTL, toggleSemidark, toggleTheme } from './store/themeConfigSlice';
 
 const queryClient = new QueryClient()
 
@@ -26,7 +25,7 @@ function App({ children }: PropsWithChildren) {
         <div
             className={`${(store.getState().themeConfig.sidebar && 'toggle-sidebar') || ''} ${themeConfig.menu} ${themeConfig.layout} ${
                 themeConfig.rtlClass
-            } main-section antialiased relative font-nunito text-sm font-normal`}
+            } main-section antialiased relative font-plusJakarta text-sm font-normal`}
         >
            <QueryClientProvider client={queryClient }>
            {children}
