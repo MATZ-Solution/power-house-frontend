@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { alertSuccess } from './Alert';
+import { alertFail } from './Alert';
 
 function ModalAddScout({ open, handleOpen, projectID }: any): any {
     let [user, setUser] = useState('');
@@ -124,7 +125,7 @@ function ModalAddScout({ open, handleOpen, projectID }: any): any {
                                         />
                                     </div>
                                     <div className="flex justify-end items-center px-4 py-3 mt-8">
-                                        <button type="button" className="btn border-[#F59927] text-black font-bold" onClick={() => handleOpen(false)}>
+                                        <button type="button" className="btn btn-primary ltr:ml-4 rtl:mr-4" onClick={() => handleOpen(false)}>
                                             Cancel
                                         </button>
                                         <button type="button" className="btn btn-primary ltr:ml-4 rtl:mr-4" onClick={add}>

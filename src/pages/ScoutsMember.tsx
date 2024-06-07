@@ -9,8 +9,16 @@ import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import EditModalUser from './Components/EditUserModal';
 
 function ScoutsMember() {
+    let [userID, setUserID] = useState<any>('');
+    let [open, setOpen] = useState(false)
+    function handleOpen(state: any, userID: any){
+        setUserID(userID)
+        setOpen(state)
+    }
+
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
 
     const dispatch = useDispatch();
@@ -29,6 +37,7 @@ function ScoutsMember() {
         queryFn: getScoutMember,
         refetchOnWindowFocus: false,
         retry: 1,
+        // staleTime: Infinity
     });
 
     if (isLoading) {
@@ -43,6 +52,7 @@ function ScoutsMember() {
     }
     return (
         <div>
+            <EditModalUser open={open} handleOpen={handleOpen} userID={userID}/>
             <ul className="flex space-x-2 rtl:space-x-reverse">
                 <div className="border-l-[5px] border-[#F59927] px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View User</p>
@@ -67,6 +77,7 @@ function ScoutsMember() {
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Email</th>
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>User Role</th>
+                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Actions</th>
 
                                 {/* <th>Email</th>
                                 <th>Status</th> */}
@@ -94,7 +105,17 @@ function ScoutsMember() {
                                             <div className="whitespace-nowrap">{data?.position}</div>
                                         </td>
 
-                                        <td className="text-center">{data.register}</td>
+                                        {/* <td className="text-center">{data.register}</td> */}
+
+                                        <td className="text-center">
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary static whitespace-nowrap"
+                                                onClick={() => handleOpen(true, data?.id)}
+                                            >
+                                                Edit User
+                                            </button>
+                                        </td>
                                     </tr>
                                 );
                             })}

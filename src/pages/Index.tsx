@@ -564,7 +564,7 @@ const Finance = () => {
                     {/* Pending */}
                     <div className="panel  bg-gradient-to-r from-violet-500 to-violet-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Pending Scouts</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Users</div>
                             {/* <div className="dropdown">
                                 <Dropdown
                                     offset={[0, 5]}
@@ -584,7 +584,7 @@ const Finance = () => {
                             </div> */}
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.pending}</div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.user}</div>
                             {/* <div className="badge bg-white/30">- 2.35% </div> */}
                         </div>
                         {/* <div className="flex items-center font-semibold mt-5">
@@ -596,7 +596,7 @@ const Finance = () => {
                     {/*  Success */}
                     <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Success Scouts</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">UnAlloted Location</div>
                             {/* <div className="dropdown">
                                 <Dropdown
                                     offset={[0, 5]}
@@ -616,7 +616,7 @@ const Finance = () => {
                             </div> */}
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.success}</div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.UnAllotedLocation}</div>
                             {/* <div className="badge bg-white/30">+ 1.35% </div> */}
                         </div>
                         {/* <div className="flex items-center font-semibold mt-5">
@@ -628,7 +628,7 @@ const Finance = () => {
                     {/* Reject */}
                     <div className="panel bg-gradient-to-r from-fuchsia-500 to-fuchsia-400">
                         <div className="flex justify-between">
-                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Reject Scouts</div>
+                            <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Alloted Location</div>
                             {/* <div className="dropdown">
                                 <Dropdown
                                     offset={[0, 5]}
@@ -648,7 +648,7 @@ const Finance = () => {
                             </div> */}
                         </div>
                         <div className="flex items-center mt-5">
-                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.rejected}</div>
+                            <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.AllotedLocation}</div>
                             {/* <div className="badge bg-white/30">- 0.35% </div> */}
                         </div>
                         {/* <div className="flex items-center font-semibold mt-5">

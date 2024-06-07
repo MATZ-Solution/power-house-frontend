@@ -11,6 +11,7 @@ import { AddScoutMember } from '../Fetcher/Api';
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import { alertSuccess, alertFail } from './Components/Alert';
 
 function AddScoutUser() {
     const dispatch = useDispatch();
@@ -27,24 +28,66 @@ function AddScoutUser() {
         { value: 'admin', label: 'admin' },
     ];
 
-    const customStyles = {
-        option: (provided: any, state: any) => ({
-            ...provided,
-            color: 'none',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            ':hover': {
-                backgroundColor: '#F59927',
-                color: 'white',
-            },
-        }),
+    // const customStyles = {
+    //     option: (provided: any, state: any) => ({
+    //         ...provided,
+    //         color: 'none',
+    //         backgroundColor: 'green',
+    //         cursor: 'pointer',
+    //         ':hover': {
+    //             backgroundColor: '#F59927',
+    //             color: 'white',
+    //         },
+    //     }),
 
-        control: (provided: any, state: any) => ({
-            ...provided,
-            minHeight: '45px',
+    //     control: (provided: any, state: any) => ({
+    //         ...provided,
+    //         minHeight: '45px',
+    //     }),
+    //     indicatorSeparator: () => ({ display: 'none' }),
+    // };
+
+    const customStyles1 = {
+        option: (provided: any, state: any) => ({
+          ...provided,
+          color: state.isSelected ? (isDark ? 'white' : 'black') : (isDark ? 'white' : 'black'),  // Set text color based on selection and theme
+          backgroundColor: state.isSelected ? '' : (isDark ? '#121E32' : 'white'),  // Background color for options based on theme
+          cursor: 'pointer',
+          ':hover': {
+            backgroundColor: '#F59927',  // Background color on hover
+            color: 'white',  // Text color on hover
+          },
         }),
+      
+        control: (provided: any, state: any) => ({
+          ...provided,
+          minHeight: '45px',
+          backgroundColor: isDark ? '#121E32' : 'white',  // Set background color of the select box
+          borderColor: isDark ? '#17263c' : '#e0e6ed',  // Border color to match the background
+          boxShadow: 'none',
+          ':hover': {
+            borderColor: '#F59927',  // Border color on hover
+          },
+        }),
+      
         indicatorSeparator: () => ({ display: 'none' }),
-    };
+      
+        singleValue: (provided: any) => ({
+          ...provided,
+          color: isDark ? 'white' : 'black',  // Text color of the selected value based on theme
+        }),
+      
+        placeholder: (provided: any) => ({
+          ...provided,
+          color: isDark ? 'white' : 'black',  // Text color of the placeholder based on theme
+        }),
+      
+        menu: (provided: any) => ({
+          ...provided,
+          backgroundColor: isDark ? '#121E32' : 'white',  // Set background color of the dropdown menu
+        }),
+      };
+      
 
     let [success, setSuccess] = useState(false);
     const [errorHandle, setErrorHandle] = useState({
@@ -56,7 +99,14 @@ function AddScoutUser() {
         Name: Yup.string(),
         // .required('Please Enter Name'),
         email: Yup.string().email('Invalid email').required('Please Enter Email'),
-        password: Yup.string().min(5, 'Too Short!').required('Please Enter Password'),
+        password: Yup.string()
+        .min(8, 'Password is too short - should be 8 chars minimum.')
+        .required('Please enter a password.')
+        .matches(
+          /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]{8,}$/,
+          'Password must contain at least one uppercase letter, one number, and one special character.'
+        )
+        ,
         phoneNumber: Yup.string()
             .matches(/^\d+$/, 'Phone number must be a number')
             .max(11, 'Phone Number lenght should be 11')
@@ -74,8 +124,8 @@ function AddScoutUser() {
 
     return (
         <div>
-            {mutation.isSuccess && <ModalInfo message="Successfully added Scout Member" success={mutation.isSuccess} />}
-            {mutation.isError && <ModalInfo message={mutation?.error?.message} success={mutation.isSuccess} />}
+            {/* {mutation.isSuccess && <ModalInfo message="Successfully added Scout Member" success={mutation.isSuccess} />}
+            {mutation.isError && <ModalInfo message={mutation?.error?.message} success={mutation.isSuccess} />} */}
             <>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <div className="border-l-[5px] border-[#F59927] px-3 ">
@@ -105,14 +155,12 @@ function AddScoutUser() {
                             mutation.mutate(values, {
                                 onSuccess: () => {
                                     resetForm();
-                                    setTimeout(() => {
                                         mutation.reset();
-                                    }, 3000);
+                                        alertSuccess('Successfully Create user')
                                 },
-                                onError: () => {
-                                    setTimeout(() => {
+                                onError: (err) => {
                                         mutation.reset();
-                                    }, 3000);
+                                        alertFail(err.message)
                                 },
                             });
                         }}
@@ -161,13 +209,13 @@ function AddScoutUser() {
                                         <label htmlFor="gridPosition">User Role*</label>
 
                                         <Select
-                                            className="border-none"
+                                            className="border-none "
                                             name="position"
                                             placeholder="Select User Roles"
                                             options={userRoleOption}
                                             value={userRoleOption.filter((option) => option.value === values.position)}
                                             isSearchable={false}
-                                            styles={customStyles}
+                                            styles={customStyles1}
                                             theme={(theme) => ({
                                                 ...theme,
                                                 colors: {

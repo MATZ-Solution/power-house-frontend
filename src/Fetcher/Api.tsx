@@ -432,4 +432,53 @@ export const ManuallyAddScoutMember = async (data: any) => {
     }
 };
 
+// ############## GET Single Scout Member #################
+
+export const getSingleScoutMember = async (userID: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/scout/getSingleScoutUser/${userID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        return response.data[0];
+    } catch (err) {
+        throw err;
+    }
+};
+
+// ############## Update Single Scout Member #################
+
+export const updateScoutMember = async (data: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/scout/updateScouteMember`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        return response.message;
+    } catch (err) {
+        throw err;
+    }
+};
+
 

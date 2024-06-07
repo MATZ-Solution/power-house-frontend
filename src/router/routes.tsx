@@ -171,10 +171,10 @@ const routes = [
     },
 
     // CREATE-MEETING-MEMBER
-    // {
-    //     path: '/create-meeting-member',
-    //     element: <CreateMeetingMember />,
-    // },
+    {
+        path: '/create-meeting-member',
+        element: <CreateMeetingMember />,
+    },
 
     {
         path: '/create-sop',

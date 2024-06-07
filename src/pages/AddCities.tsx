@@ -5,8 +5,9 @@ import { AddCity, AddCityCSVfile } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
 
-function SetupCities() {
+function SetupCities(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
 
     let [city, setCity] = useState('');
@@ -14,20 +15,23 @@ function SetupCities() {
     // let [file, setFile] = useState(null);
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
+
     const mutation = useMutation({
         mutationKey: ['AddCity'],
         mutationFn: AddCity,
         onSuccess: () => {
             queryClient.invalidateQueries(['getCities']);
             setCity('');
-            setTimeout(() => {
+            // setTimeout(() => {
                 mutation.reset();
-            }, 3000);
+                alertSuccess("Successfully add City")
+            // }, 3000);
         },
-        onError: () => {
-            setTimeout(() => {
+        onError: (err) => {
+            // setTimeout(() => {
                 mutation.reset();
-            }, 3000);
+                alertFail(err.message)
+            // }, 3000);
         },
     });
 
@@ -41,14 +45,18 @@ function SetupCities() {
         onSuccess: () => {
             queryClient.invalidateQueries(['getCities']);
             setCity('');
-            setTimeout(() => {
+            // setTimeout(() => {
                 mutationCityCSVfile.reset();
-            }, 3000);
+                alertSuccess("Successfully add CSV file")
+
+            // }, 3000);
         },
-        onError: () => {
-            setTimeout(() => {
+        onError: (err) => {
+            // setTimeout(() => {
                 mutationCityCSVfile.reset();
-            }, 3000);
+                alertFail(err.message)
+
+            // }, 3000);
         },
     });
 
@@ -79,12 +87,14 @@ function SetupCities() {
 
     return (
         <>
-            {mutation.isSuccess && <ModalInfo message="Successfully add City" success={mutation.isSuccess} />}
-            {mutation.isError && <ModalInfo message={mutation.error?.message} success={mutation.isSuccess} />}
-            {mutationCityCSVfile.isSuccess && <ModalInfo message="Successfully add CSV file " success={mutationCityCSVfile.isSuccess} />}
-            {mutationCityCSVfile.isError && <ModalInfo message={mutationCityCSVfile.error?.message} success={mutationCityCSVfile.isSuccess} />}
-            {wrongFile && <ModalInfo message="Please Select a CSV File" success={false} />}
+            {/* {mutation.isSuccess && <ModalInfo message="Successfully add City" success={mutation.isSuccess} />}
+            {mutation.isError && <ModalInfo message={mutation.error?.message} success={mutation.isSuccess} />} */}
+            {/* {mutationCityCSVfile.isSuccess && <ModalInfo message="Successfully add CSV file " success={mutationCityCSVfile.isSuccess} />}
+            {mutationCityCSVfile.isError && <ModalInfo message={mutationCityCSVfile.error?.message} success={mutationCityCSVfile.isSuccess} />} */}
+            {/* {wrongFile && <ModalInfo message="Please Select a CSV File" success={false} />} */}
+            {wrongFile && alertInfo('Please Add CSV File')}
 
+            
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                 <div className="border-l-[5px] border-[#F59927] px-3 ">

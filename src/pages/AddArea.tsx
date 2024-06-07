@@ -9,6 +9,8 @@ import { AddAreaCSVfile, AddAreas, getCity } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
+import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+
 function AddArea() {
     // ################ VARIABLES ################
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -36,6 +38,12 @@ function AddArea() {
     const mutationAreaCSVfile = useMutation({
         mutationKey: ['AddAreaCSVfile'],
         mutationFn: AddAreaCSVfile,
+        onSuccess: () => {
+            alertSuccess('Successfully add CSV file');
+        },
+        onError: () => {
+            alertFail('Failed To add CSV file');
+        },
     });
 
     let { isError, data } = useQuery({
@@ -74,6 +82,7 @@ function AddArea() {
         }, 3000);
     }, [wrongFile]);
 
+
     // ################ FUNCTIONS ################
 
     function handleArea() {
@@ -86,14 +95,16 @@ function AddArea() {
         }
         mutation.mutate(values, {
             onSuccess: () => {
-                setTimeout(() => {
-                    mutation.reset();
-                }, 3000);
+                // setTimeout(() => {
+                mutation.reset();
+                alertSuccess('Successfully added Area');
+                // }, 3000);
             },
-            onError: () => {
-                setTimeout(() => {
-                    mutation.reset();
-                }, 3000);
+            onError: (err) => {
+                // setTimeout(() => {
+                mutation.reset();
+                alertFail('Failed To Add Area');
+                // }, 3000);
             },
         });
     }
@@ -118,14 +129,14 @@ function AddArea() {
 
         mutationAreaCSVfile.mutate(form, {
             onSuccess: () => {
-                setTimeout(() => {
+                // setTimeout(() => {
                     mutationAreaCSVfile.reset();
-                }, 3000);
+                // }, 3000);
             },
             onError: () => {
-                setTimeout(() => {
+                // setTimeout(() => {
                     mutationAreaCSVfile.reset();
-                }, 3000);
+                // }, 3000);
             },
         });
         fileInputRef.current.value = null;
@@ -137,12 +148,14 @@ function AddArea() {
     }
 
     return (
-        <div>
-            {mutation.isSuccess && <ModalInfo message="Successfully added Area" success={mutation.isSuccess} />}
-            {mutation.isError && <ModalInfo message={mutation.error.message} success={mutation.isSuccess} />}
-            {mutationAreaCSVfile.isSuccess && <ModalInfo message="Successfully add CSV file " success={mutationAreaCSVfile.isSuccess} />}
-            {mutationAreaCSVfile.isError && <ModalInfo message={mutationAreaCSVfile.error?.message} success={mutationAreaCSVfile.isSuccess} />}
-            {wrongFile && <ModalInfo message={csvFileMessage} success={false} />}
+        <>
+            {/* {mutation.isSuccess && <ModalInfo message="Successfully added Area" success={mutation.isSuccess} />}
+            {mutation.isError && <ModalInfo message={mutation.error.message} success={mutation.isSuccess} />} */}
+            {/* {mutationAreaCSVfile.isSuccess && <ModalInfo message="Successfully add CSV file " success={mutationAreaCSVfile.isSuccess} />}
+            {mutationAreaCSVfile.isError && <ModalInfo message={mutationAreaCSVfile.error?.message} success={mutationAreaCSVfile.isSuccess} />} */}
+            {/* {wrongFile && <ModalInfo message={csvFileMessage} success={false} />} */}
+            {wrongFile && alertInfo(csvFileMessage)}
+
             <ul className="flex space-x-2 rtl:space-x-reverse">
                 <div className="border-l-[5px] border-[#F59927] px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Areas</p>
@@ -196,7 +209,7 @@ function AddArea() {
                                 />
                             </div>
                             <div className="">
-                                <button type="button" className=" btn btn-primary rounded-full px-10 py-3" onClick={handleArea}>
+                                <button disabled={mutation.isPending} type="button" className=" btn btn-primary rounded-full px-10 py-3" onClick={handleArea}>
                                     Add
                                 </button>
                             </div>
@@ -218,7 +231,7 @@ function AddArea() {
                     </a>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 
