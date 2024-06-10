@@ -21,7 +21,15 @@ import { addAdminDetails } from '../../store/adminDetails';
 import Maintenence from '../Pages/Maintenence';
 import { BASE_URL } from '../../Constants/Constant';
 import { error } from 'console';
+import IconEye from '../../components/Icon/IconEye';
+import IconEyeClosed from '../../components/Icon/IconEyeClosed.png';
+
 const LoginBoxed = () => {
+    let [showPass, setShowPass] = useState(true);
+    const handleShowPass = () => {
+        setShowPass(!showPass);
+    };
+
     const dispatch = useDispatch();
 
     const [errorHandle, setErrorHandle] = useState({
@@ -158,7 +166,7 @@ const LoginBoxed = () => {
                             </div>
                             <div className="mb-5 mt-3">
                                 <h1 className="text-3xl font-extrabold text-[#F59927]">Sign in</h1>
-                                <p className={`text-base font-extrabold leading-normal ${isDark ? 'text-white': 'text-black'}`} >Enter your email and password to login</p>
+                                <p className={`text-base font-extrabold leading-normal ${isDark ? 'text-white' : 'text-black'}`}>Enter your email and password to login</p>
                             </div>
                             {(errorHandle.message === 'Email not found' || errorHandle.message === 'Incorrect Password') && (
                                 <div className="flex items-center bg-red-200 h-8 px-2 pb-6 pt-6 rounded">
@@ -195,10 +203,20 @@ const LoginBoxed = () => {
                                                 Password*
                                             </label>
                                             <div className="relative text-white-dark">
-                                                <Field name="password" id="Password" type="password" placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" />
+                                            <Field name="password" id="Password" type={`${showPass ? 'password' : 'text'}`} placeholder="Enter Password" className="form-input ps-10 placeholder:text-white-dark" />
                                                 <span className="absolute start-4 top-1/2 -translate-y-1/2">
                                                     <IconLockDots fill={true} />
                                                 </span>
+                                                {
+                                                    showPass ?
+                                                        <span className="absolute right-2 top-2 ">
+                                                            <img src={IconEyeClosed} onClick={handleShowPass}></img>
+                                                        </span>
+                                                        :
+                                                        <span className="absolute right-2 top-2 " onClick={handleShowPass}>
+                                                            <IconEye fill={true} />
+                                                        </span>
+                                                }
                                             </div>
                                             {errors.password && touched.password ? <div className="text-red-600 mt-2">{errors.password}</div> : null}
                                         </div>
