@@ -15,6 +15,7 @@ import IconMenuNotes from '../Icon/Menu/IconMenuNotes';
 import IconUser from '../Icon/IconUser';
 import IconMapPin from '../Icon/IconMapPin';
 import LocationSVG from '../Icon/location.svg'
+
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
     const [errorSubMenu, setErrorSubMenu] = useState(false);
@@ -117,6 +118,10 @@ const Sidebar = () => {
 
                                         <li>
                                             <NavLink to="/create-sop">{t('Create SOP')}</NavLink>
+                                        </li>
+
+                                        <li>
+                                            <NavLink to="/meetings">{t('Meetings')}</NavLink>
                                         </li>
 
                                         {/* <li>

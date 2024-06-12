@@ -45,7 +45,6 @@ function CreateMeetingMember() {
         retry: 1,
     });
 
-    console.log('this is area data', areaData);
 
         // GET SUB AREA DATA
         let getsubAreasIdString = getAreaIDs.join('')
@@ -59,9 +58,6 @@ function CreateMeetingMember() {
             refetchOnWindowFocus: false,
             retry: 1
         });
-    
-        console.log('this is sub Area Data data', subAreaData);
-
 
     const mutation = useMutation({
         mutationKey: ['addMeetingMember'],
@@ -140,7 +136,6 @@ function CreateMeetingMember() {
                    initialValues={initialValues}
                     validationSchema={CreateMeetingMemberSchema}
                     onSubmit={ (values, {resetForm}) => {
-                        console.log("this is values", values)
                         mutation.mutate(values, {
                             onSuccess: () => {
                                 resetForm();

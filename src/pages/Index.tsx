@@ -10,6 +10,18 @@ import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
 
 const Finance = () => {
+    // let ScoutsData1 = [
+    //     {
+    //         address: 'Plot B 11, Sector 5-I Sector 5 M New Karachi Town, Karachi, Karachi City, Sindh, Pakistan',
+    //         contractorName: 'Fahad',
+    //         contractorNumber: '03345475578',
+    //         id: 84,
+    //         projectName: 'Matz Solution ',
+    //         projectType: 'Project',
+    //         refrenceId: 'C-84',
+    //         scoutedBy: 'Muhammad Fahad',
+    //     },
+    // ];
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Analytics'));
@@ -493,8 +505,6 @@ const Finance = () => {
         retry: 1,
     });
 
-    console.log('this is isLoadingScouts: ', isLoadingScouts);
-    console.log('this is isLoading: ', isLoading);
 
     if (isLoading || isLoadingScouts) {
         return <ScreenLoader />;
@@ -528,7 +538,7 @@ const Finance = () => {
             <div className="pt-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                     <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
-                    {/* <div className="panel bg-[#ffffff]"> */}
+                        {/* <div className="panel bg-[#ffffff]"> */}
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Total Scouts</div>
                             <div className="dropdown">
@@ -660,47 +670,57 @@ const Finance = () => {
                 <div className=" px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Recent Scouts</p>
                 </div>
-                <div className={`mt-4 ${isDark ? 'custom-scrollbar-dark-mode' : 'custom-scrollbar'} w-full h-[80vh] overflow-y-scroll panel`}>
-                    {/* <div className="mb-5 text-lg font-extrabold">Recent Scouts</div> */}
-                    <div className="table-responsive ">
-                        <table>
-                            <thead>
-                                <tr className="border-b-[1px] border-[#e5e7eb]">
-                                    <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
-                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
-                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
-                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
-                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
-                                    <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
-                                    {/* <th>Status</th> */}
 
-                                    {/* <th>Email</th>
+                {ScoutsData?.length === 0 ? (
+                    <div className="flex items-center justify-center mt-5 h-[70vh]">
+                        <p className="text-black font-bold text-xl">No Recent Location are available. </p>
+                    </div>
+                ) : (
+                    <div className={`mt-4 ${isDark ? 'custom-scrollbar-dark-mode' : 'custom-scrollbar'} w-full h-[80vh] overflow-y-scroll panel`}>
+                        {/* <div className="mb-5 text-lg font-extrabold">Recent Scouts</div> */}
+                        <div className="table-responsive ">
+                            <table>
+                                <thead>
+                                    <tr className="border-b-[1px] border-[#e5e7eb]">
+                                        <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
+                                        <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
+                                        <th className={` font-extrabold whitespace-nowrap  ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
+                                        <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
+                                        <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
+                                        <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
+                                        <th className={` font-extrabold whitespace-nowrap ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
+                                        {/* <th>Status</th> */}
+
+                                        {/* <th>Email</th>
                                 <th>Status</th> */}
-                                    {/* <th className="text-center">Register</th> */}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {ScoutsData?.map((data: any) => {
-                                    return (
-                                        <tr key={data.id}>
-                                            <td>{data.id}</td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.projectType}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.projectName}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap md:whitespace-normal">{data?.address}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.contractorName}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.contractorNumber}</div>
-                                            </td>
+                                        {/* <th className="text-center">Register</th> */}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {ScoutsData.map((data: any) => {
+                                        return (
+                                            <tr key={data.id}>
+                                                <td className="whitespace-nowrap">{data.refrenceId}</td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.projectType}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.projectName}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap md:whitespace-normal">{data?.address}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap md:whitespace-normal">{data?.scoutedBy}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.contractorName}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.contractorNumber}</div>
+                                                </td>
 
-                                            {/* <td>
+                                                {/* <td>
                                             <span
                                                 className={`badge whitespace-nowrap ${
                                                     data?.status === 'Success'
@@ -717,14 +737,15 @@ const Finance = () => {
                                                 {data.status}
                                             </span>
                                         </td> */}
-                                            <td className="text-center">{data.register}</td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                                                <td className="text-center">{data.register}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
                     {/*  Favorites  */}

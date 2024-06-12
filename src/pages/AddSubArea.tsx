@@ -135,7 +135,6 @@ function AddSubArea() {
         let form = new FormData();
         form.append('file', file);
         form.append('areaId', values.areaId);
-        console.log('file', form);
         if (!file?.name?.toLowerCase().endsWith('.csv')) {
             fileInputRef.current.value = null;
             setCSVfileMessage('Please Select a CSV File');
@@ -151,8 +150,6 @@ function AddSubArea() {
         mutationSubAreaCSVfile.mutate(form);
         fileInputRef.current.value = null;
     };
-
-    console.log('this is values', values);
 
     return (
         <div>

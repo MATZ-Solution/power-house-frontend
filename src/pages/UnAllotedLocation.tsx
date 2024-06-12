@@ -112,14 +112,27 @@ function UnAllotedLocation() {
         retry: 1,
     });
 
-    console.log('this is location data: ', data);
+    let data1 = [
+        // {
+        //   address: "V3JX+JJX, Karsaz Faisal Cantonment, Karachi, Karachi City, Sindh, Pakistan",
+        //   assignedTo: null,
+        //   buildingType: "Commercial",
+        //   city: "Karachi",
+        //   contractorName: "Fahad",
+        //   contractorNumber: "03341242344",
+        //   id: 85,
+        //   projectName: "Baloch",
+        //   scoutedBy: 5,
+        //   scouter: "Muhammad Fahad"
+        // }
+    ];
+
     const [modal2, setModal2] = useState(false);
     if (isLoading) {
         return <ScreenLoader />;
     }
 
     if (isError) {
-        console.log("this is error: ", error.message)
         if (error?.message === 'Failed to fetch') {
             return <SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
         }
@@ -128,15 +141,15 @@ function UnAllotedLocation() {
 
     return (
         <>
-        <ModalAddScout open={open} handleOpen={handleOpen} projectID={projectID} />
+            <ModalAddScout open={open} handleOpen={handleOpen} projectID={projectID} />
             {/* <div>{open && <ModalAddScout handleOpen={handleOpen} projectID={projectID} />}</div> */}
             <div className="">
                 {/* <div className="absolute top-0 left-0 " style={{zIndex: 3}}>{open && <ModalAddScout handleOpen={handleOpen} projectID={projectID} />}</div> */}
 
                 <ul className="flex space-x-2 rtl:space-x-reverse">
-                <div className="border-l-[5px] border-[#F59927] px-3 ">
-                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>UnAlloted Location</p>
-                </div>
+                    <div className="border-l-[5px] border-[#F59927] px-3 ">
+                        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>UnAlloted Location</p>
+                    </div>
                     {/* <li>
                         <Link to="#" className="text-primary hover:underline">
                             locations
@@ -146,70 +159,79 @@ function UnAllotedLocation() {
                         <span>UnAlloted-Locations</span>
                     </li> */}
                 </ul>
-                <div className="pt-5">
-                    <div className="panel rounded-[20px] table-responsive mb-5">
-                        <table>
-                            <thead>
-                                <tr className="text-black border-b-[1px] border-[#e5e7eb]">
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Building Type</th>
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>City</th>
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone No.</th>
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Assigned To</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {data?.map((data: any, index: any) => {
-                                    return (
-                                        <tr key={index}>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.projectName}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.buildingType}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.city}</div>
-                                            </td>
-                                            <td className="">
-                                                <div className="whitespace-nowrap ">{data?.address}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.contractorName}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.contractorNumber}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-nowrap">{data?.scouter}</div>
-                                            </td>
-                                            <td>
-                                                <div className="whitespace-wrap">
-                                                    {!data?.assignedToMember ? (
-                                                        <div>
-                                                            <button type="button" className="btn btn-primary static whitespace-nowrap" onClick={() => handleOpen(true, data?.id)}>
-                                                                Add Scoute User
-                                                            </button>
-                                                        </div>
-                                                    ) : (
-                                                        <p>{data?.assignedToMember}</p>
-                                                    )}
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                            </tbody>
-                        </table>
+                {data?.length === 0 ? (
+                    <div className='flex items-center justify-center mt-5 h-[70vh]'>
+                        <p className="text-black font-bold text-xl">No Location to allot.</p>
                     </div>
-                </div>
+                ) : (
+                    <div className="pt-5">
+                        <div className="panel rounded-[20px] table-responsive mb-5">
+                            <table>
+                                <thead>
+                                    <tr className="text-black border-b-[1px] border-[#e5e7eb]">
+                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Building Type</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>City</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone No.</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Assigned To</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {data?.map((data: any, index: any) => {
+                                        return (
+                                            <tr key={index}>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.refrenceId}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.projectName}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.buildingType}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.city}</div>
+                                                </td>
+                                                <td className="">
+                                                    <div className="whitespace-nowrap ">{data?.address}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.contractorName}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.contractorNumber}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-nowrap">{data?.scouter}</div>
+                                                </td>
+                                                <td>
+                                                    <div className="whitespace-wrap">
+                                                        {!data?.assignedToMember ? (
+                                                            <div>
+                                                                <button type="button" className="btn btn-primary static whitespace-nowrap" onClick={() => handleOpen(true, data?.id)}>
+                                                                    Add Scoute User
+                                                                </button>
+                                                            </div>
+                                                        ) : (
+                                                            <p>{data?.assignedToMember}</p>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     );
 }
 
 export default UnAllotedLocation;
-

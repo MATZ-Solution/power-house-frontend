@@ -112,7 +112,6 @@ function Locations() {
         retry: 1,
     });
 
-    console.log('this is location data: ', data);
     const [modal2, setModal2] = useState(false);
     if (isLoading) {
         return <ScreenLoader />;

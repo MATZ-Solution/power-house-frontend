@@ -11,6 +11,7 @@ function SetupCities(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
 
     let [city, setCity] = useState('');
+    let [cityMessage, setCityMessage] = useState('')
     let queryClient: any = useQueryClient();
     // let [file, setFile] = useState(null);
     let [wrongFile, setWrongFile] = useState(false);
@@ -35,7 +36,12 @@ function SetupCities(): any {
         },
     });
 
+    
     const onSubmitCity = (e: any) => {
+        if(!city){
+            return setCityMessage('Please Add city first')
+        }
+        setCityMessage('')
         mutation.mutate(city);
     };
 
@@ -64,7 +70,6 @@ function SetupCities(): any {
         let file = e.target.files[0];
         let form = new FormData();
         form.append('file', file);
-        console.log('file', file);
         if (!file?.name?.toLowerCase().endsWith('.csv')) {
             fileInputRef.current.value = null;
             return setWrongFile(true);
@@ -121,6 +126,7 @@ function SetupCities(): any {
                                     placeholder="Add Cities"
                                     className="w-full form-input shadow-[0_0_4px_2px_rgb(31_45_61_/_10%)] bg-white rounded-full h-11 placeholder:tracking-wider ltr:pr-11 rtl:pl-11"
                                 />
+                                 {cityMessage && <p className="mt-4 text-red-800">Please Select City</p>}
                             </div>
                             <div className="">
                                 <button type="button" className=" btn btn-primary rounded-full px-10 py-3" onClick={onSubmitCity}>

@@ -5,7 +5,6 @@ import IconCircleCheck from './Icon/IconCircleCheck';
 import IconServer from './Icon/IconServer';
 import IconInfoCircle from './Icon/IconInfoCircle';
 function ModalInfo({ message, success }: any) {
-    // console.log('this is success from info modal', success)
     return (
         <div className="px-2 sm:px-0 w-full h-[100vh] fixed z-50 top-0 inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white rounded-lg shadow-lg overflow-hidden max-w-md w-full">

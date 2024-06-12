@@ -144,7 +144,6 @@
 //                 },
 //             }).then((result) => {
 //                 if (result.dismiss === Swal.DismissReason.timer) {
-//                     console.log('I was closed by the timer');
 //                 }
 //             });
 //         } else if (type === 8) {
@@ -672,7 +671,6 @@
 //             },
 //         }).then((result) => {
 //             if (result.dismiss === Swal.DismissReason.timer) {
-//                 console.log('I was closed by the timer');
 //             }
 //         });
 //     }

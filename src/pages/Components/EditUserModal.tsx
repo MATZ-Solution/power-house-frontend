@@ -169,7 +169,6 @@ function EditModalUser({ open, handleOpen, userID }: any): any {
                                                         }}
                                                         validationSchema={AddScoutUserSchema}
                                                         onSubmit={(values, { resetForm }) => {
-                                                            console.log('this is values', values);
                                                             mutation.mutate({...values, userID:userID}
                                                                 , {
                                                                 onSuccess: () => {

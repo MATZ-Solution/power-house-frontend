@@ -66,7 +66,6 @@ function ModalAddScout({ open, handleOpen, projectID }: any): any {
     const add = () => {
         mutation.mutate({ projectID: projectID, scoutID: user },{
             onSuccess: ()=>{
-                // console.log("this is message after add scout: ", mutation.data.message)
                 alertSuccess("Successfully Add Scouter")
             }
         });

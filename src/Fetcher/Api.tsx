@@ -15,7 +15,6 @@ export const Authentication = async () => {
         });
         if (!request.ok) {
             let response = await request.json();
-            console.log('this is request.ok');
             throw new Error(response.message);
         }
         let response = await request.json();
@@ -45,16 +44,24 @@ export const getScoutCount = async () => {
 
 export const getAllScouts = async () => {
     let token = localStorage.getItem('token');
-    const request = await fetch(`${BASE_URL}/scout/getscouts`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    try {
+        const request = await fetch(`${BASE_URL}/scout/getscouts`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
 
-    let response = await request.json();
-    return response.data;
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
 };
 
 // ############## GET ALL SCOUT  #################
@@ -172,19 +179,14 @@ export const getCity = async () => {
 export const AddAreas = async (data: any) => {
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(
-            `${BASE_URL}/scout/AddArea
-        `,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-                body: JSON.stringify(data),
-            }
-        );
-
+        const request = await fetch(`${BASE_URL}/scout/AddArea`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
         if (!request.ok) {
             let response = await request.json();
             throw new Error(response.message);
@@ -467,7 +469,7 @@ export const updateScoutMember = async (data: any) => {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(data),
         });
 
         if (!request.ok) {
@@ -481,4 +483,46 @@ export const updateScoutMember = async (data: any) => {
     }
 };
 
+export const getMeetings = async () => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/MeetingMembers/getMeeting`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
 
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getSinglemeetingLogs = async (meetingID: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/MeetingMembers/getSingleMeetingLogs/${meetingID}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};

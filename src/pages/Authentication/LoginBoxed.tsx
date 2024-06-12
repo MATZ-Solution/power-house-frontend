@@ -64,7 +64,6 @@ const LoginBoxed = () => {
             navigate('/dashboard');
             dispatch(addAdminDetails(response?.data));
         } catch (err) {
-            console.log(err);
             setErrorHandle({ ...errorHandle, error: true, message: 'Server Cannot Respond' });
         }
     };

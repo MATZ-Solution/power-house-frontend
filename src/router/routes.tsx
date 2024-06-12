@@ -1,5 +1,7 @@
 import { lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Meetings from '../pages/Meetings';
+import { MeetingRoomRounded } from '@mui/icons-material';
 const Index = lazy(() => import('../pages/Index'));
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -196,6 +198,15 @@ const routes = [
         path: '/unalloted-location',
         element: <UnAllotedLocation />,
     },
+
+    {
+        path: '/meetings',
+        element: <Meetings />,
+    },
+    // {
+    //     path: '/meetings-logs/:id',
+    //     element: <MeetingsLogsPages />,
+    // },
 
 
     // crypto page

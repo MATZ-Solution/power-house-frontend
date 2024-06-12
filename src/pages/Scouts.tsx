@@ -67,7 +67,8 @@ function Scouts() {
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
                                 <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
-                                <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
+                                <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
+                                <th className={`font-extrabold whitespace-nowrap  ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
                                 <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
                                 {/* <th>Status</th> */}
 
@@ -80,7 +81,7 @@ function Scouts() {
                             {data?.map((data: any) => {
                                 return (
                                     <tr key={data.id}>
-                                        <td>{data.id}</td>
+                                        <td className='whitespace-nowrap'>{data.refrenceId}</td>
                                         <td>
                                             <div
                                                 className={`whitespace-nowrap badge  ${
@@ -95,6 +96,9 @@ function Scouts() {
                                         </td>
                                         <td>
                                             <div className="">{data?.address}</div>
+                                        </td>
+                                        <td>
+                                            <div className="">{data?.scoutedBy}</div>
                                         </td>
                                         <td>
                                             <div className="whitespace-nowrap">{data?.contractorName}</div>

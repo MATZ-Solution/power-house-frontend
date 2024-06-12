@@ -82,7 +82,6 @@ function AddArea() {
         }, 3000);
     }, [wrongFile]);
 
-
     // ################ FUNCTIONS ################
 
     function handleArea() {
@@ -95,16 +94,12 @@ function AddArea() {
         }
         mutation.mutate(values, {
             onSuccess: () => {
-                // setTimeout(() => {
                 mutation.reset();
                 alertSuccess('Successfully added Area');
-                // }, 3000);
             },
             onError: (err) => {
-                // setTimeout(() => {
                 mutation.reset();
-                alertFail('Failed To Add Area');
-                // }, 3000);
+                alertFail(err.message);
             },
         });
     }
@@ -114,7 +109,6 @@ function AddArea() {
         let form = new FormData();
         form.append('file', file);
         form.append('cityId', values.cityId);
-        console.log('file', file);
         if (!file?.name?.toLowerCase().endsWith('.csv')) {
             fileInputRef.current.value = null;
             setCSVfileMessage('Please Select a CSV File');
@@ -126,17 +120,12 @@ function AddArea() {
             setCSVfileMessage('Please Select City First');
             return setWrongFile(true);
         }
-
         mutationAreaCSVfile.mutate(form, {
             onSuccess: () => {
-                // setTimeout(() => {
-                    mutationAreaCSVfile.reset();
-                // }, 3000);
+                mutationAreaCSVfile.reset();
             },
             onError: () => {
-                // setTimeout(() => {
-                    mutationAreaCSVfile.reset();
-                // }, 3000);
+                mutationAreaCSVfile.reset();
             },
         });
         fileInputRef.current.value = null;
@@ -181,7 +170,7 @@ function AddArea() {
                         >
                             <option value="">Not Selected</option>
                             {isError ? (
-                                <p className="text-red-700">Falied To Get Cities</p>
+                                <option className="text-red-700">Falied To Get Cities</option>
                             ) : (
                                 <>
                                     {data?.map((city: any, index: any) => {

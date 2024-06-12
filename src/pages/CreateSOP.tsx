@@ -201,16 +201,12 @@ function CreateSOP() {
                         mutation.mutate(values, {
                             onSuccess: () => {
                                 resetForm();
-                                // setTimeout(() => {
                                     mutation.reset();
                                     alertSuccess('Successfully Add SOP')
-                                // }, 3000);
                             },
                             onError: () => {
-                                // setTimeout(() => {
                                     mutation.reset();
                                     alertFail("Failed To Add SOP")
-                                // }, 3000);
                             },
                         });
                     }}
@@ -353,7 +349,7 @@ function CreateSOP() {
                                     </div>
                                 </div>
                             )}
-                            <button type="submit" className="btn btn-primary !mt-6">
+                            <button disabled={mutation.isPending} type="submit" className="btn btn-primary !mt-6">
                                 Submit
                             </button>
                         </Form>
