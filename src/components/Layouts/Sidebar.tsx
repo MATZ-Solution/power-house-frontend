@@ -123,6 +123,9 @@ const Sidebar = () => {
                                         <li>
                                             <NavLink to="/meetings">{t('Meetings')}</NavLink>
                                         </li>
+                                        <li>
+                                            <NavLink to="/maps-scout-location">{t('Maps')}</NavLink>
+                                        </li>
 
                                         {/* <li>
                                             <NavLink to="/location">{t('Scouted Location')}</NavLink>

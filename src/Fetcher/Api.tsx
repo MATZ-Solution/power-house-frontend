@@ -526,3 +526,25 @@ export const getSinglemeetingLogs = async (meetingID: any) => {
         throw error;
     }
 };
+
+export const getLongAndLat = async () => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
