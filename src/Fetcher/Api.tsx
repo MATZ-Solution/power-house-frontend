@@ -64,7 +64,7 @@ export const getAllScouts = async () => {
     }
 };
 
-// ############## GET ALL SCOUT  #################
+// ############## GET ALL SCOUT MEMBER #################
 
 export const getScoutMember = async () => {
     let token = localStorage.getItem('token');
@@ -381,12 +381,36 @@ export const createSOP = async (data: any) => {
     }
 };
 
-// ############## GET Locations #################
+// ############## GET Alloted Locations #################
 
-export const getLocations = async (location: any) => {
+export const getAllotedLocations = async () => {
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(`${BASE_URL}/scout/getLocation/${location}`, {
+        const request = await fetch(`${BASE_URL}/scout/getAllotedLocation`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+};
+
+// ############## GET Locations #################
+
+export const getUnAllotedLocations = async () => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/scout/getUnAllotedLocation`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

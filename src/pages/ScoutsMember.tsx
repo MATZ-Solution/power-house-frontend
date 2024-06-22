@@ -66,6 +66,11 @@ function ScoutsMember() {
                     <span>View User</span>
                 </li> */}
             </ul>
+            {data?.length === 0 ? (
+                <div className="flex items-center justify-center mt-5 h-[70vh]">
+                    <p className="text-black font-bold text-xl">No User Found.</p>
+                </div>
+            ) : (
             <div className="pt-5">
                 <div className="panel rounded-[20px] table-responsive mb-5">
                     <table>
@@ -123,6 +128,7 @@ function ScoutsMember() {
                     </table>
                 </div>
             </div>
+            )}
         </div>
     );
 }

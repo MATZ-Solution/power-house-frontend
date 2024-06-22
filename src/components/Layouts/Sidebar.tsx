@@ -15,6 +15,7 @@ import IconMenuNotes from '../Icon/Menu/IconMenuNotes';
 import IconUser from '../Icon/IconUser';
 import IconMapPin from '../Icon/IconMapPin';
 import LocationSVG from '../Icon/location.svg'
+import SummarizeSharpIcon from '@mui/icons-material/SummarizeSharp';
 
 const Sidebar = () => {
     const [currentMenu, setCurrentMenu] = useState<string>('');
@@ -791,6 +792,33 @@ const Sidebar = () => {
                                         <li>
                                             <NavLink to="/unalloted-location">{t('Unalloted Locations')}</NavLink>
                                         </li>
+                                    </ul>
+                                </AnimateHeight>
+                            </li>
+                        </ul>
+
+                        <ul className="relative font-semibold space-y-0.5 p-4 py-0">
+                            <li className="menu nav-item">
+                                <button type="button" className={`${currentMenu === 'ScoutReports' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('ScoutReports')}>
+                                    <div className="flex items-center">
+                                    <SummarizeSharpIcon/>
+                                        {/* <img src={LocationSVG}  className="group-hover:!text-primary shrink-0 w-5 h-5"></img> */}
+                                    {/* <IconMapPin fill={true} className="group-hover:!text-primary shrink-0 "/> */}
+                                        {/* <IconMenuNotes className="group-hover:!text-primary shrink-0" /> */}
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Reports')}</span>
+                                    </div>
+                                    <div className={currentMenu !== 'ScoutReports' ? 'rtl:rotate-90 -rotate-90' : ''}>
+                                        <IconCaretDown />
+                                    </div>
+                                </button>
+                                <AnimateHeight duration={300} height={currentMenu === 'ScoutReports' ? 'auto' : 0}>
+                                    <ul className="sub-menu text-gray-500">
+                                        <li>
+                                            <NavLink to="/scout-report">{t('Scout Reports')}</NavLink>
+                                        </li>
+                                        {/* <li>
+                                            <NavLink to="/unalloted-location">{t('Unalloted Locations')}</NavLink>
+                                        </li> */}
                                     </ul>
                                 </AnimateHeight>
                             </li>

@@ -8,8 +8,8 @@ import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
-import MeetingLogsModal from './Components/MeetingLogs.Modal';
-
+import MeetingLogsModal from './Components/MeetingLogsModal';
+import { alertFail } from './Components/Alert';
 function Meetings() {
     let [projectName, setProjectName] = useState('');
     let [userID, setUserID] = useState<any>('');
@@ -40,15 +40,16 @@ function Meetings() {
         retry: 1,
     });
 
+
     if (isLoading) {
         return <ScreenLoader />;
     }
 
     if (isError) {
         if (error?.message === 'Failed to fetch') {
-            return <SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
+            return (<SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />);
         }
-        return <SomeThingWentWrong message="Internal Server Error" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
+        return (<SomeThingWentWrong message="Internal Server Error" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />);
     }
     return (
         <div>

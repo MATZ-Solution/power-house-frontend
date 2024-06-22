@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageTitle } from '../store/themeConfigSlice';
-import { getLocations } from '../Fetcher/Api';
+import { getAllotedLocations} from '../Fetcher/Api';
 import 'tippy.js/dist/tippy.css';
 import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
@@ -17,81 +17,6 @@ import { Fragment } from 'react';
 import { getScoutMember, ManuallyAddScoutMember } from '../Fetcher/Api';
 
 function AllotedLocation() {
-    // let data1 = [
-    //         {
-    //             address: 'Plot B 11, Sector 5-I Sector 5 M New Karachi Town, Karachi, Karachi City, Sindh, Pakistan',
-    //             assignedTo: '4',
-    //             assignedToMember: 'Kasimir Sutton',
-    //             buildingType: 'Commercial',
-    //             city: 'Karachi',
-    //             contractorName: 'Fahad',
-    //             contractorNumber: '03345475578',
-    //             id: 84,
-    //             projectName: 'Matz Solution',
-    //             scoutedBy: 5,
-    //             scouter: 'Muhammad Fahad',
-    //         },
-    // ];
-    // ####  Modal Preparation ###########33
-    let [user, setUser] = useState('');
-    let queryClient = useQueryClient();
-
-    const customStyles = {
-        option: (provided: any, state: any) => ({
-            ...provided,
-            color: 'none',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
-            ':hover': {
-                backgroundColor: '#F59927',
-                color: 'white',
-            },
-        }),
-
-        control: (provided: any, state: any) => ({
-            ...provided,
-            minHeight: '45px',
-        }),
-        indicatorSeparator: () => ({ display: 'none' }),
-    };
-
-    interface Option {
-        value: string;
-        label: string;
-    }
-
-    const {
-        isLoading: scoutMemberIsLoading,
-        isError: scoutMemberIsError,
-        error: scoutMemberError,
-        data: scoutMemberData,
-    } = useQuery({
-        queryKey: ['scoutMember'],
-        queryFn: getScoutMember,
-        refetchOnWindowFocus: false,
-        retry: 1,
-    });
-
-    const mutation = useMutation({
-        mutationKey: ['manuallyAddScoutMember'],
-        mutationFn: ManuallyAddScoutMember,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getLocations'] });
-            // handleOpen(false);
-        },
-    });
-
-    const scoutMemberOptions: Option[] = scoutMemberData?.map((data: any) => ({ value: data?.id, label: data?.name })) || [];
-
-    function handleChangeUser(selected: any) {
-        setUser(selected ? selected.map((data: any) => data.value) : []);
-    }
-
-    const add = () => {
-        mutation.mutate({ projectID: projectID, scoutID: user });
-    };
-
-    // #### END ###########33
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     let [open, setOpen] = useState<any>(false);
     let [projectID, setProjectID] = useState<any>('');
@@ -100,14 +25,6 @@ function AllotedLocation() {
         setProjectID(getProjectId);
         setOpen(state);
     }
-
-    // useEffect(() => {
-    //     if (open) {
-    //         document.body.classList.add('no-scroll');
-    //     } else {
-    //         document.body.classList.remove('no-scroll');
-    //     }
-    // }, [open]);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -121,13 +38,15 @@ function AllotedLocation() {
     });
 
     const { isLoading, isError, error, data } = useQuery({
-        queryKey: ['getLocations'],
-        queryFn: () => getLocations('Alloted Location'),
+        queryKey: ['getAllotedLocations'],
+        queryFn: getAllotedLocations,
         refetchOnWindowFocus: false,
         retry: 1,
     });
 
-    const [modal2, setModal2] = useState(false);
+    console.log('this is is loading: ', isLoading);
+    console.log('this is isError: ', isError);
+
     if (isLoading) {
         return <ScreenLoader />;
     }
@@ -159,17 +78,13 @@ function AllotedLocation() {
                         <span>Alloted-Locations</span>
                     </li> */}
                 </ul>
-                {data?.length === 0 ? (
-                    <div className="flex items-center justify-center mt-5 h-[70vh]">
-                        <p className="text-black font-bold text-xl">No Allot Location are available. </p>
-                    </div>
-                ) : (
+                {data?.length > 0 ? (
                     <div className="pt-5">
                         <div className="panel rounded-[20px] table-responsive mb-5">
                             <table>
                                 <thead>
                                     <tr className="text-black border-b-[1px] border-[#e5e7eb]">
-                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
+                                        <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
                                         <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
                                         <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Building Type</th>
                                         <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>City</th>
@@ -227,6 +142,10 @@ function AllotedLocation() {
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-center mt-5 h-[70vh]">
+                        <p className="text-black font-bold text-xl">No Allot Location are available. </p>
                     </div>
                 )}
             </div>

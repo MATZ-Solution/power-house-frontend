@@ -32,6 +32,18 @@ function Scouts() {
         retry: 1,
     });
 
+    let data1 = [
+        // {
+        //     address: 'V3JX+JJX, Karsaz Faisal Cantonment, Karachi, Karachi City, Sindh, Pakistan',
+        //     projectName: 'Matz Solution',
+        //     projectType: 'Project',
+        //     refrenceId: 'C-84',
+        //     scoutedBy: 'Muhammad Fahad',
+        //     contractorName: 'Fahad',
+        //     contractorNumber: '03345475578',
+        // },
+    ];
+
     if (isLoading) {
         return <ScreenLoader />;
     }
@@ -58,56 +70,61 @@ function Scouts() {
                     <span>Scouted-Location</span>
                 </li> */}
             </ul>
-            <div className={`pt-5 `}>
-                <div className="panel table-responsive mb-5 rounded-[20px]">
-                    <table>
-                        <thead>
-                            <tr className="border-b-[1px] border-[#e5e7eb]">
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
-                                <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
-                                <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
-                                <th className={`font-extrabold whitespace-nowrap  ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
-                                {/* <th>Status</th> */}
+            {data?.length === 0 ? (
+                <div className="flex items-center justify-center mt-5 h-[70vh]">
+                    <p className="text-black font-bold text-xl">No Scout Location available.</p>
+                </div>
+            ) : (
+                <div className={`pt-5`}>
+                    <div className="panel table-responsive mb-5 rounded-[20px]">
+                        <table>
+                            <thead>
+                                <tr className="border-b-[1px] border-[#e5e7eb]">
+                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
+                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
+                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
+                                    <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
+                                    <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
+                                    <th className={`font-extrabold whitespace-nowrap  ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
+                                    <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Phone Number</th>
+                                    {/* <th>Status</th> */}
 
-                                {/* <th>Email</th>
+                                    {/* <th>Email</th>
                                 <th>Status</th> */}
-                                {/* <th className="text-center">Register</th> */}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data?.map((data: any) => {
-                                return (
-                                    <tr key={data.id}>
-                                        <td className='whitespace-nowrap'>{data.refrenceId}</td>
-                                        <td>
-                                            <div
-                                                className={`whitespace-nowrap badge  ${
-                                                    data?.projectType === 'Market' ? 'bg-success' : data?.projectType === 'Project' ? ' bg-info' : ''
-                                                } flex justify-center`}
-                                            >
-                                                {data?.projectType}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="whitespace-nowrap ">{data?.projectName}</div>
-                                        </td>
-                                        <td>
-                                            <div className="">{data?.address}</div>
-                                        </td>
-                                        <td>
-                                            <div className="">{data?.scoutedBy}</div>
-                                        </td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.contractorName}</div>
-                                        </td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.contractorNumber}</div>
-                                        </td>
+                                    {/* <th className="text-center">Register</th> */}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data?.map((data: any) => {
+                                    return (
+                                        <tr key={data.id}>
+                                            <td className="whitespace-nowrap">{data.refrenceId}</td>
+                                            <td>
+                                                <div
+                                                    className={`whitespace-nowrap badge  ${
+                                                        data?.projectType === 'Market' ? 'bg-success' : data?.projectType === 'Project' ? ' bg-info' : ''
+                                                    } flex justify-center`}
+                                                >
+                                                    {data?.projectType}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap ">{data?.projectName}</div>
+                                            </td>
+                                            <td>
+                                                <div className="">{data?.address}</div>
+                                            </td>
+                                            <td>
+                                                <div className="">{data?.scoutedBy}</div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap">{data?.contractorName}</div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap">{data?.contractorNumber}</div>
+                                            </td>
 
-                                        {/* <td>
+                                            {/* <td>
                                             <span
                                                 className={`badge whitespace-nowrap ${
                                                     data?.status === 'Success'
@@ -124,14 +141,15 @@ function Scouts() {
                                                 {data.status}
                                             </span>
                                         </td> */}
-                                        <td className="text-center">{data.register}</td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                            <td className="text-center">{data.register}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

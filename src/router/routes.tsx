@@ -110,10 +110,12 @@ const SetupCities = lazy(() => import('../pages/AddCities'));
 const AddSubArea = lazy(() => import('../pages/AddSubArea'));
 const CreateMeetingMember = lazy(() => import('../pages/CreateMeetingMember'));
 const CreateSOP = lazy(() => import('../pages/CreateSOP'));
-const Location = lazy(() => import('../pages/Locations'));
+// const Location = lazy(() => import('../pages/Locations'));
 const AllotedLocation = lazy(() => import('../pages/AllotedLocations'));
 const UnAllotedLocation = lazy(() => import('../pages/UnAllotedLocation'));
 const MapScoutLocation = lazy(() => import('../pages/MapScoutLocation'));
+const UserReport = lazy(() => import('../pages/UserReport'));
+
 
 const routes = [
     // dashboard
@@ -183,12 +185,6 @@ const routes = [
         path: '/create-sop',
         element: <CreateSOP />,
     },
-
-    {
-        path: '/location',
-        element: <Location/>,
-    },
-
     
     {
         path: '/alloted-location',
@@ -208,6 +204,11 @@ const routes = [
     {
         path: '/maps-scout-location',
         element: <MapScoutLocation />,
+    },
+
+    {
+        path: '/scout-report',
+        element: <UserReport />,
     },
     // {
     //     path: '/meetings-logs/:id',

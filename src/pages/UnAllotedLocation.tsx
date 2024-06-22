@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageTitle } from '../store/themeConfigSlice';
-import { getLocations } from '../Fetcher/Api';
+import { getUnAllotedLocations } from '../Fetcher/Api';
 import 'tippy.js/dist/tippy.css';
 import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
@@ -107,7 +107,7 @@ function UnAllotedLocation() {
 
     const { isLoading, isError, error, data } = useQuery({
         queryKey: ['getLocations'],
-        queryFn: () => getLocations('UnAllocated Location'),
+        queryFn: getUnAllotedLocations,
         refetchOnWindowFocus: false,
         retry: 1,
     });
@@ -133,6 +133,7 @@ function UnAllotedLocation() {
     }
 
     if (isError) {
+        console.log("this is error: ", error.message)
         if (error?.message === 'Failed to fetch') {
             return <SomeThingWentWrong message="Server Cannot Respond" errorHandle={errorHandle} setErrorHandle={setErrorHandle} />;
         }

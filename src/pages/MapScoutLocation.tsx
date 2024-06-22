@@ -32,7 +32,13 @@ const MyMapComponent = () => {
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyBQ-APxr2vz6Q1ODaY5iACix1DkrMzL36c',
+        // MyAccount
+        // googleMapsApiKey: 'AIzaSyBQ-APxr2vz6Q1ODaY5iACix1DkrMzL36c',
+
+        googleMapsApiKey: 'AIzaSyBXDrw0XmVRV8-IrpbovlI5vzNOQS5rpTI',
+      
+
+   
     });
 
     const [map, setMap] = React.useState(null);
