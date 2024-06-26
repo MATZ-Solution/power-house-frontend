@@ -17,6 +17,7 @@ import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
+import FilterListIcon from '@mui/icons-material/FilterList';
 function UserReport() {
     let [startDate, setStartDate] = useState<Date | null>(null);
     let [endDate, setEndDate] = useState<Date | null>(null);
@@ -319,13 +320,16 @@ function UserReport() {
                 <div className="border-l-[5px] border-[#F59927] px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Scout Report</p>
                 </div>
+                <div className='flex sm:hidden items-center'>
+                    <p>Filters: </p>
                 <button
                     type="button"
-                    className="collapse-icon flex-none dark:text-[#d0d2d6] hover:text-primary dark:hover:text-primary flex lg:hidden ltr:ml-2 rtl:mr-2 p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:bg-white-light/90 dark:hover:bg-dark/60"
+                    className="collapse-icon flex-none dark:text-[#d0d2d6] hover:text-primary dark:hover:text-primary  ltr:ml-2 rtl:mr-2 p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:bg-white-light/90 dark:hover:bg-dark/60"
                     onClick={() => setOpen(true)}
                 >
-                    <IconMenu className="w-5 h-5" />
+                    <FilterListIcon className="w-5 h-5" />
                 </button>
+                </div>
             </ul>
 
             <div className="hidden sm:flex sm:flex-col sm:gap-1">
