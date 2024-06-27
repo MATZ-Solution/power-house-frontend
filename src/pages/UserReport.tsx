@@ -110,8 +110,9 @@ function UserReport() {
         retry: 1,
     });
 
-    const doc = new jsPDF();
+    
     const handleDownloadReport = () => {
+        const doc = new jsPDF();
         autoTable(doc, { html: '#report' });
         doc.save('scout-report.pdf');
     };

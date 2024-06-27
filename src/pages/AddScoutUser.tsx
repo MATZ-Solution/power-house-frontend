@@ -98,7 +98,9 @@ function AddScoutUser() {
     const AddScoutUserSchema = Yup.object().shape({
         Name: Yup.string(),
         // .required('Please Enter Name'),
-        email: Yup.string().email('Invalid email').required('Please Enter Email'),
+        email: Yup.string().email('Invalid email')
+        // .required('Please Enter Email')
+        ,
         password: Yup.string()
         .min(8, 'Password is too short - should be 8 chars minimum.')
         .required('Please enter a password.')
@@ -170,11 +172,12 @@ function AddScoutUser() {
                                 <label className="text-[#F59927] text-lg font-extrabold">Credentials:</label>
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="gridEmail">Email*</label>
-                                        <Field name="email" id="gridEmail" type="email" placeholder="Enter Email" className="form-input" />
-                                        {errors.email && touched.email ? <div className="text-red-600 mt-2">{errors.email}</div> : null}
+                                <div>
+                                        <label htmlFor="gridPhoneNumber">Phone Number*</label>
+                                        <Field name="phoneNumber" id="gridPhoneNumber" type="text" placeholder="Enter Phone Number" className="form-input" />
+                                        {errors.phoneNumber && touched.phoneNumber ? <div className="text-red-600 mt-2">{errors.phoneNumber}</div> : null}
                                     </div>
+                                  
                                     <div>
                                         <label htmlFor="gridPassword">Password*</label>
                                         <div className="relative justify-center ">
@@ -193,9 +196,9 @@ function AddScoutUser() {
                                         {errors.Name && touched.Name ? <div className="text-red-600 mt-2">{errors.Name}</div> : null}
                                     </div>
                                     <div>
-                                        <label htmlFor="gridPhoneNumber">Phone Number*</label>
-                                        <Field name="phoneNumber" id="gridPhoneNumber" type="text" placeholder="Enter Phone Number" className="form-input" />
-                                        {errors.phoneNumber && touched.phoneNumber ? <div className="text-red-600 mt-2">{errors.phoneNumber}</div> : null}
+                                        <label htmlFor="gridEmail">Email</label>
+                                        <Field name="email" id="gridEmail" type="email" placeholder="Enter Email" className="form-input" />
+                                        {errors.email && touched.email ? <div className="text-red-600 mt-2">{errors.email}</div> : null}
                                     </div>
                                 </div>
 
