@@ -8,476 +8,23 @@ import { IRootState } from '../store';
 import { setPageTitle } from '../store/themeConfigSlice';
 import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
+import ScoutChart from './../pages/Components/ScoutChart';
+import ScoutTeamChart from './../pages/Components/ScoutTeamChart';
 
 const Finance = () => {
-    // let ScoutsData1 = [
-    //     {
-    //         address: 'Plot B 11, Sector 5-I Sector 5 M New Karachi Town, Karachi, Karachi City, Sindh, Pakistan',
-    //         contractorName: 'Fahad',
-    //         contractorNumber: '03345475578',
-    //         id: 84,
-    //         projectName: 'Matz Solution ',
-    //         projectType: 'Project',
-    //         refrenceId: 'C-84',
-    //         scoutedBy: 'Muhammad Fahad',
-    //     },
-    // ];
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(setPageTitle('Analytics'));
     });
-    //bitcoinoption
-    const bitcoin: any = {
-        series: [
-            {
-                data: [21, 9, 36, 12, 44, 25, 59, 41, 25, 66],
-            },
-        ],
-        options: {
-            chart: {
-                height: 45,
-                type: 'line',
-                sparkline: {
-                    enabled: true,
-                },
-            },
-            stroke: {
-                width: 2,
-            },
-            markers: {
-                size: 0,
-            },
-            colors: ['#00ab55'],
-            grid: {
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                },
-            },
-            tooltip: {
-                x: {
-                    show: false,
-                },
-                y: {
-                    title: {
-                        formatter: () => {
-                            return '';
-                        },
-                    },
-                },
-            },
-            responsive: [
-                {
-                    breakPoint: 576,
-                    options: {
-                        chart: {
-                            height: 95,
-                        },
-                        grid: {
-                            padding: {
-                                top: 45,
-                                bottom: 0,
-                                left: 0,
-                            },
-                        },
-                    },
-                },
-            ],
-        },
-    };
-
-    //ethereumoption
-    const ethereum: any = {
-        series: [
-            {
-                data: [44, 25, 59, 41, 66, 25, 21, 9, 36, 12],
-            },
-        ],
-        options: {
-            chart: {
-                height: 45,
-                type: 'line',
-                sparkline: {
-                    enabled: true,
-                },
-            },
-            stroke: {
-                width: 2,
-            },
-            markers: {
-                size: 0,
-            },
-            colors: ['#e7515a'],
-            grid: {
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                },
-            },
-            tooltip: {
-                x: {
-                    show: false,
-                },
-                y: {
-                    title: {
-                        formatter: () => {
-                            return '';
-                        },
-                    },
-                },
-            },
-            responsive: [
-                {
-                    breakPoint: 576,
-                    options: {
-                        chart: {
-                            height: 95,
-                        },
-                        grid: {
-                            padding: {
-                                top: 45,
-                                bottom: 0,
-                                left: 0,
-                            },
-                        },
-                    },
-                },
-            ],
-        },
-    };
-
-    //litecoinoption
-    const litecoin: any = {
-        series: [
-            {
-                data: [9, 21, 36, 12, 66, 25, 44, 25, 41, 59],
-            },
-        ],
-        options: {
-            chart: {
-                height: 45,
-                type: 'line',
-                sparkline: {
-                    enabled: true,
-                },
-            },
-            stroke: {
-                width: 2,
-            },
-            markers: {
-                size: 0,
-            },
-            colors: ['#00ab55'],
-            grid: {
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                },
-            },
-            tooltip: {
-                x: {
-                    show: false,
-                },
-                y: {
-                    title: {
-                        formatter: () => {
-                            return '';
-                        },
-                    },
-                },
-            },
-            responsive: [
-                {
-                    breakPoint: 576,
-                    options: {
-                        chart: {
-                            height: 95,
-                        },
-                        grid: {
-                            padding: {
-                                top: 45,
-                                bottom: 0,
-                                left: 0,
-                            },
-                        },
-                    },
-                },
-            ],
-        },
-    };
-
-    //binanceoption
-    const binance: any = {
-        series: [
-            {
-                data: [25, 44, 25, 59, 41, 21, 36, 12, 19, 9],
-            },
-        ],
-        options: {
-            chart: {
-                height: 45,
-                type: 'line',
-                sparkline: {
-                    enabled: true,
-                },
-            },
-            stroke: {
-                width: 2,
-            },
-            markers: {
-                size: 0,
-            },
-            colors: ['#e7515a'],
-            grid: {
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                },
-            },
-            tooltip: {
-                x: {
-                    show: false,
-                },
-                y: {
-                    title: {
-                        formatter: () => {
-                            return '';
-                        },
-                    },
-                },
-            },
-            responsive: [
-                {
-                    breakPoint: 576,
-                    options: {
-                        chart: {
-                            height: 95,
-                        },
-                        grid: {
-                            padding: {
-                                top: 45,
-                                bottom: 0,
-                                left: 0,
-                            },
-                        },
-                    },
-                },
-            ],
-        },
-    };
-
-    //tetheroption
-    const tether: any = {
-        series: [
-            {
-                data: [21, 59, 41, 44, 25, 66, 9, 36, 25, 12],
-            },
-        ],
-        options: {
-            chart: {
-                height: 45,
-                type: 'line',
-                sparkline: {
-                    enabled: true,
-                },
-            },
-            stroke: {
-                width: 2,
-            },
-            markers: {
-                size: 0,
-            },
-            colors: ['#00ab55'],
-            grid: {
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                },
-            },
-            tooltip: {
-                x: {
-                    show: false,
-                },
-                y: {
-                    title: {
-                        formatter: () => {
-                            return '';
-                        },
-                    },
-                },
-            },
-            responsive: [
-                {
-                    breakPoint: 576,
-                    options: {
-                        chart: {
-                            height: 95,
-                        },
-                        grid: {
-                            padding: {
-                                top: 45,
-                                bottom: 0,
-                                left: 0,
-                            },
-                        },
-                    },
-                },
-            ],
-        },
-    };
-
-    //solanaoption
-    const solana: any = {
-        series: [
-            {
-                data: [21, -9, 36, -12, 44, 25, 59, -41, 66, -25],
-            },
-        ],
-        options: {
-            chart: {
-                height: 45,
-                type: 'line',
-                sparkline: {
-                    enabled: true,
-                },
-            },
-            stroke: {
-                width: 2,
-            },
-            markers: {
-                size: 0,
-            },
-            colors: ['#e7515a'],
-            grid: {
-                padding: {
-                    top: 0,
-                    bottom: 0,
-                    left: 0,
-                },
-            },
-            tooltip: {
-                x: {
-                    show: false,
-                },
-                y: {
-                    title: {
-                        formatter: () => {
-                            return '';
-                        },
-                    },
-                },
-            },
-            responsive: [
-                {
-                    breakPoint: 576,
-                    options: {
-                        chart: {
-                            height: 95,
-                        },
-                        grid: {
-                            padding: {
-                                top: 45,
-                                bottom: 0,
-                                left: 0,
-                            },
-                        },
-                    },
-                },
-            ],
-        },
-    };
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
     const [loading] = useState(false);
 
-    const salesByCategory: any = {
-        series: [985, 737, 270],
-        options: {
-            chart: {
-                type: 'donut',
-                height: 460,
-                fontFamily: 'plusJakarta, sans-serif',
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            stroke: {
-                show: true,
-                width: 25,
-                colors: isDark ? '#0e1726' : '#fff',
-            },
-            colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
-            legend: {
-                position: 'bottom',
-                horizontalAlign: 'center',
-                fontSize: '14px',
-                markers: {
-                    width: 10,
-                    height: 10,
-                    offsetX: -2,
-                },
-                height: 50,
-                offsetY: 20,
-            },
-            plotOptions: {
-                pie: {
-                    donut: {
-                        size: '65%',
-                        background: 'transparent',
-                        labels: {
-                            show: true,
-                            name: {
-                                show: true,
-                                fontSize: '29px',
-                                offsetY: -10,
-                            },
-                            value: {
-                                show: true,
-                                fontSize: '26px',
-                                color: isDark ? '#bfc9d4' : undefined,
-                                offsetY: 16,
-                                formatter: (val: any) => {
-                                    return val;
-                                },
-                            },
-                            total: {
-                                show: true,
-                                label: 'Total',
-                                color: '#888ea8',
-                                fontSize: '29px',
-                                formatter: (w: any) => {
-                                    return w.globals.seriesTotals.reduce(function (a: any, b: any) {
-                                        return a + b;
-                                    }, 0);
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-            labels: ['Apparel', 'Sports', 'Others'],
-            states: {
-                hover: {
-                    filter: {
-                        type: 'none',
-                        value: 0.15,
-                    },
-                },
-                active: {
-                    filter: {
-                        type: 'none',
-                        value: 0.15,
-                    },
-                },
-            },
-        },
-    };
+
+    
+
 
     const [errorHandle, setErrorHandle] = useState({
         error: false,
@@ -523,41 +70,14 @@ const Finance = () => {
 
             {/* <ScreenLoader/> */}
             <div className="border-l-[5px] border-[#F59927] px-3 ">
-                <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Analytics</p>
+                <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Dashboard</p>
             </div>
-            {/* <ul className="flex space-x-2 rtl:space-x-reverse">
-                <li>
-                    <Link to="#" className="text-primary hover:underline">
-                        Dashboard
-                    </Link>
-                </li>
-                <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <span>Analytics</span>
-                </li>
-            </ul> */}
             <div className="pt-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-6 text-white">
                     <div className="panel bg-gradient-to-r from-cyan-500 to-cyan-400">
                         {/* <div className="panel bg-[#ffffff]"> */}
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Total Scouts</div>
-                            <div className="dropdown">
-                                {/* <Dropdown
-                                    offset={[0, 5]}
-                                    placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                    btnClassName="hover:opacity-80"
-                                    button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
-                                >
-                                    <ul className="text-black dark:text-white-dark">
-                                        <li>
-                                            <button type="button">View Report</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Edit Report</button>
-                                        </li>
-                                    </ul>
-                                </Dropdown> */}
-                            </div>
                         </div>
                         <div className="flex items-center mt-5">
                             {/* <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3"> {data[3]?.count} </div> */}
@@ -565,65 +85,23 @@ const Finance = () => {
 
                             {/* <div className="badge bg-white/30">+ 2.35% </div> */}
                         </div>
-                        {/* <div className="flex items-center font-semibold mt-5">
-                            <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                            Last Week 44,700
-                        </div> */}
                     </div>
 
                     {/* Pending */}
                     <div className="panel  bg-gradient-to-r from-violet-500 to-violet-400">
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">Users</div>
-                            {/* <div className="dropdown">
-                                <Dropdown
-                                    offset={[0, 5]}
-                                    placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                    btnClassName="hover:opacity-80"
-                                    button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
-                                >
-                                    <ul className="text-black dark:text-white-dark">
-                                        <li>
-                                            <button type="button">View Report</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Edit Report</button>
-                                        </li>
-                                    </ul>
-                                </Dropdown>
-                            </div> */}
                         </div>
                         <div className="flex items-center mt-5">
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.user}</div>
                             {/* <div className="badge bg-white/30">- 2.35% </div> */}
                         </div>
-                        {/* <div className="flex items-center font-semibold mt-5">
-                            <IconEye className="ltr:mr-2 rtl:ml-2 shrink-0" />
-                            Last Week 84,709
-                        </div> */}
                     </div>
 
                     {/*  Success */}
                     <div className="panel bg-gradient-to-r from-blue-500 to-blue-400">
                         <div className="flex justify-between">
                             <div className="ltr:mr-1 rtl:ml-1 text-xl font-semibold">UnAlloted Location</div>
-                            {/* <div className="dropdown">
-                                <Dropdown
-                                    offset={[0, 5]}
-                                    placement={`${isRtl ? 'bottom-start' : 'bottom-end'}`}
-                                    btnClassName="hover:opacity-80"
-                                    button={<IconHorizontalDots className="hover:opacity-80 opacity-70" />}
-                                >
-                                    <ul className="text-black dark:text-white-dark">
-                                        <li>
-                                            <button type="button">View Report</button>
-                                        </li>
-                                        <li>
-                                            <button type="button">Edit Report</button>
-                                        </li>
-                                    </ul>
-                                </Dropdown>
-                            </div> */}
                         </div>
                         <div className="flex items-center mt-5">
                             <div className="text-3xl font-bold ltr:mr-3 rtl:ml-3">{data[0]?.UnAllotedLocation}</div>
@@ -667,10 +145,50 @@ const Finance = () => {
                         </div> */}
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <div className=" px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Recent Scouts</p>
                 </div>
+{/* ########################################################################################### */}
 
+    {/* <div className="flex flex-col md:flex-row h-screen"> */}
+    <div className="flex flex-col md:flex-row ">
+      <div className="w-full md:w-1/2 h-1/2 md:h-full p-4">
+          <ScoutChart />
+      </div>
+      <div className="w-full md:w-1/2 h-1/2 md:h-full p-4">
+          <ScoutTeamChart/>
+        
+      </div>
+    </div>
+
+{/* ########################################################################################### */}
                 {ScoutsData?.length === 0 ? (
                     <div className="flex items-center justify-center mt-5 h-[70vh]">
                         <p className="text-black font-bold text-xl">No Recent Location are available. </p>

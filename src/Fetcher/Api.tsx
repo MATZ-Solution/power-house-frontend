@@ -572,3 +572,55 @@ export const getLongAndLat = async () => {
         throw error;
     }
 };
+
+// ############################### Dashboard Pie Chart ###############################
+export const pieChartDashboard = async () => {
+    // let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
+        const request = await fetch(`http://localhost:2300/dashboard/pieChart`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+// ############################### Dashboard Pie Chart ###############################
+
+
+
+// ############################### Dashboard Pie Chart ###############################
+export const linearChartDashboard = async () => {
+    // let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
+        const request = await fetch(`http://localhost:2300/dashboard/linearChart`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+// ############################### Dashboard Pie Chart ###############################
