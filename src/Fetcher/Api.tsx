@@ -624,3 +624,30 @@ export const linearChartDashboard = async () => {
     }
 };
 // ############################### Dashboard Pie Chart ###############################
+
+
+
+// ############################### View SOP ###############################
+export const ViewSOPData = async () => {
+    // let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
+        const request = await fetch(`http://localhost:2300/viewSOP`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+// ############################### View SOP ###############################

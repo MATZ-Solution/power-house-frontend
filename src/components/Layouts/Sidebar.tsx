@@ -163,7 +163,7 @@ const Sidebar = () => {
                                             <NavLink to="/create-sop">{t('Create SOP')}</NavLink>
                                         </li>
                                         <li>
-                                            <NavLink to="/view-sops">{t('View SOPs')}</NavLink>
+                                            <NavLink to="/view-sop">{t('View SOPs')}</NavLink>
                                         </li>
                                     </ul>
                                 </AnimateHeight>

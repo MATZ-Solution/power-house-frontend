@@ -46,13 +46,6 @@ const ScoutTeamChart = () => {
     },[]);
     // Pie chart API integrage or get pie chart data 
 
-    // const toggleCode = (name: string) => {
-    //     if (codeArr.includes(name)) {
-    //         setCodeArr((value) => value.filter((d) => d !== name));
-    //     } else {
-    //         setCodeArr([...codeArr, name]);
-    //     }
-    // };
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
@@ -103,6 +96,7 @@ const ScoutTeamChart = () => {
                     <div className="mb-5 flex items-center justify-between">
                         <h5 className="text-lg font-semibold dark:text-white">Scout Team</h5>
                     </div>
+                    <br />
                     <div className="mb-5">
                         <ReactApexChart series={pieChart.series} options={pieChart.options} className="rounded-lg bg-white dark:bg-black overflow-hidden" type="pie" height={300} />
                     </div>

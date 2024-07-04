@@ -110,6 +110,7 @@ const SetupCities = lazy(() => import('../pages/AddCities'));
 const AddSubArea = lazy(() => import('../pages/AddSubArea'));
 const CreateMeetingMember = lazy(() => import('../pages/CreateMeetingMember'));
 const CreateSOP = lazy(() => import('../pages/CreateSOP'));
+const ViewSOP = lazy(() => import('../pages/ViewSOP'));
 // const Location = lazy(() => import('../pages/Locations'));
 const AllotedLocation = lazy(() => import('../pages/AllotedLocations'));
 const UnAllotedLocation = lazy(() => import('../pages/UnAllotedLocation'));
@@ -184,6 +185,10 @@ const routes = [
     {
         path: '/create-sop',
         element: <CreateSOP />,
+    },
+    {
+        path: '/view-sop',
+        element: <ViewSOP />,
     },
     
     {

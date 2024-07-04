@@ -42,6 +42,7 @@
         "jspdf-autotable": "^3.8.2",
         "mantine-datatable": "^1.7.17",
         "nouislider-react": "^3.4.1",
+        "primereact": "^10.7.0",
         "react": "^18.2.0",
         "react-18-image-lightbox": "^5.1.4",
         "react-apexcharts": "^1.4.0",
