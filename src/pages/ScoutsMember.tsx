@@ -1,3 +1,4 @@
+import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -22,6 +23,49 @@ function ScoutsMember() {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
 
     const dispatch = useDispatch();
+// ##################################################################
+const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    
+        //Skin: Striped
+        const [page, setPage] = useState(1);
+        const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+        const [initialRecords, setInitialRecords] = useState([]);
+        const [recordsData, setRecordsData] = useState(initialRecords);
+        const [search, setSearch] = useState('');
+    
+    
+        useEffect(() => {
+            const from = (page - 1) * pageSize;
+            const to = from + pageSize;
+            setRecordsData([...initialRecords.slice(from, to)]);
+        }, [page, pageSize, initialRecords]);
+    
+        useEffect(() => {
+            const fetchAndFilterData = async () => {
+                try {
+                    const data = await getScoutMember();
+        
+                    const filteredData = await data.filter((item : any) => {
+                        return (
+                            item.name.toString().includes(search.toLowerCase()) ||
+                            item.phoneNumber.toLowerCase().includes(search) ||
+                            item.email.toLowerCase().includes(search.toLowerCase()) ||
+                            item.address.toLowerCase().includes(search) ||
+                            item.position.toLowerCase().includes(search.toLowerCase())
+                            // item.register.includes(search) 
+                        );
+                    });
+        
+                    setInitialRecords(filteredData);
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                }
+            };
+        
+            fetchAndFilterData();
+        }, [search]);
+// ##################################################################
+
     useEffect(() => {
         dispatch(setPageTitle('Scouts Member'));
     });
@@ -53,82 +97,58 @@ function ScoutsMember() {
     return (
         <div>
             <EditModalUser open={open} handleOpen={handleOpen} userID={userID}/>
-            <ul className="flex space-x-2 rtl:space-x-reverse">
                 <div className="border-l-[5px] border-[#F59927] px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View User</p>
                 </div>
-                {/* <li>
-                    <Link to="#" className="text-primary hover:underline">
-                        Users
-                    </Link>
-                </li>
-                <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <span>View User</span>
-                </li> */}
-            </ul>
-            {data?.length === 0 ? (
-                <div className="flex items-center justify-center mt-5 h-[70vh]">
-                    <p className="text-black font-bold text-xl">No User Found.</p>
-                </div>
-            ) : (
-            <div className="pt-5">
-                <div className="panel rounded-[20px] table-responsive mb-5">
-                    <table>
-                        <thead>
-                            <tr className="text-black border-b-[1px] border-[#e5e7eb]">
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Name</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Phone Number</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Email</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>User Role</th>
-                                <th className={`whitespace-nowrap font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Actions</th>
-
-                                {/* <th>Email</th>
-                                <th>Status</th> */}
-                                {/* <th className="text-center">Register</th> */}
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {data?.map((data: any) => {
-                                return (
-                                    <tr key={data.id}>
-                                        <td>{data.id}</td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.name}</div>
-                                        </td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.phoneNumber}</div>
-                                        </td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.email}</div>
-                                        </td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.address}</div>
-                                        </td>
-                                        <td>
-                                            <div className="whitespace-nowrap">{data?.position}</div>
-                                        </td>
-
-                                        {/* <td className="text-center">{data.register}</td> */}
-
-                                        <td className="text-center">
+<br />
+            <div className="panel">
+                    <div className="flex items-center justify-between mb-5">
+                        {/* <h5 className="font-semibold text-lg dark:text-white-light">Skin: Striped</h5> */}
+                        <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
+                    </div>
+                    <div className="datatables">
+                        <DataTable
+                            striped
+                            className="whitespace-nowrap table-striped"
+                            records={recordsData}
+    
+                            columns={[
+                                // { accessor: 'id', title: 'ID' },
+                               
+                                
+                                  
+                                  { accessor: 'name', title: 'Name' },
+                                { accessor: 'phoneNumber', title: 'Phone Number', },
+                                { accessor: 'email', title: 'Email' },
+                                { accessor: 'address', title: 'Address', },
+                                { accessor: 'position', title: 'Position', },
+                                // { accessor: 'register', title: 'Register', },
+                                { accessor: '', title: 'Action',
+                                render: ({ id }) => (
+                                    <div className="text-center">
                                             <button
                                                 type="button"
                                                 className="btn btn-primary static whitespace-nowrap"
-                                                onClick={() => handleOpen(true, data?.id)}
+                                                onClick={() => handleOpen(true, id)}
                                             >
                                                 Edit User
                                             </button>
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+                                        </div>
+                                ),
+                                 },
+                            ]}
+                            totalRecords={initialRecords.length}
+                            recordsPerPage={pageSize}
+                            page={page}
+                            onPageChange={(p) => setPage(p)}
+                            recordsPerPageOptions={PAGE_SIZES}
+                            onRecordsPerPageChange={setPageSize}
+                            minHeight={100}
+                            paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
+                        />
+                    </div>
                 </div>
-            </div>
-            )}
+            
         </div>
     );
 }

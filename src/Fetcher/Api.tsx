@@ -86,6 +86,7 @@ export const AddScoutMember = async (data: Object) => {
     let token = localStorage.getItem('token');
     try {
         const request = await fetch(`${BASE_URL}/createScoutUser`, {
+        // const request = await fetch(`http://localhost:2300/createScoutUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -651,3 +652,27 @@ export const ViewSOPData = async () => {
     }
 };
 // ############################### View SOP ###############################
+
+
+// ############## ADD Catalogue  #################
+
+export const ADDCatalogue = async (formData: FormData): Promise<any> => {
+    try {
+        const request = await fetch(`http://localhost:2300/catalogue/create`, {
+            method: 'POST',
+            body: formData,
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+
+// ############## ADD Catalogue  #################

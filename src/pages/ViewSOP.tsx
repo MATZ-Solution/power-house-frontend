@@ -69,7 +69,7 @@ const ViewSOP = () => {
             {/* Skin: Striped  */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">
-                    <h5 className="font-semibold text-lg dark:text-white-light">Skin: Striped</h5>
+                    {/* <h5 className="font-semibold text-lg dark:text-white-light">Skin: Striped</h5> */}
                     <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
                 </div>
                 <div className="datatables">

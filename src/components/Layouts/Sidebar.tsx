@@ -228,6 +228,33 @@ const Sidebar = () => {
 
                         </ul>
 
+                        {/* create CreateCatalogue */}
+                        <ul className="relative font-semibold space-y-0.5 p-4 py-0">
+                            <li className="menu nav-item">
+                                <button type="button" className={`${currentMenu === 'Catalogue' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('Catalogue')}>
+                                    <div className="flex items-center">
+                                        <IconUser fill={true} className="group-hover:!text-primary shrink-0" />
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Catalogue')}</span>
+                                    </div>
+                                    <div className={currentMenu !== 'Catalogue' ? 'rtl:rotate-90 -rotate-90' : ''}>
+                                        <IconCaretDown />
+                                    </div>
+                                </button>
+                                <AnimateHeight duration={300} height={currentMenu === 'Catalogue' ? 'auto' : 0}>
+                                    <ul className="sub-menu text-gray-500">
+                                        <li>
+                                            <NavLink to="/create-catalogue">{t('Create Catalogue')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/view-catalogue">{t('View Catalogue')}</NavLink>
+                                        </li>
+                                    </ul>
+                                </AnimateHeight>
+                            </li>
+
+
+                        </ul>
+
                         {/* Reports */}
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
                             <li className="menu nav-item">

@@ -116,6 +116,8 @@ const AllotedLocation = lazy(() => import('../pages/AllotedLocations'));
 const UnAllotedLocation = lazy(() => import('../pages/UnAllotedLocation'));
 const MapScoutLocation = lazy(() => import('../pages/MapScoutLocation'));
 const UserReport = lazy(() => import('../pages/UserReport'));
+const CreateCatalogue = lazy(()=> import('../pages/CreateCatalogue'));
+const ViewCatalogue = lazy(()=> import('../pages/ViewCatalogue'));
 
 
 const routes = [
@@ -214,6 +216,14 @@ const routes = [
     {
         path: '/scout-report',
         element: <UserReport />,
+    },
+    {
+        path: '/create-catalogue',
+        element: <CreateCatalogue />,
+    },
+    {
+        path: '/view-catalogue',
+        element: <ViewCatalogue />,
     },
     // {
     //     path: '/meetings-logs/:id',

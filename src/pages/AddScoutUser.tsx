@@ -7,7 +7,7 @@ import ModalInfo from '../components/ModaLInfo';
 import { setPageTitle } from '../store/themeConfigSlice';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { useMutation } from '@tanstack/react-query';
-import { AddScoutMember } from '../Fetcher/Api';
+import { AddScoutMember } from '../Fetcher/Api'; 
 import Select from 'react-select';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
@@ -28,24 +28,18 @@ function AddScoutUser() {
         { value: 'admin', label: 'admin' },
     ];
 
-    // const customStyles = {
-    //     option: (provided: any, state: any) => ({
-    //         ...provided,
-    //         color: 'none',
-    //         backgroundColor: 'green',
-    //         cursor: 'pointer',
-    //         ':hover': {
-    //             backgroundColor: '#F59927',
-    //             color: 'white',
-    //         },
-    //     }),
 
-    //     control: (provided: any, state: any) => ({
-    //         ...provided,
-    //         minHeight: '45px',
-    //     }),
-    //     indicatorSeparator: () => ({ display: 'none' }),
-    // };
+    let departmentOption = [
+        { value: 'Research and Development (R&D)', label: 'Research and Development (R&D)' },
+        { value: 'Manufacturing', label: 'Manufacturing' },
+        { value: 'Quality Assurance (QA)', label: 'Quality Assurance (QA)' },
+        { value: 'Sales and Marketing', label: 'Sales and Marketing' },
+        { value: 'Customer Support', label: 'Customer Support' },
+        { value: 'Human Resources', label: 'Human Resources' },
+        { value: 'Supply Chain and Logistics', label: 'Supply Chain and Logistics' },
+        { value: 'Information Technology', label: 'Information Technology' },
+        { value: 'Legal and Compliance', label: 'Legal and Compliance' },
+    ];
 
     const customStyles1 = {
         option: (provided: any, state: any) => ({
@@ -95,6 +89,8 @@ function AddScoutUser() {
         serverError: false,
         flag: false,
     });
+
+
     const AddScoutUserSchema = Yup.object().shape({
         Name: Yup.string(),
         // .required('Please Enter Name'),
@@ -117,8 +113,10 @@ function AddScoutUser() {
         address: Yup.string(),
         // .required('Please Enter Address'),
         position: Yup.string().required('Please Enter User Roles'),
+        department: Yup.string().required('Please Enter User department'),
     });
 
+    
     const mutation = useMutation({
         mutationKey: ['addScoutMember'],
         mutationFn: AddScoutMember,
@@ -151,6 +149,7 @@ function AddScoutUser() {
                             phoneNumber: '',
                             address: '',
                             position: '',
+                            department: '',
                         }}
                         validationSchema={AddScoutUserSchema}
                         onSubmit={(values, { resetForm }) => {
@@ -166,7 +165,8 @@ function AddScoutUser() {
                                 },
                             });
                         }}
-                    >
+                    > 
+                    {/* formik */}
                         {({ errors, touched, values, setFieldValue }) => (
                             <Form className="space-y-5">
                                 <label className="text-[#F59927] text-lg font-extrabold">Credentials:</label>
@@ -202,12 +202,13 @@ function AddScoutUser() {
                                     </div>
                                 </div>
 
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                                     <div>
                                         <label htmlFor="gridAddress1">Address</label>
                                         <Field name="address" id="gridAddress1" type="text" placeholder="Enter Address" className="form-input" />
                                         {errors.address && touched.address ? <div className="text-red-600 mt-2">{errors.address}</div> : null}
                                     </div>
+
                                     <div>
                                         <label htmlFor="gridPosition">User Role*</label>
 
@@ -233,37 +234,38 @@ function AddScoutUser() {
                                         />
                                         {errors.position && touched.position ? <div className="text-red-600 mt-2">{errors.position}</div> : null}
                                     </div>
+
+                                    {/* ################# */}
+                                    <div>
+                                        <label htmlFor="gridPosition">Department*</label>
+
+                                        <Select
+                                            className="border-none "
+                                            name="department"
+                                            placeholder="Select Department"
+                                            options={departmentOption}
+                                            value={departmentOption.filter((option) => option.value === values.department)}
+                                            isSearchable={false}
+                                            styles={customStyles1}
+                                            theme={(theme) => ({
+                                                ...theme,
+                                                colors: {
+                                                    ...theme.colors,
+                                                    primary25: 'transparent',
+                                                    primary: '#F59927',
+                                                },
+                                            })}
+                                            onChange={(selected: any) => {
+                                                setFieldValue('department', selected.value);
+                                            }}
+                                        />
+                                        {errors.department && touched.department ? <div className="text-red-600 mt-2">{errors.department}</div> : null}
+                                    </div>
+                                    {/* ################# */}
                                 </div>
 
-                                {/* <div>
-                                    <label htmlFor="gridPosition">Designation</label>
-                                    <Field name="position" id="gridPosition" type="text" placeholder="Enter Designation" className="form-input" />
-                                    {errors.position && touched.position ? <div className="text-red-600 mt-2">{errors.position}</div> : null}
-                                </div> */}
-
-                                {/* <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                                       <div className="md:col-span-2">
-                                           <label htmlFor="gridCity">City</label>
-                                           <input id="gridCity" type="text" placeholder="Enter City" className="form-input" />
-                                       </div>
-                                       <div>
-                                           <label htmlFor="gridState">State</label>
-                                           <select id="gridState" className="form-select text-white-dark">
-                                               <option>Choose...</option>
-                                               <option>...</option>
-                                           </select>
-                                       </div>
-                                       <div>
-                                           <label htmlFor="gridZip">Zip</label>
-                                           <input id="gridZip" type="text" placeholder="Enter Zip" className="form-input" />
-                                       </div>
-                                   </div> */}
-                                {/* <div>
-                                       <label className="flex items-center mt-1 cursor-pointer">
-                                           <input type="checkbox" className="form-checkbox" />
-                                           <span className="text-white-dark">Check me out</span>
-                                       </label>
-                                   </div> */}
+                               
+                               
                                 <button disabled={mutation.isPending} type="submit" className="btn btn-primary !mt-6">
                                     Submit
                                 </button>

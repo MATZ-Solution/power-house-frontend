@@ -1,22 +1,20 @@
+
 import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+// import { setPageTitle } from '../../../store/themeConfigSlice';
 import { setPageTitle } from '../store/themeConfigSlice';
-import 'tippy.js/dist/tippy.css';
-import ScreenLoader from './Elements/ScreenLoader';
-import SomeThingWentWrong from './Pages/SomethingWentWrong';
-import { getAllScouts } from '../Fetcher/Api';
-import { useQuery } from '@tanstack/react-query';
+import IconBell from '../components/Icon/IconBell';
+import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
-import ReactPaginate from 'react-paginate';
-import './../assets/css/pagination.css'; // Import your CSS file here
+import { ViewSOPData } from './../Fetcher/Api'
 
-function Scouts() {
+
+const ViewSOP = () => {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setPageTitle('All Locations'));
+        dispatch(setPageTitle('View Catalogue'));
     });
        
     const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
@@ -38,17 +36,15 @@ function Scouts() {
     useEffect(() => {
         const fetchAndFilterData = async () => {
             try {
-                const data = await getAllScouts();
+                const data = await ViewSOPData();
     
                 const filteredData = await data.filter((item : any) => {
                     return (
                         // item.id.toString().includes(search.toLowerCase()) ||
-                        item.projectType.toLowerCase().includes(search.toLowerCase()) ||
-                        item.projectName.toLowerCase().includes(search.toLowerCase()) ||
-                        item.address.toLowerCase().includes(search.toLowerCase()) ||
-                        item.scoutedBy.toLowerCase().includes(search.toLowerCase()) ||
-                        item.contractorName.toLowerCase().includes(search.toLowerCase()) ||
-                        item.contractorNumber.toLowerCase().includes(search.toLowerCase())
+                        item.city.toLowerCase().includes(search.toLowerCase()) ||
+                        item.area.toLowerCase().includes(search.toLowerCase()) ||
+                        item.projectDomain.toLowerCase().includes(search.toLowerCase()) ||
+                        item.projectType.toLowerCase().includes(search.toLowerCase())
                     );
                 });
     
@@ -68,7 +64,7 @@ function Scouts() {
     return (
         <div className="space-y-6">
             <div className="border-l-[5px] border-[#F59927] px-3 ">
-    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>All Locations</p>
+    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View Catalogue</p>
 </div>  
             {/* Skin: Striped  */}
             <div className="panel">
@@ -81,32 +77,12 @@ function Scouts() {
                         striped
                         className="whitespace-nowrap table-striped"
                         records={recordsData}
-
                         columns={[
                             // { accessor: 'id', title: 'ID' },
-                           
-                            {
-                                accessor: 'projectType',
-                                title: 'Project Type',
-                                render: ({ projectType }) => (
-                                    <div
-                                    className={`whitespace-nowrap badge ${
-                                      projectType === 'Market'
-                                        ? 'bg-success'
-                                        : projectType === 'Project'
-                                          ? 'bg-info'
-                                          : ''
-                                    } flex justify-center word-wrap: break-word`}
-                                  >
-                                    {projectType}
-                                  </div>
-                                ),
-                              },
-                            { accessor: 'projectName', title: 'Project Name' },
-                            { accessor: 'scoutedBy', title: 'scoutedBy', },
-                            { accessor: 'contractorName', title: 'Contractor Name' },
-                            { accessor: 'contractorNumber', title: 'Contractor Number' },
-                            { accessor: 'address', title: 'Address', },
+                            { accessor: 'projectDomain', title: 'Project Domain' },
+                            { accessor: 'projectType', title: 'Project Type' },
+                            { accessor: 'city', title: 'City' },
+                            { accessor: 'area', title: 'Area' },
                         ]}
                         totalRecords={initialRecords.length}
                         recordsPerPage={pageSize}
@@ -114,7 +90,7 @@ function Scouts() {
                         onPageChange={(p) => setPage(p)}
                         recordsPerPageOptions={PAGE_SIZES}
                         onRecordsPerPageChange={setPageSize}
-                        minHeight={100}
+                        minHeight={200}
                         paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
                     />
                 </div>
@@ -122,6 +98,6 @@ function Scouts() {
 
         </div>
     );
-}
+};
 
-export default Scouts;
+export default ViewSOP;
