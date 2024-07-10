@@ -8,26 +8,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import 'tippy.js/dist/tippy.css';
 import { getAllScouts, getScoutMember } from '../Fetcher/Api';
-import IconMenu from '../components/Icon/IconMenu';
 import { IRootState } from '../store';
 import { setPageTitle } from '../store/themeConfigSlice';
 import { DateConverter } from '../utils/DateConverter';
 import ScreenLoader from './Elements/ScreenLoader';
 import SomeThingWentWrong from './Pages/SomethingWentWrong';
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined';
 import FilterListIcon from '@mui/icons-material/FilterList';
 function UserReport() {
     let [startDate, setStartDate] = useState<Date | null>(null);
     let [endDate, setEndDate] = useState<Date | null>(null);
     let [employee, setEmployee] = useState<String | null>(null);
-    let [isShow, setIsShow] = useState(false);
-    let [open, setOpen] = useState(false);
 
-    const handleOpen = (value: boolean) => {
-        setOpen(value);
-    };
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
 
@@ -95,7 +87,6 @@ function UserReport() {
         refetchOnWindowFocus: false,
         retry: 1,
     });
-
     interface Option {
         value: string;
         label: string;
@@ -110,7 +101,7 @@ function UserReport() {
         retry: 1,
     });
 
-    
+
     const handleDownloadReport = () => {
         const doc = new jsPDF();
         autoTable(doc, { html: '#report' });
@@ -183,156 +174,11 @@ function UserReport() {
 
     return (
         <div>
-            {open && (
-                <div>
-                    <Transition appear show={open} as={Fragment}>
-                        <Dialog as="div" open={open} onClose={() => handleOpen(false)}>
-                            <Transition.Child
-                                as={Fragment}
-                                enter="ease-out duration-300"
-                                enterFrom="opacity-0"
-                                enterTo="opacity-100"
-                                leave="ease-in duration-200"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <div className="fixed inset-0" />
-                            </Transition.Child>
-                            <div className="fixed inset-0 bg-[black]/60 z-[999] overflow-y-auto">
-                                <div className="flex items-center justify-center  min-h-screen px-4">
-                                    <Transition.Child
-                                        as={Fragment}
-                                        enter="ease-out duration-300"
-                                        enterFrom="opacity-0 scale-95"
-                                        enterTo="opacity-100 scale-100"
-                                        leave="ease-in duration-200"
-                                        leaveFrom="opacity-100 scale-100"
-                                        leaveTo="opacity-0 scale-95"
-                                    >
-                                        <Dialog.Panel
-                                            as="div"
-                                            className="mt-7  panel border-0 p-0  rounded-3xl  w-full max-w-lg my-8 text-black dark:text-white-dark h-auto "
-                                            onClick={(e: any) => e.stopPropagation()}
-                                        >
-                                            <div className="bg-gray-200  rounded-t-3xl flex justify-between px-6 py-3 text-black ">
-                                                <h1 className="font-extrabold">Filters</h1>
-                                                <CloseOutlinedIcon
-                                                    className="cursor-pointer"
-                                                    // onClose={()=>handleOpen(false)}
-                                                    onClick={() => handleOpen(false)}
-                                                />
-                                            </div>
-                                            <div className="flex flex-col justify-center items-center gap-4 px-3 py-3">
-                                                <div className="flex flex-col gap-1 ">
-                                                    <div>
-                                                        <p className=" font-semibold ">Date</p>
-                                                    </div>
-                                                    <div className="relative w-full block">
-                                                        <DatePicker
-                                                            maxDate={disableMaxDate()}
-                                                            minDate={disableMinDate()}
-                                                            className="w-72 cursor-pointer px-2 border-[1px] border-gray-300 text-black h-11 rounded-md block"
-                                                            placeholderText="Select a date"
-                                                            selected={startDate}
-                                                            onChange={onChangeStartDate}
-                                                            dateFormat="dd/MM/yyyy"
-                                                            
-                                                        />
-                                                        {startDate && <CloseOutlinedIcon fontSize="small" className="text-black absolute top-3 right-2" onClick={() => setStartDate(null)} />}
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex flex-col gap-1 ">
-                                                    <div className="flex items-center">
-                                                        <p className="font-semibold text-center"> To</p>
-                                                    </div>
-                                                    <div className="relative">
-                                                        <DatePicker
-                                                            minDate={disableMinDate()}
-                                                            maxDate={disableMaxDate()}
-                                                            className={`w-72 cursor-pointer px-2 border-[1px] border-gray-300  text-black h-11 rounded-md `}
-                                                            placeholderText="Select a date"
-                                                            selected={endDate}
-                                                            onChange={onChangeEndDate}
-                                                            dateFormat="dd/MM/yyyy"
-                                                        />
-                                                        {endDate && <CloseOutlinedIcon onClick={() => setEndDate(null)} fontSize="small" className="text-black  absolute top-3 right-2" />}
-                                                    </div>
-                                                </div>
-
-                                                <div className="flex flex-col gap-1">
-                                                    <p className="font-semibold">Sort by User</p>
-                                                    <Select
-                                                        isClearable
-                                                        className="w-72"
-                                                        name="userIds"
-                                                        placeholder="Select User"
-                                                        options={scoutMemberOptions}
-                                                        value={scoutMemberOptions.find((option) => option.label === employee) || null}
-                                                        isSearchable={true}
-                                                        styles={customStyles}
-                                                        theme={(theme) => ({
-                                                            ...theme,
-                                                            colors: {
-                                                                ...theme.colors,
-                                                                primary25: 'transparent',
-                                                                primary: '#F59927',
-                                                            },
-                                                        })}
-                                                        onChange={(selected: any) => {
-                                                            if (selected) {
-                                                                setEmployee(selected.label);
-                                                                // setStartDate(null);
-                                                                // setEndDate(null);
-                                                            } else {
-                                                                setIsShow(true);
-                                                                setEmployee(null);
-                                                            }
-                                                        }}
-                                                    />
-                                                </div>
-                                                <div>
-                                                    {/* <button
-                                                    
-                                                        type="button"
-                                                        className="btn btn-primary inline"
-                                                    >
-                                                        Search
-                                                    </button> */}
-                                                </div>
-                                                {/* 
-                                                {filterData?.length > 0 && (
-                                                    <div className="flex">
-                                                        <button onClick={handleDownloadReport} type="button" className="btn btn-primary inline">
-                                                            Download Report
-                                                        </button>
-                                                    </div>
-                                                )} */}
-                                            </div>
-                                        </Dialog.Panel>
-                                    </Transition.Child>
-                                </div>
-                            </div>
-                        </Dialog>
-                    </Transition>
-                </div>
-            )}
-            <ul className="flex  items-center justify-between space-x-2 rtl:space-x-reverse">
+            
                 <div className="border-l-[5px] border-[#F59927] px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Scout Report</p>
                 </div>
-                <div className='flex sm:hidden items-center'>
-                    <p>Filters: </p>
-                <button
-                    type="button"
-                    className="collapse-icon flex-none dark:text-[#d0d2d6] hover:text-primary dark:hover:text-primary  ltr:ml-2 rtl:mr-2 p-2 rounded-full bg-white-light/40 dark:bg-dark/40 hover:bg-white-light/90 dark:hover:bg-dark/60"
-                    onClick={() => setOpen(true)}
-                >
-                    <FilterListIcon className="w-5 h-5" />
-                </button>
-                </div>
-            </ul>
-
+                
             <div className="hidden sm:flex sm:flex-col sm:gap-1">
                 <p className="mt-5 font-semibold ">Date</p>
                 <div className="flex flex-col gap-2 mt-2 sm:flex-row ">
@@ -393,7 +239,6 @@ function UserReport() {
                                     // setStartDate(null);
                                     // setEndDate(null);
                                 } else {
-                                    setIsShow(true);
                                     setEmployee(null);
                                 }
                             }}
@@ -434,9 +279,8 @@ function UserReport() {
                                             <td className="whitespace-nowrap">{data.refrenceId}</td>
                                             <td>
                                                 <div
-                                                    className={`whitespace-nowrap badge  ${
-                                                        data?.projectType === 'Market' ? 'bg-success' : data?.projectType === 'Project' ? ' bg-info' : ''
-                                                    } flex justify-center`}
+                                                    className={`whitespace-nowrap badge  ${data?.projectType === 'Market' ? 'bg-success' : data?.projectType === 'Project' ? ' bg-info' : ''
+                                                        } flex justify-center`}
                                                 >
                                                     {data?.projectType}
                                                 </div>

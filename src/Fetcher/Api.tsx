@@ -85,8 +85,8 @@ export const getScoutMember = async () => {
 export const AddScoutMember = async (data: Object) => {
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(`${BASE_URL}/createScoutUser`, {
         // const request = await fetch(`http://localhost:2300/createScoutUser`, {
+        const request = await fetch(`${BASE_URL}/createScoutUser`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -555,6 +555,7 @@ export const getSinglemeetingLogs = async (meetingID: any) => {
 export const getLongAndLat = async () => {
     let token = localStorage.getItem('token');
     try {
+        // const request = await fetch(`http://localhost:2300/scout/getLongAndLat`, {
         const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
             method: 'GET',
             headers: {
@@ -578,8 +579,9 @@ export const getLongAndLat = async () => {
 export const pieChartDashboard = async () => {
     // let token = localStorage.getItem('token');
     try {
-        // const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
-        const request = await fetch(`http://localhost:2300/dashboard/pieChart`, {
+
+        // const request = await fetch(`http://localhost:2300/dashboard/pieChart`, {
+        const request = await fetch(`${BASE_URL}/dashboard/pieChart`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -605,8 +607,9 @@ export const pieChartDashboard = async () => {
 export const linearChartDashboard = async () => {
     // let token = localStorage.getItem('token');
     try {
-        // const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
-        const request = await fetch(`http://localhost:2300/dashboard/linearChart`, {
+
+        // const request = await fetch(`http://localhost:2300/dashboard/linearChart`, {
+        const request = await fetch(`${BASE_URL}/dashboard/linearChart`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -632,8 +635,9 @@ export const linearChartDashboard = async () => {
 export const ViewSOPData = async () => {
     // let token = localStorage.getItem('token');
     try {
-        // const request = await fetch(`${BASE_URL}/scout/getLongAndLat`, {
-        const request = await fetch(`http://localhost:2300/viewSOP`, {
+
+        // const request = await fetch(`http://localhost:2300/viewSOP`, {
+        const request = await fetch(`${BASE_URL}/viewSOP`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -658,7 +662,8 @@ export const ViewSOPData = async () => {
 
 export const ADDCatalogue = async (formData: FormData): Promise<any> => {
     try {
-        const request = await fetch(`http://localhost:2300/catalogue/create`, {
+        // const request = await fetch(`http://localhost:2300/catalogue/create`, {
+        const request = await fetch(`${BASE_URL}/catalogue/create`, {
             method: 'POST',
             body: formData,
         });
@@ -676,3 +681,28 @@ export const ADDCatalogue = async (formData: FormData): Promise<any> => {
 
 
 // ############## ADD Catalogue  #################
+
+// ############################### View Catalogue ###############################
+export const ViewCatalogue = async () => {
+    // let token = localStorage.getItem('token');
+    try {
+
+        // const request = await fetch(`http://localhost:2300/catalogue/getCatalogue`, {
+        const request = await fetch(`${BASE_URL}/catalogue/getCatalogue`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+// ############################### View Catalogue ###############################

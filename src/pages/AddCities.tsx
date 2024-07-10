@@ -24,7 +24,7 @@ function SetupCities(): any {
             queryClient.invalidateQueries(['getCities']);
             setCity('');
             // setTimeout(() => {
-                mutation.reset();
+                mutation.reset(); 
                 alertSuccess("Successfully add City")
             // }, 3000);
         },

@@ -14,6 +14,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
+import DashboardMap from './../components/DashboardMap'
 
 import { Paginator } from 'primereact/paginator';
 
@@ -156,9 +157,18 @@ const Finance = () => {
 
 
 
-                <div className=" px-3 ">
+                {/* <div className=" px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Recent Scouts</p>
-                </div>
+                </div> */}
+{/* ####################################### MAP #################################################### */}
+    <br />
+<div className="">
+      <DashboardMap />
+    </div>
+    <br />
+{/* #################################### MAP ####################################################### */}
+
+
 {/* ########################################################################################### */}
 
     {/* <div className="flex flex-col md:flex-row h-screen"> */}

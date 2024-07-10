@@ -25,16 +25,22 @@ function CreateCatalogue() {
     });
 
     const mutation = useMutation<any, Error, FormData>({
+        mutationKey: ['AddCity'],
         mutationFn: (formData: FormData) => ADDCatalogue(formData),
         onSuccess: () => {
+            mutation.reset();
             alertSuccess('Catalogue created successfully!');
-            // navigate('/view-catalog'); 
+            // navigate('/view-catalogue'); 
         },
         onError: (error: any) => {
             alertFail(error.message);
         },
     });
-
+    useEffect(() => {
+        setTimeout(() => {
+            mutation.reset();
+        }, 3000);
+    }, [mutation.isSuccess, mutation.isError]);
 
     return (
         <div>
@@ -45,7 +51,7 @@ function CreateCatalogue() {
                 <Formik
                     initialValues={{ title: '', document: null }}
                     validationSchema={validationSchema}
-                    onSubmit={(values, { setSubmitting }) => {
+                    onSubmit={(values, { resetForm,setSubmitting }) => {
                         const formData = new FormData();
                         formData.append('title', values.title);
                         if (values.document) {
@@ -53,8 +59,8 @@ function CreateCatalogue() {
                         }
                         mutation.mutate(formData);
                         setSubmitting(false);
+                        resetForm();
                         
-                        // resetForm();
                     }}
                 >
                     {({ setFieldValue }) => (
@@ -79,7 +85,7 @@ function CreateCatalogue() {
                                     />
                                 </div>
                                 <div>
-                                    <button type="submit" className="btn btn-primary !mt-6">
+                                    <button disabled={mutation.isPending} type="submit" className="btn btn-primary !mt-6">
                                         Submit
                                     </button>
                                 </div>

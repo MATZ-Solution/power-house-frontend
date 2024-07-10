@@ -118,6 +118,8 @@ const MapScoutLocation = lazy(() => import('../pages/MapScoutLocation'));
 const UserReport = lazy(() => import('../pages/UserReport'));
 const CreateCatalogue = lazy(()=> import('../pages/CreateCatalogue'));
 const ViewCatalogue = lazy(()=> import('../pages/ViewCatalogue'));
+const MeetingReport = lazy(()=> import('../pages/Meeting-report'));
+const SOPReport = lazy(()=> import('../pages/SOP-report'));
 
 
 const routes = [
@@ -216,6 +218,14 @@ const routes = [
     {
         path: '/scout-report',
         element: <UserReport />,
+    },
+    {
+        path: '/meeting-report',
+        element: <MeetingReport />,
+    },
+    {
+        path: '/sop-report',
+        element: <SOPReport />,
     },
     {
         path: '/create-catalogue',

@@ -7,14 +7,14 @@ import { setPageTitle } from '../store/themeConfigSlice';
 import IconBell from '../components/Icon/IconBell';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
-import { ViewCatalogue } from './../Fetcher/Api'
+import { ViewSOPData } from './../Fetcher/Api'
 
 
 const ViewSOP = () => {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setPageTitle('View Catalogue'));
+        dispatch(setPageTitle('View SOP'));
     });
        
     const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
@@ -36,11 +36,15 @@ const ViewSOP = () => {
     useEffect(() => {
         const fetchAndFilterData = async () => {
             try {
-                const data = await ViewCatalogue();
+                const data = await ViewSOPData();
     
                 const filteredData = await data.filter((item : any) => {
                     return (
-                        item.title.toLowerCase().includes(search.toLowerCase()) 
+                        // item.id.toString().includes(search.toLowerCase()) ||
+                        item.city.toLowerCase().includes(search.toLowerCase()) ||
+                        item.area.toLowerCase().includes(search.toLowerCase()) ||
+                        item.projectDomain.toLowerCase().includes(search.toLowerCase()) ||
+                        item.projectType.toLowerCase().includes(search.toLowerCase())
                     );
                 });
     
@@ -60,7 +64,7 @@ const ViewSOP = () => {
     return (
         <div className="space-y-6">
             <div className="border-l-[5px] border-[#F59927] px-3 ">
-    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View Catalogue</p>
+    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View SOP</p>
 </div>  
             {/* Skin: Striped  */}
             <div className="panel">
@@ -75,16 +79,10 @@ const ViewSOP = () => {
                         records={recordsData}
                         columns={[
                             // { accessor: 'id', title: 'ID' },
-                            { accessor: 'title', title: 'Catalogue Title' },
-                            { accessor: 'document', title: 'Catalogue Document',
-                            render: ({ document }) => (
-                                <div >
-                                <a href={document} target="_blank">
-            <img src="https://powerhouseassets.s3.amazonaws.com/1720523972592-vector-documents-icon.jpg" alt="HTML tutorial" style={{ width: '42px', height: '42px' }} />
-        </a>
-                              </div>
-                            ),
-                             },
+                            { accessor: 'projectDomain', title: 'Project Domain' },
+                            { accessor: 'projectType', title: 'Project Type' },
+                            { accessor: 'city', title: 'City' },
+                            { accessor: 'area', title: 'Area' },
                         ]}
                         totalRecords={initialRecords.length}
                         recordsPerPage={pageSize}
