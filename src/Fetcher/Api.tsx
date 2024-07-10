@@ -577,7 +577,7 @@ export const getLongAndLat = async () => {
 
 // ############################### Dashboard Pie Chart ###############################
 export const pieChartDashboard = async () => {
-    // let token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
     try {
 
         // const request = await fetch(`http://localhost:2300/dashboard/pieChart`, {
@@ -585,7 +585,7 @@ export const pieChartDashboard = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         });
         if (!request.ok) {
@@ -605,7 +605,7 @@ export const pieChartDashboard = async () => {
 
 // ############################### Dashboard Pie Chart ###############################
 export const linearChartDashboard = async () => {
-    // let token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
     try {
 
         // const request = await fetch(`http://localhost:2300/dashboard/linearChart`, {
@@ -613,7 +613,7 @@ export const linearChartDashboard = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         });
         if (!request.ok) {
@@ -633,7 +633,7 @@ export const linearChartDashboard = async () => {
 
 // ############################### View SOP ###############################
 export const ViewSOPData = async () => {
-    // let token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
     try {
 
         // const request = await fetch(`http://localhost:2300/viewSOP`, {
@@ -641,7 +641,7 @@ export const ViewSOPData = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         });
         if (!request.ok) {
@@ -684,7 +684,7 @@ export const ADDCatalogue = async (formData: FormData): Promise<any> => {
 
 // ############################### View Catalogue ###############################
 export const ViewCatalogue = async () => {
-    // let token = localStorage.getItem('token');
+    let token = localStorage.getItem('token');
     try {
 
         // const request = await fetch(`http://localhost:2300/catalogue/getCatalogue`, {
@@ -692,7 +692,7 @@ export const ViewCatalogue = async () => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                // Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
             },
         });
         if (!request.ok) {
