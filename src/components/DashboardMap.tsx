@@ -4,6 +4,9 @@ import blueMarker from '/assets/images/marker-icons/marker-icon-blue.png';
 import greenMarker from '/assets/images/marker-icons/marker-icon-green.png';
 import { getLongAndLat } from '../Fetcher/Api';
 import { useQuery } from '@tanstack/react-query';
+import Select from 'react-select';
+import CodeHighlight from './../components/Highlight';
+
 
 const containerStyle = {
     width: '100%',
@@ -41,6 +44,21 @@ interface MarkerData {
 
 const MyMapComponent: React.FC = () => {
     const [selectedArea, setSelectedArea] = useState<string>('All');
+    // #######################################################
+    const [codeArr, setCodeArr] = useState<string[]>([]);
+    const toggleCode = (name: string) => {
+        if (codeArr.includes(name)) {
+            setCodeArr((value) => value.filter((d) => d !== name));
+        } else {
+            setCodeArr([...codeArr, name]);
+        }
+    };
+    const options4 = [
+        { value: 'orange', label: 'Orange' },
+        { value: 'white', label: 'White' },
+        { value: 'purple', label: 'Purple' },
+    ];
+    // #######################################################
     const { isLoading, isError, data, error } = useQuery<MarkerData[]>({
         queryKey: ['getLongAndLat'],
         queryFn: getLongAndLat,
@@ -58,7 +76,7 @@ const MyMapComponent: React.FC = () => {
 
     const filteredMarkers = selectedArea === 'All'
         ? markers
-        : markers.filter(marker => 
+        : markers.filter(marker =>
             marker.area === selectedArea || marker.address.includes(selectedArea)
         );
 
@@ -72,7 +90,7 @@ const MyMapComponent: React.FC = () => {
     const onLoad = React.useCallback((map: google.maps.Map) => {
         const bounds = new window.google.maps.LatLngBounds();
         bounds.extend({ lat: 24.49382941052909, lng: 66.28035221974302 });
-        bounds.extend({ lat: 25.26626960557121, lng: 67.85015003547377 }); 
+        bounds.extend({ lat: 25.26626960557121, lng: 67.85015003547377 });
         map.fitBounds(bounds);
 
         setMap(map);
@@ -90,29 +108,21 @@ const MyMapComponent: React.FC = () => {
 
     return (
         <>
-        
-            {/* <select
-             className=" form-input shadow-[0_0_4px_2px_rgb(31_45_61_/_10%)] bg-white rounded-full h-11 placeholder:tracking-wider ltr:pr-11 rtl:pl-11" 
-             onChange={handleAreaChange} value={selectedArea}>
-                <option value="All">All</option>
-                {uniqueAreas.map(area => (
-                    <option key={area} value={area}>{area}</option>
-                ))}
-            </select> */}
-      <div className="row">
-        <div className="col-12 col-md-3">
-          <select
-            className="form-control shadow-sm bg-white rounded h-11"
-            onChange={handleAreaChange}
-            value={selectedArea}
-          >
-            <option value="All">All</option>
-            {uniqueAreas.map(area => (
-              <option key={area} value={area}>{area}</option>
-            ))}
-          </select>
-        </div>
-      </div>
+
+            <div className="row">
+                <div className="col-12 col-md-3">
+                    <select
+                        className="form-control shadow-sm bg-white rounded h-11"
+                        onChange={handleAreaChange}
+                        value={selectedArea}
+                    >
+                        <option value="All">All</option>
+                        {uniqueAreas.map(area => (
+                            <option key={area} value={area}>{area}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
             <br />
             <br />
             {isLoaded ? (

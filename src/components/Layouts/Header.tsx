@@ -422,17 +422,8 @@ const Header = () => {
                             >
                                 <ul className="text-dark dark:text-white-dark !py-0 w-[230px] font-semibold dark:text-white-light/90">
                                     <li>
-                                        <div className="flex items-center px-4 py-4">
-                                            {/* <img className="rounded-md w-10 h-10 object-cover" src="/assets/images/user-profile.jpeg" alt="userProfile" /> */}
-                                            <div className="ltr:pl-4 rtl:pr-4 truncate">
-                                                {/* <h4 className="text-base">
-                                                    John Doe
-                                                    <span className="text-xs bg-success-light rounded text-success px-1 ltr:ml-2 rtl:ml-2">Pro</span>
-                                                </h4> */}
-                                                <button type="button" className="text-black/60 hover:text-primary dark:text-dark-light/60 dark:hover:text-white">
-                                                    {userDetails[0]?.email}
-                                                </button>
-                                            </div>
+                                        <div className="flex items-center px-4 py-2">
+                                            
                                         </div>
                                     </li>
                                     {/* <li>
@@ -453,14 +444,18 @@ const Header = () => {
                                             Lock Screen
                                         </Link>
                                     </li> */}
+                                    <li>
+                                        <div className="dark:hover:text-white flex">
+                                            <IconUser className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 shrink-0" />
+                                            Admin
+                                        </div>
+                                    </li>
                                     <li className="border-t border-white-light dark:border-white-light/10">
                                         {/* <Link to="/" className="text-danger !py-3"> */}
                                         <div onClick={logout} className="text-danger p-2 !py-3 flex cursor-pointer">
                                             <IconLogout className="w-4.5 h-4.5 ltr:mr-2 rtl:ml-2 rotate-90 shrink-0"/>
                                             <p>Sign Out</p>
                                         </div>
-
-                                        {/* </Link> */}
                                     </li>
                                 </ul>
                             </Dropdown>

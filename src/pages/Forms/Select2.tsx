@@ -8,7 +8,7 @@ import IconBell from '../../components/Icon/IconBell';
 import IconCode from '../../components/Icon/IconCode';
 
 const Select2 = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch(); 
     useEffect(() => {
         dispatch(setPageTitle('Select2'));
     });
