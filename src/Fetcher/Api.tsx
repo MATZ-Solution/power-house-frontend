@@ -666,11 +666,11 @@ export const ADDCatalogue = async (formData: FormData): Promise<any> => {
         // const request = await fetch(`http://localhost:2300/catalogue/create`, {
         const request = await fetch(`${BASE_URL}/catalogue/create`, {
             method: 'POST',
-            body: formData,
             headers: {
-                'Content-Type': 'application/json',
+                // 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
             },
+            body: formData,
         });
         if (!request.ok) {
             let response = await request.json();
