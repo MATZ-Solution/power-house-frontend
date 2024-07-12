@@ -82,7 +82,8 @@ const MyMapComponent: React.FC = () => {
 
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
-        googleMapsApiKey: 'AIzaSyBXDrw0XmVRV8-IrpbovlI5vzNOQS5rpTI',
+        // googleMapsApiKey: 'AIzaSyBXDrw0XmVRV8-IrpbovlI5vzNOQS5rpTI',
+        googleMapsApiKey: 'AIzaSyCrfTa3Yy3zUZ48hAJD_ADso4UsjF4yoNE',
     });
 
     const [map, setMap] = useState<google.maps.Map | null>(null);

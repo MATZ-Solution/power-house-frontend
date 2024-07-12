@@ -35,7 +35,8 @@ const MyMapComponent = () => {
         // MyAccount
         // googleMapsApiKey: 'AIzaSyBQ-APxr2vz6Q1ODaY5iACix1DkrMzL36c',
 
-        googleMapsApiKey: 'AIzaSyBXDrw0XmVRV8-IrpbovlI5vzNOQS5rpTI',
+        // googleMapsApiKey: 'AIzaSyBXDrw0XmVRV8-IrpbovlI5vzNOQS5rpTI',
+        googleMapsApiKey: 'AIzaSyCrfTa3Yy3zUZ48hAJD_ADso4UsjF4yoNE',
       
 
    
