@@ -1,7 +1,7 @@
 import React from 'react';
 import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import blueMarker from '/assets/images/marker-icons/marker-icon-blue.png';
-import greenMarker from '/assets/images/marker-icons/marker-icon-green.png';
+import greenMarker from '/assets/images/marker-icons/marker-icon-yellow.png';
 import { getLongAndLat } from '../Fetcher/Api';
 import { useQuery } from '@tanstack/react-query';
 

@@ -276,6 +276,9 @@ const Sidebar = () => {
                                             <NavLink to="/scout-report">{t('Scout Reports')}</NavLink>
                                         </li>
                                         <li>
+                                            <NavLink to="/scout-report2">{t('Scout Reports2')}</NavLink>
+                                        </li>
+                                        <li>
                                             <NavLink to="/meeting-report">{t('Meeting Reports')}</NavLink>
                                         </li>
                                         <li>
@@ -311,6 +314,15 @@ const Sidebar = () => {
                                         </li>
                                         <li>
                                             <NavLink to="/add-area">{t('Add Area')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/add-Architecture">{t('Add Architecture')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/add-Builder">{t('Add Builder')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/add-Electrician">{t('Add Electrician')}</NavLink>
                                         </li>
                                         {/* <li>
                                             <NavLink to="/add-sub-area">{t('Add Sub Area')}</NavLink>

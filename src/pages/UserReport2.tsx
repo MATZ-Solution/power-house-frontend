@@ -19,6 +19,7 @@ function UserReport() {
     let [startDate, setStartDate] = useState<Date | null>(null);
     let [endDate, setEndDate] = useState<Date | null>(null);
     let [employee, setEmployee] = useState<String | null>(null);
+    let [size, setsize] = useState<String | null>(null);
 
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -93,51 +94,109 @@ function UserReport() {
     }
 
     const scoutMemberOptions: Option[] = scoutMemberData?.map((data: any) => ({ value: data?.id, label: data?.name })) || [];
-
+    // console.log(scoutAreasOptions);
+    
     let { isLoading, isError, data, error } = useQuery({
         queryKey: ['getAllScout'],
         queryFn: getAllScouts,
         refetchOnWindowFocus: false,
         retry: 1,
     });
+    
 
+const scoutAreasOptions: Option[] = Array.from(
+    new Set(data?.map((data: any) => data.size))
+  ).sort((a:any, b:any) => b - a) // Sort in descending order
+    .map((size: any) => ({ value: size, label: size })) || [];
+
+  
 
     const handleDownloadReport = () => {
         const doc = new jsPDF();
         autoTable(doc, { html: '#report' });
         doc.save('scout-report.pdf');
     };
+    // let filterData = data?.filter((data: any) => {
+    //     const createdDate = new Date(data?.created_at);
+    //     let endDateWithTime: Date | null = null;
+
+    //     if (endDate !== null) {
+    //         endDateWithTime = new Date(endDate);
+    //         endDateWithTime.setHours(23, 59, 59, 999);
+    //     }
+
+    //     if (employee) {
+    //         if (startDate && endDateWithTime) {
+    //             return createdDate >= startDate && createdDate <= endDateWithTime && employee.includes(data?.scoutedBy);
+    //         } else if (startDate) {
+    //             return createdDate >= startDate && employee.includes(data?.scoutedBy);
+    //         } else if (endDateWithTime) {
+    //             return createdDate <= endDateWithTime && employee.includes(data?.scoutedBy);
+    //         }
+    //         return employee.includes(data?.scoutedBy);
+    //     }
+
+    //     if (startDate && endDateWithTime) {
+    //         return createdDate >= startDate && createdDate <= endDateWithTime;
+    //     } else if (startDate) {
+    //         return createdDate >= startDate;
+    //     } else if (endDateWithTime) {
+    //         return createdDate <= endDateWithTime;
+    //     }
+
+    //     return true;
+    // });
+
+
+
+
+
+
 
     let filterData = data?.filter((data: any) => {
         const createdDate = new Date(data?.created_at);
         let endDateWithTime: Date | null = null;
-
+    
         if (endDate !== null) {
             endDateWithTime = new Date(endDate);
             endDateWithTime.setHours(23, 59, 59, 999);
         }
-
-        if (employee) {
+    
+        const isWithinDateRange = () => {
             if (startDate && endDateWithTime) {
-                return createdDate >= startDate && createdDate <= endDateWithTime && employee.includes(data?.scoutedBy);
+                return createdDate >= startDate && createdDate <= endDateWithTime;
             } else if (startDate) {
-                return createdDate >= startDate && employee.includes(data?.scoutedBy);
+                return createdDate >= startDate;
             } else if (endDateWithTime) {
-                return createdDate <= endDateWithTime && employee.includes(data?.scoutedBy);
+                return createdDate <= endDateWithTime;
             }
-            return employee.includes(data?.scoutedBy);
-        }
-
-        if (startDate && endDateWithTime) {
-            return createdDate >= startDate && createdDate <= endDateWithTime;
-        } else if (startDate) {
-            return createdDate >= startDate;
-        } else if (endDateWithTime) {
-            return createdDate <= endDateWithTime;
-        }
-
-        return true;
+            return true;
+        };
+    
+        const matchesEmployee = () => {
+            if (employee) {
+                return employee.includes(data?.scoutedBy);
+            }
+            return true;
+        };
+    
+        const matchesSize = () => {
+            if (size !== null) {
+                return data?.size === size;
+            }
+            return true;
+        };
+    
+        return isWithinDateRange() && matchesEmployee() && matchesSize();
     });
+
+
+
+
+
+
+
+
 
     const disableMinDate = () => {
         let datass = new Date(data[0]?.created_at);
@@ -182,11 +241,11 @@ function UserReport() {
             <div className="hidden sm:flex sm:flex-col sm:gap-1">
                 <p className="mt-5 font-semibold ">Date</p>
                 <div className="flex flex-col gap-2 mt-2 sm:flex-row ">
-                    <div className="flex gap-3 justify-center">
+                    <div className="flex gap-3 items-center">
                         <div className="relative ">
                             <DatePicker
-                                maxDate={disableMaxDate()}
-                                minDate={disableMinDate()}
+                                // maxDate={disableMaxDate()}
+                                // minDate={disableMinDate()}
                                 className={`cursor-pointer px-2 border-[1px] border-gray-300  text-black w-full h-11 rounded-md `}
                                 placeholderText="Select a date"
                                 selected={startDate}
@@ -202,9 +261,9 @@ function UserReport() {
                     <div className="flex gap-3 items-center">
                         <div className="relative ">
                             <DatePicker
-                                minDate={disableMinDate()}
-                                maxDate={disableMaxDate()}
-                                className={`cursor-pointer px-2 border-[1px] border-gray-300  text-black w-full h-11 rounded-md `}
+                                // minDate={disableMinDate()}
+                                // maxDate={disableMaxDate()}
+                                className={`cursor-pointer px-2 border-[1px] border-gray-300 text-black w-full h-11 rounded-md `}
                                 placeholderText="Select a date"
                                 selected={endDate}
                                 onChange={onChangeEndDate}
@@ -243,6 +302,36 @@ function UserReport() {
                                 }
                             }}
                         />
+                        {/* ########################################## */}
+                        <p className="font-semibold">Sort by Areas</p>
+                        <Select
+                            isClearable
+                            className="w-52"
+                            name="areaIds"
+                            placeholder="Select Size"
+                            options={scoutAreasOptions}
+                            value={scoutAreasOptions.find((option) => option.label === size) || null}
+                            isSearchable={true}
+                            styles={customStyles}
+                            theme={(theme) => ({
+                                ...theme,
+                                colors: {
+                                    ...theme.colors,
+                                    primary25: 'transparent',
+                                    primary: '#F59927',
+                                },
+                            })}
+                            onChange={(selected: any) => {
+                                if (selected) {
+                                    setsize(selected.label);
+                                    // setStartDate(null);
+                                    // setEndDate(null);
+                                } else {
+                                    setsize(null);
+                                }
+                            }}
+                        />
+                        {/* ########################################## */}
                     </div>
                     {filterData?.length > 0 && (
                         <div className="flex">
@@ -266,6 +355,7 @@ function UserReport() {
                                     <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>ID</th>
                                     <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Type</th>
                                     <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Name</th>
+                                    <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Size</th>
                                     <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
                                     <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
                                     <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
@@ -291,6 +381,9 @@ function UserReport() {
                                             </td>
                                             <td>
                                                 <div className="whitespace-nowrap ">{data?.projectName}</div>
+                                            </td>
+                                            <td>
+                                                <div className="whitespace-nowrap ">{data?.size}</div>
                                             </td>
                                             <td>
                                                 <div className="">{data?.address}</div>

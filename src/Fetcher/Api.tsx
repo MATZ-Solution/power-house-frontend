@@ -45,6 +45,7 @@ export const getScoutCount = async () => {
 export const getAllScouts = async () => {
     let token = localStorage.getItem('token');
     try {
+        // const request = await fetch(`http://localhost:2300/scout/getscouts`, {
         const request = await fetch(`${BASE_URL}/scout/getscouts`, {
             method: 'GET',
             headers: {
@@ -327,7 +328,63 @@ export const getSubAreas = async (areaId: any) => {
 };
 
 // ############## ADD AREA  #################
+// ################################################################################################################
+// ############## ADD Architecture #################
 
+export const AddArchitecture = async (data: { architectureName: string, architecturePhoneNumber: string }) => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/AddArchitecture`, {
+        const request = await fetch(`${BASE_URL}/scout/AddArchitecture`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## ADD Architecture #################
+
+
+// ############## ADD Architecture CSV FILE  #################
+
+export const AddArchitectureCSVfile = async (data: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/AddArchitectureCSV`, {
+        const request = await fetch(`${BASE_URL}/scout/AddArchitectureCSV`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## Add Architecture CSV #################
+// ################################################################################################################
 export const AddMeetingMember = async (data: any) => {
     let token = localStorage.getItem('token');
     try {
@@ -710,3 +767,124 @@ export const ViewCatalogue = async () => {
     }
 };
 // ############################### View Catalogue ###############################
+
+
+// ################################################################################################################
+
+// ############## Add Builder ###############################
+
+export const AddBuilder = async (data: { builderName: string, builderPhoneNumber: string }) => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/AddBuilder`, {
+        const request = await fetch(`${BASE_URL}/scout/AddBuilder`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## Add Builder ###############################
+
+
+// ############## Add Builder CSV FILE  #####################
+
+export const AddBuilderCSVfile = async (data: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/AddBuilderCSV`, {
+        const request = await fetch(`${BASE_URL}/scout/AddBuilderCSV`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## Add Builder CSV ###########################
+
+// ############## Add Electrician ###########################
+
+export const AddElectrician = async (data: { electricianName: string, electricianPhoneNumber: string }) => {
+    
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/AddElectrician`, {
+        const request = await fetch(`${BASE_URL}/scout/AddElectrician`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## Add Electrician ###########################
+
+
+// ############## Add Electrician CSV FILE  #################
+
+export const AddElectricianCSVfile = async (data: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/AddElectricianCSV`, {
+        const request = await fetch(`${BASE_URL}/scout/AddElectricianCSV`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            body: data,
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response.message);
+        }
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## Add Electrician CSV #######################
+
+// ################################################################################################################
+
+
+

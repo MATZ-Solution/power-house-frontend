@@ -96,7 +96,7 @@ const Charts = () => {
         <>
                 <div className="panel">
                     <div className="mb-5 flex items-center justify-between">
-                        <h5 className="text-lg font-semibold dark:text-white">Scout Sales</h5>
+                        <h5 className="text-lg font-semibold dark:text-white">Scouts</h5>
                     </div>
                     <div className="mb-5">
                         <ReactApexChart series={areaChart.series} options={areaChart.options} className="rounded-lg bg-white dark:bg-black overflow-hidden" type="area" height={300} />

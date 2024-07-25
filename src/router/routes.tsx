@@ -107,6 +107,9 @@ const ScoutsMember = lazy(() => import('../pages/ScoutsMember'));
 const AddArea = lazy(() => import('../pages/AddArea'));
 const Clipboard = lazy(() => import('../pages/Forms/Clipboard'));
 const SetupCities = lazy(() => import('../pages/AddCities'));
+const SetupArchitecture = lazy(() => import('../pages/addArchitecture'));
+const SetupBuilder = lazy(() => import('../pages/addBuilder'));
+const SetupElectrician = lazy(() => import('../pages/addElectrician'));
 const AddSubArea = lazy(() => import('../pages/AddSubArea'));
 const CreateMeetingMember = lazy(() => import('../pages/CreateMeetingMember'));
 const CreateSOP = lazy(() => import('../pages/CreateSOP'));
@@ -116,6 +119,7 @@ const AllotedLocation = lazy(() => import('../pages/AllotedLocations'));
 const UnAllotedLocation = lazy(() => import('../pages/UnAllotedLocation'));
 const MapScoutLocation = lazy(() => import('../pages/MapScoutLocation'));
 const UserReport = lazy(() => import('../pages/UserReport'));
+const UserReport2 = lazy(() => import('../pages/UserReport2'));
 const CreateCatalogue = lazy(()=> import('../pages/CreateCatalogue'));
 const ViewCatalogue = lazy(()=> import('../pages/ViewCatalogue'));
 const MeetingReport = lazy(()=> import('../pages/Meeting-report'));
@@ -179,6 +183,18 @@ const routes = [
         path: '/add-sub-area',
         element: <AddSubArea />,
     },
+    {
+        path: '/add-Architecture',
+        element: <SetupArchitecture />,
+    },
+    {
+        path: '/add-Builder',
+        element: <SetupBuilder />,
+    },
+    {
+        path: '/add-Electrician',
+        element: <SetupElectrician />,
+    },
 
     // CREATE-MEETING-MEMBER
     {
@@ -218,6 +234,10 @@ const routes = [
     {
         path: '/scout-report',
         element: <UserReport />,
+    },
+    {
+        path: '/scout-report2',
+        element: <UserReport2 />,
     },
     {
         path: '/meeting-report',
