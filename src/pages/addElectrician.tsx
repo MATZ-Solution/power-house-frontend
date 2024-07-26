@@ -127,7 +127,7 @@ function SetupElectrician(): any {
                             </div>
                         </div>
                         <div className="w-auto">
-                            <a href="/Architecture.csv" className="inline-block" download>
+                            <a href="/electrician.csv" className="inline-block" download>
                                 <button type="button" className="mt-4 btn btn-primary rounded-full h-11">
                                     Download Sample CSV File
                                 </button>
