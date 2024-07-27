@@ -20,6 +20,7 @@ function UserReport() {
     let [endDate, setEndDate] = useState<Date | null>(null);
     let [employee, setEmployee] = useState<String | null>(null);
     let [size, setsize] = useState<String | null>(null);
+    let [status, setStatus] = useState<String | null>(null);
 
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -109,50 +110,20 @@ const scoutAreasOptions: Option[] = Array.from(
   ).sort((a:any, b:any) => b - a) // Sort in descending order
     .map((size: any) => ({ value: size, label: size })) || [];
 
+
+    const scoutStatusOptions: Option[] = Array.from(
+        new Set(data?.map((data: any) => data.status))
+      ).map((status: any) => ({ value: status, label: status })) || [];
   
+    //   console.log("scoutStatusOptions");
+    //   console.log(scoutStatusOptions);
 
     const handleDownloadReport = () => {
         const doc = new jsPDF();
         autoTable(doc, { html: '#report' });
         doc.save('scout-report.pdf');
     };
-    // let filterData = data?.filter((data: any) => {
-    //     const createdDate = new Date(data?.created_at);
-    //     let endDateWithTime: Date | null = null;
-
-    //     if (endDate !== null) {
-    //         endDateWithTime = new Date(endDate);
-    //         endDateWithTime.setHours(23, 59, 59, 999);
-    //     }
-
-    //     if (employee) {
-    //         if (startDate && endDateWithTime) {
-    //             return createdDate >= startDate && createdDate <= endDateWithTime && employee.includes(data?.scoutedBy);
-    //         } else if (startDate) {
-    //             return createdDate >= startDate && employee.includes(data?.scoutedBy);
-    //         } else if (endDateWithTime) {
-    //             return createdDate <= endDateWithTime && employee.includes(data?.scoutedBy);
-    //         }
-    //         return employee.includes(data?.scoutedBy);
-    //     }
-
-    //     if (startDate && endDateWithTime) {
-    //         return createdDate >= startDate && createdDate <= endDateWithTime;
-    //     } else if (startDate) {
-    //         return createdDate >= startDate;
-    //     } else if (endDateWithTime) {
-    //         return createdDate <= endDateWithTime;
-    //     }
-
-    //     return true;
-    // });
-
-
-
-
-
-
-
+ 
     let filterData = data?.filter((data: any) => {
         const createdDate = new Date(data?.created_at);
         let endDateWithTime: Date | null = null;
@@ -186,8 +157,14 @@ const scoutAreasOptions: Option[] = Array.from(
             }
             return true;
         };
+        const matchesStatus = () => {
+            if (status !== null) {
+                return data?.status === status;
+            }
+            return true;
+        };
     
-        return isWithinDateRange() && matchesEmployee() && matchesSize();
+        return isWithinDateRange() && matchesEmployee() && matchesSize() && matchesStatus();
     });
 
 
@@ -332,6 +309,36 @@ const scoutAreasOptions: Option[] = Array.from(
                             }}
                         />
                         {/* ########################################## */}
+                        {/* ########################################## */}
+                        <p className="font-semibold">Sort by scout Status</p>
+                        <Select
+                            isClearable
+                            className="w-52"
+                            name="statusIds"
+                            placeholder="Select Status"
+                            options={scoutStatusOptions}
+                            value={scoutStatusOptions.find((option) => option.label === status) || null}
+                            isSearchable={true}
+                            styles={customStyles}
+                            theme={(theme) => ({
+                                ...theme,
+                                colors: {
+                                    ...theme.colors,
+                                    primary25: 'transparent',
+                                    primary: '#F59927',
+                                },
+                            })}
+                            onChange={(selected: any) => {
+                                if (selected) {
+                                    setStatus(selected.label);
+                                    // setStartDate(null);
+                                    // setEndDate(null);
+                                } else {
+                                    setStatus(null);
+                                }
+                            }}
+                        />
+                        {/* ########################################## */}
                     </div>
                     {filterData?.length > 0 && (
                         <div className="flex">
@@ -358,6 +365,7 @@ const scoutAreasOptions: Option[] = Array.from(
                                     <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Project Size</th>
                                     <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Address</th>
                                     <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Scouted By</th>
+                                    <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Status</th>
                                     <th className={`font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Name</th>
                                     <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Contractor Number</th>
                                     <th className={` font-extrabold ${isDark ? 'text-white' : 'text-black'}`}>Architectures</th>
@@ -390,6 +398,9 @@ const scoutAreasOptions: Option[] = Array.from(
                                             </td>
                                             <td>
                                                 <div className="">{data?.scoutedBy}</div>
+                                            </td>
+                                            <td>
+                                                <div className="">{data?.status}</div>
                                             </td>
                                             <td>
                                                 <div className="whitespace-nowrap">{data?.contractorName}</div>
