@@ -275,9 +275,9 @@ const Sidebar = () => {
                                         <li>
                                             <NavLink to="/scout-report">{t('Scout Reports')}</NavLink>
                                         </li>
-                                        <li>
+                                        {/* <li>
                                             <NavLink to="/scout-report2">{t('Scout Reports2')}</NavLink>
-                                        </li>
+                                        </li> */}
                                         <li>
                                             <NavLink to="/meeting-report">{t('Meeting Reports')}</NavLink>
                                         </li>
