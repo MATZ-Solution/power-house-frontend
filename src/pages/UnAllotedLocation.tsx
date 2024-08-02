@@ -26,7 +26,7 @@ function UnAllotedLocation() {
 
  
 
-const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+const PAGE_SIZES = [10, 20, 30, 50, 100];
 
         //Skin: Striped
         const [page, setPage] = useState(1);
@@ -128,7 +128,7 @@ const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
                                 { accessor: 'projectName', title: 'project Name', },
                                 { accessor: 'contractorName', title: 'Contractor Name' },
                                 { accessor: 'contractorNumber', title: 'Contractor Number' },
-                                { accessor: 'city', title: 'Address', },
+                                { accessor: 'city', title: 'City', },
                                 { accessor: 'scouter', title: 'Scouter', },
                                 { accessor: 'assignedToMember', title: 'Assigned Member', },
                                 { accessor: 'address', title: 'Address', },
