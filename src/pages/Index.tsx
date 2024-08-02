@@ -31,7 +31,7 @@ const Finance = () => {
     const [loading] = useState(false);
 
 
-    
+
 
 
     const [errorHandle, setErrorHandle] = useState({
@@ -160,74 +160,72 @@ const Finance = () => {
                 {/* <div className=" px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Recent Scouts</p>
                 </div> */}
-{/* ####################################### MAP #################################################### */}
-    <br />
-<div className="">
-      <DashboardMap />
-    </div>
-    <br />
-{/* #################################### MAP ####################################################### */}
+                {/* ####################################### MAP #################################################### */}
+                <br />
+                <div className="">
+                    <DashboardMap />
+                </div>
+                <br />
+                {/* #################################### MAP ####################################################### */}
 
 
-{/* ########################################################################################### */}
+                {/* ########################################################################################### */}
 
-    {/* <div className="flex flex-col md:flex-row h-screen"> */}
-    <div className="flex flex-col md:flex-row ">
-      <div className="w-full md:w-1/2 h-1/2 md:h-full p-4">
-          <ScoutChart />
-      </div>
-      <div className="w-full md:w-1/2 h-1/2 md:h-full p-4">
-          <ScoutTeamChart/>
-        
-      </div>
-    </div>
+                {/* <div className="flex flex-col md:flex-row h-screen"> */}
+                <div className="flex flex-col md:flex-row ">
+                    <div className="w-full md:w-1/2 h-1/2 md:h-full p-4">
+                        <ScoutChart />
+                    </div>
+                    <div className="w-full md:w-1/2 h-1/2 md:h-full p-4">
+                        <ScoutTeamChart />
 
-{/* ########################################################################################### */}
-                {ScoutsData?.length === 0 ? (
+                    </div>
+                </div>
+
+                {/* ########################################################################################### */}
+                {/* {ScoutsData?.length === 0 ? (
                     <div className="flex items-center justify-center mt-5 h-[70vh]">
                         <p className="text-black font-bold text-xl">No Recent Location are available. </p>
                     </div>
                 ) : (
                     <div className={`mt-4 ${isDark ? 'custom-scrollbar-dark-mode' : 'custom-scrollbar'} w-full h-[80vh] overflow-y-scroll panel`}>
-                        {/* <div className="mb-5 text-lg font-extrabold">Recent Scouts</div> */}
                         <div className="table-responsive ">
-                        {/* <DataTable value={ScoutsData} header={header} footer={footer} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}> */}
-                        
-                        <DataTable 
-                        value={ScoutsData}
-                        paginator
-                        rows={5}
-                        rowsPerPageOptions={[5, 10, 25, 50]}
-                        showGridlines
-                        dataKey="id"
-                        filters={filters}
-                        globalFilterFields={[
-                          'projectType',
-                          'projectName',
-                          'address',
-                          'scoutedBy',
-                          'contractorName',
-                          'contractorNumber',
-                        ]}
-                        emptyMessage="No customers found."
-        >
+
+                            <DataTable
+                                value={ScoutsData}
+                                paginator
+                                rows={5}
+                                rowsPerPageOptions={[5, 10, 25, 50]}
+                                showGridlines
+                                dataKey="id"
+                                filters={filters}
+                                globalFilterFields={[
+                                    'projectType',
+                                    'projectName',
+                                    'address',
+                                    'scoutedBy',
+                                    'contractorName',
+                                    'contractorNumber',
+                                ]}
+                                emptyMessage="No customers found."
+                            >
 
 
 
-    <Column field="projectType" header="Project Type" sortable  />
-    <Column field="projectName" header="Project Name" sortable style={{ minWidth: '12rem' }} />
-    <Column field="address" header="Address" sortable filterField="country.name" ></Column>
-    <Column field="scoutedBy" header="Scouted By" sortable style={{ width: '25%' }}></Column>
-    <Column field="contractorName" header="Contractor Name" sortable style={{ width: '25%' }}></Column>
-    <Column field="contractorNumber" header="Contractor Phone Number" sortable style={{ width: '25%' }}></Column>
-</DataTable>
-                            
+                                <Column field="projectType" header="Project Type" sortable />
+                                <Column field="projectName" header="Project Name" sortable style={{ minWidth: '12rem' }} />
+                                <Column field="address" header="Address" sortable filterField="country.name" ></Column>
+                                <Column field="scoutedBy" header="Scouted By" sortable style={{ width: '25%' }}></Column>
+                                <Column field="contractorName" header="Contractor Name" sortable style={{ width: '25%' }}></Column>
+                                <Column field="contractorNumber" header="Contractor Phone Number" sortable style={{ width: '25%' }}></Column>
+                            </DataTable>
+
                         </div>
                     </div>
-                )}
+                )} */}
 
-                
-               
+
+
             </div>
         </div>
     );
