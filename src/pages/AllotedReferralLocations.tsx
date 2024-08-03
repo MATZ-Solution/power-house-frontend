@@ -1,40 +1,39 @@
 import { DataTable } from 'mantine-datatable';
-import 'tippy.js/dist/tippy.css';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { setPageTitle } from '../store/themeConfigSlice';
-import { getUnAllotedLocations } from '../Fetcher/Api';
+import { getAllotedLocations} from '../Fetcher/Api';
 import 'tippy.js/dist/tippy.css';
+import ScreenLoader from './Elements/ScreenLoader';
+import SomeThingWentWrong from './Pages/SomethingWentWrong';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import ModalAddScout from './Components/Modal';
 import '../assets/css/scollbar.css';
+import Modals from './Components/Modals';
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
+import { getScoutMember, ManuallyAddScoutMember } from '../Fetcher/Api';
 
-function UnAllotedLocation() {
-    // ####  Modal Preparation ###########33
-
-    const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(setPageTitle('UnAlloted Location'));
-    });
-
-
-
+function AllotedReferralLocation() {
+        const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
+        const dispatch = useDispatch();
+        useEffect(() => {
+            dispatch(setPageTitle('Alloted Location'));
+        });
+           
+        const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
     
-
- 
-
-const PAGE_SIZES = [10, 20, 30, 50, 100];
-
         //Skin: Striped
         const [page, setPage] = useState(1);
         const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
         const [initialRecords, setInitialRecords] = useState([]);
         const [recordsData, setRecordsData] = useState(initialRecords);
         const [search, setSearch] = useState('');
-   
+    
+    
         useEffect(() => {
             const from = (page - 1) * pageSize;
             const to = from + pageSize;
@@ -44,19 +43,19 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
         useEffect(() => {
             const fetchAndFilterData = async () => {
                 try {
-                    const data = await getUnAllotedLocations();
+                    const data = await getAllotedLocations();
         
                     const filteredData = await data.filter((item : any) => {
                         return (
-                            item.refrenceId.toString().includes(search) ||
+                            item.refrenceId.toString().includes(search.toLowerCase()) ||
                             item.projectName.toLowerCase().includes(search.toLowerCase()) ||
                             item.buildingType.toLowerCase().includes(search.toLowerCase()) ||
                             item.city.toLowerCase().includes(search.toLowerCase()) ||
                             item.address.toLowerCase().includes(search.toLowerCase()) ||
                             item.contractorName.toLowerCase().includes(search.toLowerCase()) ||
                             item.contractorNumber.toLowerCase().includes(search.toLowerCase()) ||
-                            item.scouter.toLowerCase().includes(search.toLowerCase()) 
-                            // item.assignedToMember.toLowerCase().includes(search) 
+                            item.scouter.toLowerCase().includes(search.toLowerCase()) ||
+                            item.assignedToMember.toLowerCase().includes(search.toLowerCase()) 
                         );
                     });
         
@@ -68,32 +67,20 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
         
             fetchAndFilterData();
         }, [search]);
-
-
-
-
-    // #### END ###########33
-    let [open, setOpen] = useState<any>(false);
-    let [projectID, setProjectID] = useState<any>('');
-
-    function handleOpen(state: any, getProjectId: any) {
-        setProjectID(getProjectId);
-        setOpen(state);
-    }
-
     
-
-
-    return (
-        <>
-            <ModalAddScout open={open} handleOpen={handleOpen} projectID={projectID} />
+    
+    
+     
+    
+        return (
             <div className="space-y-6">
-            <div className="border-l-[5px] border-[#F59927] px-3 ">
-        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>UnAlloted Location</p>
+                <div className="border-l-[5px] border-[#F59927] px-3 ">
+        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Alloted Referral Location</p>
     </div>  
-                                {/* ################################################################################## */}
-                                <div className="panel">
+                {/* Skin: Striped  */}
+                <div className="panel">
                     <div className="flex items-center justify-between mb-5">
+                        {/* <h5 className="font-semibold text-lg dark:text-white-light">Skin: Striped</h5> */}
                         <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
                     </div>
                     <div className="datatables">
@@ -103,6 +90,7 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                             records={recordsData}
     
                             columns={[
+                                // { accessor: 'id', title: 'ID' },
                                
                                 {
                                     accessor: 'buildingType',
@@ -126,32 +114,12 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                                 
                                   { accessor: 'refrenceId', title: 'Id' },
                                 { accessor: 'projectName', title: 'project Name', },
-                                { accessor: 'contractorName', title: 'Contractor Name', render: ({ contractorName }) => contractorName === "undefined" ? 'NaN' : contractorName },
-                                { accessor: 'contractorNumber', title: 'Contractor Number', render: ({ contractorNumber }) => contractorNumber === "undefined" ? 'NaN' : contractorNumber },
+                                { accessor: 'contractorName', title: 'Contractor Name' },
+                                { accessor: 'contractorNumber', title: 'Contractor Number' },
                                 { accessor: 'city', title: 'Address', },
                                 { accessor: 'scouter', title: 'Scouter', },
-                                // { accessor: 'assignedToMember', title: 'Assigned Member', },
+                                { accessor: 'assignedToMember', title: 'Assigned Member', },
                                 { accessor: 'address', title: 'Address', },
-                                {
-                                    accessor: '', title: 'Action',
-                                    render: ({ id, assignedToMember }) => (
-                                        <div className="whitespace-wrap">
-                                            {!assignedToMember ? (
-                                                <div>
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-primary static whitespace-nowrap"
-                                                        onClick={() => handleOpen(true, id)}
-                                                    >
-                                                        Add Scoute User
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <p>{assignedToMember}</p>
-                                            )}
-                                        </div>
-                                    ),
-                                },
                             ]}
                             totalRecords={initialRecords.length}
                             recordsPerPage={pageSize}
@@ -164,11 +132,10 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                         />
                     </div>
                 </div>
-                                {/* ################################################################################## */}
-                                
+    
             </div>
-        </>
         );
+    
 }
 
-export default UnAllotedLocation;
+export default AllotedReferralLocation;
