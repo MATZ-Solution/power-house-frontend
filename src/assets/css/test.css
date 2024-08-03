@@ -1,0 +1,92 @@
+:root{
+    --text-light-orange: #F59927;
+}
+.text-light-orange{
+    color: var(--text-light-orange);
+}
+.dashboard-card-bg-img{
+    background-image: url(../images/dashboard_card_back.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.dashboard-para{
+    color: #2C2B34;
+}
+.divider{
+    height: 5px;
+    color: #F59927;
+    background-color: #F59927;
+    border-radius: 50px;
+    width: 100px;
+    margin: 10px 5px 10px 0px;
+    
+}
+.divider-small{
+    height: 5px;
+    color: #F59927;
+    background-color: #F59927;
+    border-radius: 50px;
+    width: 10px;
+    margin: 10px 0px;
+}
+.margin-bottom-minus{
+    margin-bottom: -25px;
+}
+.bg-card-blue{
+    background-color: #6F42C1;
+}
+.bg-card-orange{
+    background-color: #F59927;
+}
+.bg-card-dark{
+    background-color: #303030;
+}
+.bg-card-green{
+    background-color: #007980;
+}
+.position-img{
+    position: absolute;
+    right: -5px;
+    bottom: 0;
+}
+.custom-width1{
+    width: 85px;
+}
+.custom-width2{
+    width: 105px;
+}
+.custom-width3{
+    width: 95px;
+}
+.custom-width4{
+    width: 111px;
+}
+.border-orange{
+    border: 3px solid #F59927;
+    border-radius: 12px;
+}
+.chart-img-dashboard{
+background-image: url(/public/assets/images/dashboard_chart_bg.png) ;
+background-repeat: no-repeat;
+    background-size: cover;
+    /* dashboard_chart_bg.png */
+}
+.bg-gray-chart-dashboard{
+    background-color: #F8F8F8;
+}
+.text-blue-1{
+    color: #1467B0;
+}
+.text-green-1{
+    color: #3DCD58;
+}
+.light-bg-orange{
+    background-color: 
+    #FFF5E8;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .dashboarMap > :first-child {
+        width: 80vh !important;
+    }
+}

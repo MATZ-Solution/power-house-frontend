@@ -2,7 +2,10 @@ import { lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Meetings from '../pages/Meetings';
 import { MeetingRoomRounded } from '@mui/icons-material';
+
 const Index = lazy(() => import('../pages/Index'));
+const Test = lazy(() => import('../pages/test'));
+
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
 const Crypto = lazy(() => import('../pages/Crypto'));
@@ -142,6 +145,10 @@ const routes = [
     {
         path: '/dashboard',
         element: <Index />,
+    },
+    {
+        path: '/dashboard1',
+        element: <Test />,
     },
 
     // analytics page

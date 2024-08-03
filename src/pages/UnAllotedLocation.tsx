@@ -126,11 +126,11 @@ const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
                                 
                                   { accessor: 'refrenceId', title: 'Id' },
                                 { accessor: 'projectName', title: 'project Name', },
-                                { accessor: 'contractorName', title: 'Contractor Name' },
-                                { accessor: 'contractorNumber', title: 'Contractor Number' },
+                                { accessor: 'contractorName', title: 'Contractor Name', render: ({ contractorName }) => contractorName === "undefined" ? 'NaN' : contractorName },
+                                { accessor: 'contractorNumber', title: 'Contractor Number', render: ({ contractorNumber }) => contractorNumber === "undefined" ? 'NaN' : contractorNumber },
                                 { accessor: 'city', title: 'Address', },
                                 { accessor: 'scouter', title: 'Scouter', },
-                                { accessor: 'assignedToMember', title: 'Assigned Member', },
+                                // { accessor: 'assignedToMember', title: 'Assigned Member', },
                                 { accessor: 'address', title: 'Address', },
                                 {
                                     accessor: '', title: 'Action',
