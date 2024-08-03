@@ -1,11 +1,12 @@
-import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AddArchitecture, AddArchitectureCSVfile } from '../Fetcher/Api';
+import { AddArchitecture, AddArchitectureCSVfile, getArchitecture } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import { DataTable } from 'mantine-datatable';
 
 function SetupArchitecture(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -16,6 +17,12 @@ function SetupArchitecture(): any {
     let queryClient: any = useQueryClient();
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
+    const [search, setSearch] = useState('');
+    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
+    const [recordsData, setRecordsData] = useState<any[]>([]);
 
     const mutation = useMutation({
         mutationKey: ['AddArchitecture'],
@@ -80,6 +87,36 @@ function SetupArchitecture(): any {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
+    const {
+        isLoading: getArchitectureIsLoading,
+        isError: getArchitectureIsError,
+        error: getArchitectureError,
+        data: getArchitectureData= [],
+    } = useQuery({
+        queryKey: ['getArchitecture'],
+        queryFn: getArchitecture,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+    useEffect(() => {
+        if (getArchitectureData.length > 0) {
+            const from = (page - 1) * pageSize;
+            const to = from + pageSize;
+            setInitialRecords(getArchitectureData);
+            setRecordsData([...getArchitectureData.slice(from, to)]);
+        }
+    }, [page, pageSize, getArchitectureData]);
+    useEffect(() => {
+        if (search) {
+            const filteredData = getArchitectureData.filter((item: any) => item.architectureName.toLowerCase().includes(search.toLowerCase()));
+            console.log(filteredData,"found")
+            setInitialRecords(filteredData);
+        } else {
+            setInitialRecords(getArchitectureData);
+        }
+    }, [search, getArchitectureData]);
+
+    // console.log(getArchitectureData,"getArchitectureData")
 
     return (
         <>
@@ -133,6 +170,38 @@ function SetupArchitecture(): any {
                                 </button>
                             </a>
                         </div>
+                        <div className="space-y-6">
+                        <div className="panel">
+                            <div className="flex items-center justify-between mb-5">
+                                <input
+                                    type="text"
+                                    className="form-input w-auto"
+                                    placeholder="Search..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                            <div className="datatables">
+                                <DataTable
+                                    striped
+                                    className="whitespace-nowrap table-striped"
+                                    records={recordsData}
+                                    columns={[
+                                        { accessor: 'architectureName', title: 'Architecture Name' },
+                                        { accessor: 'architectureNumber', title: 'Architecture Phone Number' },
+                                    ]}
+                                    totalRecords={getArchitectureData.length}
+                                    recordsPerPage={pageSize}
+                                    page={page}
+                                    onPageChange={setPage}
+                                    recordsPerPageOptions={PAGE_SIZES}
+                                    onRecordsPerPageChange={setPageSize}
+                                    minHeight={200}
+                                    paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
+                                />
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>

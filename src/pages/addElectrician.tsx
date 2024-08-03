@@ -1,11 +1,12 @@
-import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AddBuilder, AddElectrician , AddElectricianCSVfile } from '../Fetcher/Api';
+import { AddBuilder, AddElectrician , AddElectricianCSVfile, GetElectrician } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import { DataTable } from 'mantine-datatable';
 
 function SetupElectrician(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -16,6 +17,12 @@ function SetupElectrician(): any {
     let queryClient: any = useQueryClient();
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
+    const [search, setSearch] = useState('');
+    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
+    const [recordsData, setRecordsData] = useState<any[]>([]);
 
     const mutation = useMutation({
         mutationKey: ['AddElectrician'],
@@ -80,6 +87,36 @@ function SetupElectrician(): any {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
+    const {
+        isLoading: getElectricianIsLoading,
+        isError: getElectricianIsError,
+        error: getElectricianError,
+        data: getElectricianData= [],
+    } = useQuery({
+        queryKey: ['getElectricians'],
+        queryFn: GetElectrician,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+    useEffect(() => {
+        if (getElectricianData.length > 0) {
+            const from = (page - 1) * pageSize;
+            const to = from + pageSize;
+            setInitialRecords(getElectricianData);
+            setRecordsData([...getElectricianData.slice(from, to)]);
+        }
+    }, [page, pageSize, getElectricianData]);
+    useEffect(() => {
+        if (search) {
+            console.log('Search', search);
+            const filteredData = getElectricianData.filter((item: any) => item.electricianName.toLowerCase().includes(search.toLowerCase()));
+            setInitialRecords(filteredData);
+        } else {
+            setInitialRecords(getElectricianData);
+        }
+    }, [search, getElectricianData]);
+
+    console.log(getElectricianData,"getBuilderData")
 
     return (
         <>
@@ -133,6 +170,38 @@ function SetupElectrician(): any {
                                 </button>
                             </a>
                         </div>
+                        <div className="space-y-6">
+                        <div className="panel">
+                            <div className="flex items-center justify-between mb-5">
+                                <input
+                                    type="text"
+                                    className="form-input w-auto"
+                                    placeholder="Search..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                            <div className="datatables">
+                                <DataTable
+                                    striped
+                                    className="whitespace-nowrap table-striped"
+                                    records={recordsData}
+                                    columns={[
+                                        { accessor: 'electricianName', title: 'Electrician Name' },
+                                        { accessor: 'electricianNumber', title: 'Electrician Number' },
+                                    ]}
+                                    totalRecords={getElectricianData.length}
+                                    recordsPerPage={pageSize}
+                                    page={page}
+                                    onPageChange={setPage}
+                                    recordsPerPageOptions={PAGE_SIZES}
+                                    onRecordsPerPageChange={setPageSize}
+                                    minHeight={200}
+                                    paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
+                                />
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>

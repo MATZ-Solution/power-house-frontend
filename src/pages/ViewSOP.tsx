@@ -8,24 +8,61 @@ import IconBell from '../components/Icon/IconBell';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { ViewSOPData } from './../Fetcher/Api'
+import EditSopModal from './Components/EditSopModal';
+import { useQuery } from '@tanstack/react-query';
 
 
 const ViewSOP = () => {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(setPageTitle('View SOP'));
-    });
-       
-    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    }, [dispatch]);
 
-    //Skin: Striped
+    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
     const [initialRecords, setInitialRecords] = useState([]);
-    const [recordsData, setRecordsData] = useState(initialRecords);
+    const [recordsData, setRecordsData] = useState([]);
+    const [sopId, setSopId] = useState<any>('');
+    const [open, setOpen] = useState(false);
     const [search, setSearch] = useState('');
 
+    function handleOpen(state: any, sopId: any) {
+        setSopId(sopId);
+        setOpen(state);
+    }
+
+    const fetchAndFilterData = async (searchTerm: string = '') => {
+        try {
+            const data = await ViewSOPData();
+            const filteredData = data.filter((item: any) => {
+                return (
+                    item.city.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.area.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.projectDomain.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    item.projectType.toLowerCase().includes(searchTerm.toLowerCase())
+                );
+            });
+            setInitialRecords(filteredData);
+            return filteredData;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const {
+        isLoading: getSopIsLoading,
+        isError: getSop,
+        error: getSopError,
+        data: getSopData,
+    } = useQuery({
+        queryKey: ['getAllSop', search],
+        queryFn: () => fetchAndFilterData(search),
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
 
     useEffect(() => {
         const from = (page - 1) * pageSize;
@@ -34,70 +71,67 @@ const ViewSOP = () => {
     }, [page, pageSize, initialRecords]);
 
     useEffect(() => {
-        const fetchAndFilterData = async () => {
-            try {
-                const data = await ViewSOPData();
-    
-                const filteredData = await data.filter((item : any) => {
-                    return (
-                        // item.id.toString().includes(search.toLowerCase()) ||
-                        item.city.toLowerCase().includes(search.toLowerCase()) ||
-                        item.area.toLowerCase().includes(search.toLowerCase()) ||
-                        item.projectDomain.toLowerCase().includes(search.toLowerCase()) ||
-                        item.projectType.toLowerCase().includes(search.toLowerCase())
-                    );
-                });
-    
-                setInitialRecords(filteredData);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-    
-        fetchAndFilterData();
+        fetchAndFilterData(search);
     }, [search]);
 
-
-
- 
-
     return (
-        <div className="space-y-6">
-            <div className="border-l-[5px] border-[#F59927] px-3 ">
-    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View SOP</p>
-</div>  
-            {/* Skin: Striped  */}
-            <div className="panel">
-                <div className="flex items-center justify-between mb-5">
-                    {/* <h5 className="font-semibold text-lg dark:text-white-light">Skin: Striped</h5> */}
-                    <input type="text" className="form-input w-auto" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} />
+        <div>
+            <EditSopModal open={open} handleOpen={handleOpen} sopId={sopId} />
+            <div className="space-y-6">
+                <div className="border-l-[5px] border-[#F59927] px-3">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View SOP</p>
                 </div>
-                <div className="datatables">
-                    <DataTable
-                        striped
-                        className="whitespace-nowrap table-striped"
-                        records={recordsData}
-                        columns={[
-                            // { accessor: 'id', title: 'ID' },
-                            { accessor: 'projectDomain', title: 'Project Domain' },
-                            { accessor: 'projectType', title: 'Project Type' },
-                            { accessor: 'city', title: 'City' },
-                            { accessor: 'area', title: 'Area' },
-                        ]}
-                        totalRecords={initialRecords.length}
-                        recordsPerPage={pageSize}
-                        page={page}
-                        onPageChange={(p) => setPage(p)}
-                        recordsPerPageOptions={PAGE_SIZES}
-                        onRecordsPerPageChange={setPageSize}
-                        minHeight={200}
-                        paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
-                    />
+                <div className="panel">
+                    <div className="flex items-center justify-between mb-5">
+                        <input
+                            type="text"
+                            className="form-input w-auto"
+                            placeholder="Search..."
+                            value={search}
+                            onChange={(e) => setSearch(e.target.value)}
+                        />
+                    </div>
+                    <div className="datatables">
+                        <DataTable
+                            striped
+                            className="whitespace-nowrap table-striped"
+                            records={recordsData}
+                            columns={[
+                                { accessor: 'projectDomain', title: 'Project Domain' },
+                                { accessor: 'projectType', title: 'Project Type' },
+                                { accessor: 'city', title: 'City' },
+                                { accessor: 'area', title: 'Area' },
+                                { accessor: 'scoutMemberNames', title: 'Members' },
+                                {
+                                    accessor: '', title: 'Action',
+                                    render: ({ id }) => (
+                                        <div className="text-center">
+                                            <button
+                                                type="button"
+                                                className="btn btn-primary static whitespace-nowrap"
+                                                onClick={() => handleOpen(true, id)}
+                                            >
+                                                Edit SOP
+                                            </button>
+                                        </div>
+                                    ),
+                                },
+                            ]}
+                            totalRecords={initialRecords.length}
+                            recordsPerPage={pageSize}
+                            page={page}
+                            onPageChange={setPage}
+                            recordsPerPageOptions={PAGE_SIZES}
+                            onRecordsPerPageChange={setPageSize}
+                            minHeight={200}
+                            paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
+                        />
+                    </div>
                 </div>
             </div>
-
         </div>
     );
 };
+
 
 export default ViewSOP;

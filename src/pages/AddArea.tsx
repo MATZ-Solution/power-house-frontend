@@ -5,11 +5,12 @@ import { setPageTitle } from '../store/themeConfigSlice';
 // const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef } from 'react';
-import { AddAreaCSVfile, AddAreas, getCity } from '../Fetcher/Api';
+import { AddAreaCSVfile, AddAreas, getAllAreas, getCity } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import { DataTable } from 'mantine-datatable';
 
 function AddArea() {
     // ################ VARIABLES ################
@@ -32,7 +33,12 @@ function AddArea() {
         areaName: '',
         areaError: false,
     });
-
+    const [search, setSearch] = useState('');
+    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
+    const [recordsData, setRecordsData] = useState<any[]>([]);
     // ################ MUTATION AND USE QUERY ################
 
     const mutationAreaCSVfile = useMutation({
@@ -135,6 +141,35 @@ function AddArea() {
         setCityValues(e.target.value);
         setValues({ ...values, cityId: e.target.value });
     }
+    const {
+        isLoading: getAreaIsLoading,
+        isError: getAreaIsError,
+        error: getAreaError,
+        data: getAreaData= [],
+    } = useQuery({
+        queryKey: ['getArea'],
+        queryFn: getAllAreas,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+    useEffect(() => {
+        if (getAreaData.length > 0) {
+            const from = (page - 1) * pageSize;
+            const to = from + pageSize;
+            setInitialRecords(getAreaData);
+            setRecordsData([...getAreaData.slice(from, to)]);
+        }
+    }, [page, pageSize, getAreaData]);
+    useEffect(() => {
+        if (search) {
+            const filteredData = getAreaData.filter((item: any) => item.cityName.toLowerCase().includes(search.toLowerCase()));
+            setInitialRecords(filteredData);
+        } else {
+            setInitialRecords(getAreaData);
+        }
+    }, [search, getAreaData]);
+
+    console.log(getAreaData,"getAreaData")
 
     return (
         <>
@@ -219,6 +254,38 @@ function AddArea() {
                         </button>
                     </a>
                 </div>
+                <div className="space-y-6">
+                        <div className="panel">
+                            <div className="flex items-center justify-between mb-5">
+                                <input
+                                    type="text"
+                                    className="form-input w-auto"
+                                    placeholder="Search..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                            <div className="datatables">
+                                <DataTable
+                                    striped
+                                    className="whitespace-nowrap table-striped"
+                                    records={recordsData}
+                                    columns={[
+                                        { accessor: 'cityName', title: 'City' },
+                                        { accessor: 'AreaName', title: 'Area' },
+                                    ]}
+                                    totalRecords={getAreaData.length}
+                                    recordsPerPage={pageSize}
+                                    page={page}
+                                    onPageChange={setPage}
+                                    recordsPerPageOptions={PAGE_SIZES}
+                                    onRecordsPerPageChange={setPageSize}
+                                    minHeight={200}
+                                    paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
+                                />
+                            </div>
+                        </div>
+                    </div>
             </div>
         </>
     );

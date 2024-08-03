@@ -1,11 +1,12 @@
-import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AddBuilder, AddBuilderCSVfile } from '../Fetcher/Api';
+import { AddBuilder, AddBuilderCSVfile, GetAllBuilder } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import { DataTable } from 'mantine-datatable';
 
 function SetupBuilder(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -16,7 +17,12 @@ function SetupBuilder(): any {
     let queryClient: any = useQueryClient();
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
-
+    const [search, setSearch] = useState('');
+    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
+    const [recordsData, setRecordsData] = useState<any[]>([]);
     const mutation = useMutation({
         mutationKey: ['AddBuilder'],
         mutationFn: AddBuilder,
@@ -80,6 +86,35 @@ function SetupBuilder(): any {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
+    const {
+        isLoading: getBuilderIsLoading,
+        isError: getBuilderIsError,
+        error: getBuilderError,
+        data: getBuilderData= [],
+    } = useQuery({
+        queryKey: ['getBuilder'],
+        queryFn: GetAllBuilder,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+    useEffect(() => {
+        if (getBuilderData.length > 0) {
+            const from = (page - 1) * pageSize;
+            const to = from + pageSize;
+            setInitialRecords(getBuilderData);
+            setRecordsData([...getBuilderData.slice(from, to)]);
+        }
+    }, [page, pageSize, getBuilderData]);
+    useEffect(() => {
+        if (search) {
+            const filteredData = getBuilderData.filter((item: any) => item.builderName.toLowerCase().includes(search.toLowerCase()));
+            setInitialRecords(filteredData);
+        } else {
+            setInitialRecords(getBuilderData);
+        }
+    }, [search, getBuilderData]);
+
+    console.log(getBuilderData,"getBuilderData")
 
     return (
         <>
@@ -133,6 +168,38 @@ function SetupBuilder(): any {
                                 </button>
                             </a>
                         </div>
+                        <div className="space-y-6">
+                        <div className="panel">
+                            <div className="flex items-center justify-between mb-5">
+                                <input
+                                    type="text"
+                                    className="form-input w-auto"
+                                    placeholder="Search..."
+                                    value={search}
+                                    onChange={(e) => setSearch(e.target.value)}
+                                />
+                            </div>
+                            <div className="datatables">
+                                <DataTable
+                                    striped
+                                    className="whitespace-nowrap table-striped"
+                                    records={recordsData}
+                                    columns={[
+                                        { accessor: 'builderName', title: 'Builder Name' },
+                                        { accessor: 'builderNumber', title: 'Builder Number' },
+                                    ]}
+                                    totalRecords={getBuilderData.length}
+                                    recordsPerPage={pageSize}
+                                    page={page}
+                                    onPageChange={setPage}
+                                    recordsPerPageOptions={PAGE_SIZES}
+                                    onRecordsPerPageChange={setPageSize}
+                                    minHeight={200}
+                                    paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
+                                />
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
