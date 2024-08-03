@@ -24,7 +24,7 @@ function ScoutsMember() {
 
     const dispatch = useDispatch();
 // ##################################################################
-const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+const PAGE_SIZES = [10, 20, 30, 50, 100];
     
         //Skin: Striped
         const [page, setPage] = useState(1);

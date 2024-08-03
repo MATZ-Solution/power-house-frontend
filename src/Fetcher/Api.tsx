@@ -41,7 +41,6 @@ export const getScoutCount = async () => {
 };
 
 // ############## GET ALL SCOUT  ###############
-
 export const getAllScouts = async () => {
     let token = localStorage.getItem('token');
     try {

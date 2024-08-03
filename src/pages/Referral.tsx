@@ -1,23 +1,25 @@
-
 import { DataTable } from 'mantine-datatable';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-// import { setPageTitle } from '../../../store/themeConfigSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { setPageTitle } from '../store/themeConfigSlice';
-import IconBell from '../components/Icon/IconBell';
-import { useSelector } from 'react-redux';
+import 'tippy.js/dist/tippy.css';
+import ScreenLoader from './Elements/ScreenLoader';
+import SomeThingWentWrong from './Pages/SomethingWentWrong';
+import { getAllScouts } from '../Fetcher/Api';
+import { useQuery } from '@tanstack/react-query';
 import { IRootState } from '../store';
-import { ViewCatalogue } from './../Fetcher/Api'
+import ReactPaginate from 'react-paginate';
+import './../assets/css/pagination.css'; // Import your CSS file here
 
-
-const ViewSOP = () => {
+function Referral() {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setPageTitle('View Catalogue'));
+        dispatch(setPageTitle('All Locations'));
     });
        
-    const PAGE_SIZES = [10, 20, 30, 50, 100];
+    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
 
     //Skin: Striped
     const [page, setPage] = useState(1);
@@ -36,11 +38,17 @@ const ViewSOP = () => {
     useEffect(() => {
         const fetchAndFilterData = async () => {
             try {
-                const data = await ViewCatalogue();
+                const data = await getAllScouts();
     
                 const filteredData = await data.filter((item : any) => {
                     return (
-                        item.title.toLowerCase().includes(search.toLowerCase()) 
+                        // item.id.toString().includes(search.toLowerCase()) ||
+                        item.projectType.toLowerCase().includes(search.toLowerCase()) ||
+                        item.projectName.toLowerCase().includes(search.toLowerCase()) ||
+                        item.address.toLowerCase().includes(search.toLowerCase()) ||
+                        item.scoutedBy.toLowerCase().includes(search.toLowerCase()) ||
+                        item.contractorName.toLowerCase().includes(search.toLowerCase()) ||
+                        item.contractorNumber.toLowerCase().includes(search.toLowerCase())
                     );
                 });
     
@@ -60,7 +68,7 @@ const ViewSOP = () => {
     return (
         <div className="space-y-6">
             <div className="border-l-[5px] border-[#F59927] px-3 ">
-    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>View Catalogue</p>
+    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>All Referral Locations</p>
 </div>  
             {/* Skin: Striped  */}
             <div className="panel">
@@ -73,18 +81,32 @@ const ViewSOP = () => {
                         striped
                         className="whitespace-nowrap table-striped"
                         records={recordsData}
+
                         columns={[
                             // { accessor: 'id', title: 'ID' },
-                            { accessor: 'title', title: 'Catalogue Title' },
-                            { accessor: 'document', title: 'Catalogue Document',
-                            render: ({ document }) => (
-                                <div >
-                                <a href={document} target="_blank">
-            <img src="https://powerhouseassets.s3.amazonaws.com/1720523972592-vector-documents-icon.jpg" alt="HTML tutorial" style={{ width: '42px', height: '42px' }} />
-        </a>
-                              </div>
-                            ),
-                             },
+                           
+                            {
+                                accessor: 'projectType',
+                                title: 'Project Type',
+                                render: ({ projectType }) => (
+                                    <div
+                                    className={`whitespace-nowrap badge ${
+                                      projectType === 'Market'
+                                        ? 'bg-success'
+                                        : projectType === 'Project'
+                                          ? 'bg-info'
+                                          : ''
+                                    } flex justify-center word-wrap: break-word`}
+                                  >
+                                    {projectType}
+                                  </div>
+                                ),
+                              },
+                            { accessor: 'projectName', title: 'Project Name' },
+                            { accessor: 'scoutedBy', title: 'scoutedBy', },
+                            { accessor: 'contractorName', title: 'Contractor Name' },
+                            { accessor: 'contractorNumber', title: 'Contractor Number' },
+                            { accessor: 'address', title: 'Address', },
                         ]}
                         totalRecords={initialRecords.length}
                         recordsPerPage={pageSize}
@@ -92,7 +114,7 @@ const ViewSOP = () => {
                         onPageChange={(p) => setPage(p)}
                         recordsPerPageOptions={PAGE_SIZES}
                         onRecordsPerPageChange={setPageSize}
-                        minHeight={200}
+                        minHeight={100}
                         paginationText={({ from, to, totalRecords }) => `Showing  ${from} to ${to} of ${totalRecords} entries`}
                     />
                 </div>
@@ -100,6 +122,6 @@ const ViewSOP = () => {
 
         </div>
     );
-};
+}
 
-export default ViewSOP;
+export default Referral;

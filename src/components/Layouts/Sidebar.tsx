@@ -201,6 +201,37 @@ const Sidebar = () => {
                             </li>
                         </ul>
 
+{/* Referral Locations */}
+<ul className="relative font-semibold space-y-0.5 p-4 py-0">
+                            <li className="menu nav-item">
+                                {/* <button type="button" className={`${currentMenu === 'locations' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('locations')}> */}
+                                <button type="button" className={`${currentMenu === 'referral-location' ? 'active' : ''} nav-link group w-full`} onClick={() => toggleMenu('referral-location')}>
+                                    <div className="flex items-center">
+                                        <img src={LocationSVG} className="group-hover:!text-primary shrink-0 w-5 h-5"></img>
+                                        {/* <IconMapPin fill={true} className="group-hover:!text-primary shrink-0 "/> */}
+                                        {/* <IconMenuNotes className="group-hover:!text-primary shrink-0" /> */}
+                                        <span className="ltr:pl-3 rtl:pr-3 text-black dark:text-[#506690] dark:group-hover:text-white-dark">{t('Referral Locations')}</span>
+                                    </div>
+                                    <div className={currentMenu !== 'referral-location' ? 'rtl:rotate-90 -rotate-90' : ''}>
+                                        <IconCaretDown />
+                                    </div>
+                                </button>
+                                <AnimateHeight duration={300} height={currentMenu === 'referral-location' ? 'auto' : 0}>
+                                    <ul className="sub-menu text-gray-500">
+                                        <li>
+                                            <NavLink to="/referral-location">{t('All Referral Locations')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/allotedreferral-location">{t('Alloted Referral Locations')}</NavLink>
+                                        </li>
+                                        <li>
+                                            <NavLink to="/unallotedreferral-location">{t('Unalloted Referral Locations')}</NavLink>
+                                        </li>
+                                    </ul>
+                                </AnimateHeight>
+                            </li>
+                        </ul>
+
                         {/* create User */}
                         <ul className="relative font-semibold space-y-0.5 p-4 py-0">
                             <li className="menu nav-item">

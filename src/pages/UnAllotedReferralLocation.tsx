@@ -11,7 +11,7 @@ import { IRootState } from '../store';
 import ModalAddScout from './Components/Modal';
 import '../assets/css/scollbar.css';
 
-function UnAllotedLocation() {
+function UnAllotedReferralLocation() {
     // ####  Modal Preparation ###########33
 
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -26,7 +26,7 @@ function UnAllotedLocation() {
 
  
 
-const PAGE_SIZES = [10, 20, 30, 50, 100];
+const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
 
         //Skin: Striped
         const [page, setPage] = useState(1);
@@ -89,7 +89,7 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
             <ModalAddScout open={open} handleOpen={handleOpen} projectID={projectID} />
             <div className="space-y-6">
             <div className="border-l-[5px] border-[#F59927] px-3 ">
-        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>UnAlloted Location</p>
+        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>UnAlloted Referral Location</p>
     </div>  
                                 {/* ################################################################################## */}
                                 <div className="panel">
@@ -126,11 +126,11 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                                 
                                   { accessor: 'refrenceId', title: 'Id' },
                                 { accessor: 'projectName', title: 'project Name', },
-                                { accessor: 'contractorName', title: 'Contractor Name', render: ({ contractorName }) => contractorName === "undefined" ? 'NaN' : contractorName },
-                                { accessor: 'contractorNumber', title: 'Contractor Number', render: ({ contractorNumber }) => contractorNumber === "undefined" ? 'NaN' : contractorNumber },
+                                { accessor: 'contractorName', title: 'Contractor Name' },
+                                { accessor: 'contractorNumber', title: 'Contractor Number' },
                                 { accessor: 'city', title: 'Address', },
                                 { accessor: 'scouter', title: 'Scouter', },
-                                // { accessor: 'assignedToMember', title: 'Assigned Member', },
+                                { accessor: 'assignedToMember', title: 'Assigned Member', },
                                 { accessor: 'address', title: 'Address', },
                                 {
                                     accessor: '', title: 'Action',
@@ -171,4 +171,4 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
         );
 }
 
-export default UnAllotedLocation;
+export default UnAllotedReferralLocation;

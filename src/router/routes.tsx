@@ -2,7 +2,10 @@ import { lazy } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Meetings from '../pages/Meetings';
 import { MeetingRoomRounded } from '@mui/icons-material';
+
 const Index = lazy(() => import('../pages/Index'));
+const Test = lazy(() => import('../pages/test'));
+
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
 const Crypto = lazy(() => import('../pages/Crypto'));
@@ -103,6 +106,7 @@ const MarkDownEditor = lazy(() => import('../pages/Forms/MarkDownEditor'));
 const DateRangePicker = lazy(() => import('../pages/Forms/DateRangePicker'));
 const AddScoutUser = lazy(() => import('../pages/AddScoutUser'));
 const Scouts = lazy(() => import('../pages/Scouts'));
+const Referral = lazy(() => import('../pages/Referral'));
 const ScoutsMember = lazy(() => import('../pages/ScoutsMember'));
 const AddArea = lazy(() => import('../pages/AddArea'));
 const Clipboard = lazy(() => import('../pages/Forms/Clipboard'));
@@ -116,7 +120,9 @@ const CreateSOP = lazy(() => import('../pages/CreateSOP'));
 const ViewSOP = lazy(() => import('../pages/ViewSOP'));
 // const Location = lazy(() => import('../pages/Locations'));
 const AllotedLocation = lazy(() => import('../pages/AllotedLocations'));
+const AllotedReferralLocation = lazy(() => import('../pages/AllotedReferralLocations'));
 const UnAllotedLocation = lazy(() => import('../pages/UnAllotedLocation'));
+const UnAllotedReferralLocation = lazy(() => import('../pages/UnAllotedReferralLocation'));
 const MapScoutLocation = lazy(() => import('../pages/MapScoutLocation'));
 const UserReport = lazy(() => import('../pages/UserReport'));
 const UserReport2 = lazy(() => import('../pages/UserReport2'));
@@ -143,6 +149,10 @@ const routes = [
         path: '/dashboard',
         element: <Index />,
     },
+    {
+        path: '/dashboard1',
+        element: <Test />,
+    },
 
     // analytics page
     {
@@ -163,6 +173,10 @@ const routes = [
     {
         path: '/scouted-location',
         element: <Scouts />,
+    },
+    {
+        path: '/referral-location',
+        element: <Referral />,
     },
 
     {
@@ -215,10 +229,18 @@ const routes = [
         path: '/alloted-location',
         element: <AllotedLocation />,
     },
+    {
+        path: '/allotedreferral-location',
+        element: <AllotedReferralLocation />,
+    },
 
     {
         path: '/unalloted-location',
         element: <UnAllotedLocation />,
+    },
+    {
+        path: '/unallotedreferral-location',
+        element: <UnAllotedReferralLocation />,
     },
 
     {
