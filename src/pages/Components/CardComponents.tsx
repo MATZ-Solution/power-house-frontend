@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CardComponents = ({user,count,color,image,month}) => {
+const CardComponents = ({user,count,color,image,month}:any) => {
   return (
     <div className={`overflow-hidden relative ${color} block p-6 rounded-lg shadow`}>
     <div className="me-16">

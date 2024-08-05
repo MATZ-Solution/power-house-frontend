@@ -211,7 +211,7 @@ const Test = () => {
         },
     };
     //Daily Sales
-    const dailySales = {
+    const dailySales:any = {
         series: [
             {
                 name: 'Scout',
