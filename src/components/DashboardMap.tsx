@@ -336,7 +336,7 @@ const MyMapComponent: React.FC = () => {
 
     return (
         <>
-            <div className="row">
+            {/* <div className="row">
                 <div className="w-full md:w-1/3 px-2 mb-4">
                     <Select
                         options={[
@@ -354,7 +354,7 @@ const MyMapComponent: React.FC = () => {
                 </div>
             </div>
             <br />
-            <br />
+            <br /> */}
             {isLoaded ? (
                 <GoogleMap
                     mapContainerStyle={containerStyle}

@@ -40,7 +40,42 @@ export const getScoutCount = async () => {
     return response.data;
 };
 
+// ##############  TOP SCOUT COUNT #################
+
+export const getTopScout = async () => {
+    let token = localStorage.getItem('token');
+    const request = await fetch(`${BASE_URL}/scout/topscouts`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    let response = await request.json();
+    return response.data;
+};
+
+// ##############  TOP SCOUT COUNT #################
+// ##############  MONTHLY SCOUT COUNT #################
+
+export const getMonthlyScout = async () => {
+    let token = localStorage.getItem('token');
+    const request = await fetch(`${BASE_URL}/scout/monthlyScouts`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    let response = await request.json();
+    return response.data;
+};
+// ##############  MONTHLY SCOUT COUNT #################
+
 // ############## GET ALL SCOUT  ###############
+
 export const getAllScouts = async () => {
     let token = localStorage.getItem('token');
     try {
