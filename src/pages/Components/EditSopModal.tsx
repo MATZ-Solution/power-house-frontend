@@ -196,7 +196,7 @@ function EditSopModal({ open, handleOpen, sopId }: any): any {
                                                                     name="scoutMemberNames"
                                                                     placeholder="Select an option"
                                                                     options={scoutMemberOptions}
-                                                                    value={scoutMemberOptions.filter(option => values.scoutMemberNames.includes(option.value))}
+                                                                    value={scoutMemberOptions.filter((option:any) => values.scoutMemberNames.includes(option.value))}
                                                                     isMulti
                                                                     isSearchable={false}
                                                                     styles={customStyles}

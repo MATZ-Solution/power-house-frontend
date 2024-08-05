@@ -24,10 +24,12 @@ function SetupCities(): JSX.Element {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const mutation = useMutation({
+        
         mutationKey: ['AddCity'],
         mutationFn: AddCity,
         onSuccess: () => {
-            queryClient.invalidateQueries(['getCities']);
+           
+queryClient.invalidateQueries({queryKey: ['getCities']});
             setCity('');
             mutation.reset(); 
             alertSuccess("Successfully add City");
@@ -51,7 +53,8 @@ function SetupCities(): JSX.Element {
         mutationKey: ['AddCityCSVfile'],
         mutationFn: AddCityCSVfile,
         onSuccess: () => {
-            queryClient.invalidateQueries(['getCities']);
+           
+queryClient.invalidateQueries({queryKey: ['getCities']});
             setCity('');
             mutationCityCSVfile.reset();
             alertSuccess("Successfully add CSV file");
