@@ -151,13 +151,13 @@ function AddArea() {
     return (
         <>
             {wrongFile && alertInfo(csvFileMessage)}
-
+            <div className='flex flex-col gap-6'>
             <ul className="flex space-x-2 rtl:space-x-reverse">
                 <div className="border-l-[5px] border-[#F59927] px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Areas</p>
                 </div>
             </ul>
-            <div className={`mt-5 p-5 ${isDark ? 'bg-[#0e1726]' : 'bg-white'} rounded-[20px]`}>
+            <div className={` p-5 ${isDark ? 'bg-[#0e1726]' : 'bg-white'} rounded-[20px]`}>
                 <div className={`flex flex-col gap-5 `}>
                     <div>
                         <div className="font-semibold mb-1.5">Select City</div>
@@ -218,7 +218,14 @@ function AddArea() {
                         </button>
                     </a>
                 </div>
-                <TableComponent getAreaData={getAreaData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
+            </div>
+            <div className={` rounded-[20px]`}><ul className="flex space-x-2 rtl:space-x-reverse mb-5">
+                <div className="border-l-[5px] border-[#F59927] px-3 ">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Areas</p>
+                </div>
+            </ul><TableComponent getAreaData={getAreaData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} /></div>
+
+
             </div>
         </>
     );
