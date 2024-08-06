@@ -100,21 +100,23 @@ function SetupElectrician(): any {
     });
     useEffect(() => {
         if (getElectricianData.length > 0) {
+            setInitialRecords(getElectricianData);
             const from = (page - 1) * pageSize;
             const to = from + pageSize;
-            setInitialRecords(getElectricianData);
             setRecordsData([...getElectricianData.slice(from, to)]);
         }
     }, [page, pageSize, getElectricianData]);
     useEffect(() => {
         if (search) {
-            console.log('Search', search);
-            const filteredData = getElectricianData.filter((item: any) => item.electricianName.toLowerCase().includes(search.toLowerCase()));
-            setInitialRecords(filteredData);
+            const filteredData = initialRecords.filter((item: any) =>
+                item.electricianName.toLowerCase().includes(search.toLowerCase()) ||
+                item.electricianNumber.toLowerCase().includes(search.toLowerCase())
+            );
+            setRecordsData(filteredData.slice(0, pageSize));
         } else {
-            setInitialRecords(getElectricianData);
+            setRecordsData(initialRecords.slice(0, pageSize));
         }
-    }, [search, getElectricianData]);
+    }, [search, initialRecords, pageSize]);
 
     console.log(getElectricianData,"getBuilderData")
 

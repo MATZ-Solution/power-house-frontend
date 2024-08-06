@@ -99,22 +99,25 @@ function SetupBuilder(): any {
     });
     useEffect(() => {
         if (getBuilderData.length > 0) {
+            setInitialRecords(getBuilderData);
             const from = (page - 1) * pageSize;
             const to = from + pageSize;
-            setInitialRecords(getBuilderData);
             setRecordsData([...getBuilderData.slice(from, to)]);
         }
     }, [page, pageSize, getBuilderData]);
     useEffect(() => {
         if (search) {
-            const filteredData = getBuilderData.filter((item: any) => item.builderName.toLowerCase().includes(search.toLowerCase()));
-            setInitialRecords(filteredData);
+            const filteredData = initialRecords.filter((item: any) =>
+                item.builderName.toLowerCase().includes(search.toLowerCase()) ||
+                item.builderNumber.toLowerCase().includes(search.toLowerCase())
+            );
+            setRecordsData(filteredData.slice(0, pageSize));
         } else {
-            setInitialRecords(getBuilderData);
+            setRecordsData(initialRecords.slice(0, pageSize));
         }
-    }, [search, getBuilderData]);
+    }, [search, initialRecords, pageSize]);
 
-    console.log(getBuilderData,"getBuilderData")
+    // console.log(getBuilderData,"getBuilderData")
 
     return (
         <>

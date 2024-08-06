@@ -100,21 +100,24 @@ function SetupArchitecture(): any {
     });
     useEffect(() => {
         if (getArchitectureData.length > 0) {
+            setInitialRecords(getArchitectureData);
             const from = (page - 1) * pageSize;
             const to = from + pageSize;
-            setInitialRecords(getArchitectureData);
             setRecordsData([...getArchitectureData.slice(from, to)]);
         }
     }, [page, pageSize, getArchitectureData]);
     useEffect(() => {
         if (search) {
-            const filteredData = getArchitectureData.filter((item: any) => item.architectureName.toLowerCase().includes(search.toLowerCase()));
-            console.log(filteredData,"found")
-            setInitialRecords(filteredData);
+            const filteredData = initialRecords.filter((item: any) =>
+                item.architectureName.toLowerCase().includes(search.toLowerCase()) ||
+                item.architectureNumber.toLowerCase().includes(search.toLowerCase())
+            );
+            setRecordsData(filteredData.slice(0, pageSize));
         } else {
-            setInitialRecords(getArchitectureData);
+            setRecordsData(initialRecords.slice(0, pageSize));
         }
-    }, [search, getArchitectureData]);
+    }, [search, initialRecords, pageSize]);
+
 
     // console.log(getArchitectureData,"getArchitectureData")
 

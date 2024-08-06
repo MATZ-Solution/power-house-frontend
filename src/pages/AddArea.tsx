@@ -152,24 +152,28 @@ function AddArea() {
         refetchOnWindowFocus: false,
         retry: 1,
     });
+    // console.log(getAreaData,"getArea")
     useEffect(() => {
         if (getAreaData.length > 0) {
+            setInitialRecords(getAreaData);
             const from = (page - 1) * pageSize;
             const to = from + pageSize;
-            setInitialRecords(getAreaData);
             setRecordsData([...getAreaData.slice(from, to)]);
         }
     }, [page, pageSize, getAreaData]);
     useEffect(() => {
         if (search) {
-            const filteredData = getAreaData.filter((item: any) => item.cityName.toLowerCase().includes(search.toLowerCase()));
-            setInitialRecords(filteredData);
+            const filteredData = initialRecords.filter((item: any) =>
+                item.AreaName.toLowerCase().includes(search.toLowerCase()) ||
+                item.cityName.toLowerCase().includes(search.toLowerCase())
+            );
+            setRecordsData(filteredData.slice(0, pageSize));
         } else {
-            setInitialRecords(getAreaData);
+            setRecordsData(initialRecords.slice(0, pageSize));
         }
-    }, [search, getAreaData]);
+    }, [search, initialRecords, pageSize]);
 
-    console.log(getAreaData,"getAreaData")
+    // console.log(getAreaData,"getAreaData")
 
     return (
         <>
