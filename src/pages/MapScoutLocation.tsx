@@ -2,6 +2,7 @@ import React from 'react';
 import { GoogleMap, MarkerF, InfoWindowF, useJsApiLoader } from '@react-google-maps/api';
 import blueMarker from '/assets/images/marker-icons/marker-icon-blue.png';
 import greenMarker from '/assets/images/marker-icons/marker-icon-yellow.png';
+import yellowMarker from '/assets/images/marker-icons/marker-icon-yellow.png';
 import { getLongAndLat } from '../Fetcher/Api';
 import { useQuery } from '@tanstack/react-query';
 import '../assets/css/infoWindowStyles.css';  // Import your CSS file
@@ -56,7 +57,7 @@ const MyMapComponent = () => {
     const onLoad = React.useCallback(function callback(map: google.maps.Map) {
         const bounds = new window.google.maps.LatLngBounds();
         bounds.extend({ lat: 24.49382941052909, lng: 66.28035221974302 });
-        bounds.extend({ lat: 25.26626960557121, lng: 67.85015003547377 }); 
+        bounds.extend({ lat: 25.26626960557121, lng: 67.85015003547377 });
         map.fitBounds(bounds);
 
         setMap(map);
@@ -83,8 +84,8 @@ const MyMapComponent = () => {
                     key={i}
                     position={data}
                     icon={{
-                        url: data.buildingType === 'Commercial' ? blueMarker : greenMarker,
-                        scaledSize: new window.google.maps.Size(32, 32),
+                        url: data.buildingType === 'Commercial' ? blueMarker : data.buildingType === 'Residential' ? yellowMarker : greenMarker,
+                        scaledSize: new window.google.maps.Size(31, 62),
                     }}
                     onClick={() => {
                         setSelectedMarker(data);

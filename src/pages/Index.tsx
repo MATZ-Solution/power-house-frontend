@@ -97,8 +97,8 @@ const Test = () => {
         retry: 1,
     });
 
-    // console.log(MonthlyScoutsData)
-  
+    console.log(MonthlyScoutsData)
+
     const currentMonthCounts = MonthlyScoutsData?.map((item:any) => item.current_month_count);
     const currentMonthName = MonthlyScoutsData?.map((item:any) => item.month_name);
     const lastWeekCounts = currentMonthCounts?.map((count:any, index:any) => {
@@ -107,18 +107,18 @@ const Test = () => {
     });
     const getCurrentMonthData = (MonthlyScoutsData:any) => {
         const currentDate = new Date();
-        const currentMonth = currentDate.getMonth() + 1; 
+        const currentMonth = currentDate.getMonth() + 1;
         const currentYear = currentDate.getFullYear();
         const currentMonthString = `${currentYear}-${currentMonth.toString().padStart(2, '0')}-01`;
-        
+
         return MonthlyScoutsData?.find((item:any)=> item.month === currentMonthString);
     };
 
     const currentMonthData = getCurrentMonthData(MonthlyScoutsData);
-   
+
     const percentageChange = currentMonthData ? parseInt(currentMonthData.percentage_change, 10) : 'N/A';
-    
-   
+
+
     if (isLoading || isLoadingScouts || isLoadingCountScouts || isLoadingMonthlyScouts) {
         return <ScreenLoader />;
     }
@@ -144,10 +144,10 @@ const Test = () => {
             },
             stroke: {
                 show: true,
-                width: 25,
+                width: 5,
                 colors: isDark ? '#0e1726' : '#fff',
             },
-            colors: isDark ? ['#5c1ac3', '#e2a03f', '#e7515a', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#e7515a'],
+            colors: isDark ? ['#5c1ac3', '#e2a03f', '#3DCD58', '#e2a03f'] : ['#e2a03f', '#5c1ac3', '#3DCD58'],
             legend: {
                 position: 'bottom',
                 horizontalAlign: 'center',
@@ -170,11 +170,11 @@ const Test = () => {
                             name: {
                                 show: true,
                                 fontSize: '29px',
-                                offsetY: -10,
+                                offsetY: 2,
                             },
                             value: {
                                 show: true,
-                                fontSize: '20px',
+                                fontSize: '25px',
                                 color: isDark ? '#bfc9d4' : undefined,
                                 offsetY: 16,
                                 formatter: (val: any) => {
@@ -320,10 +320,10 @@ const Test = () => {
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
                         <CardComponents user="Total Scouts" count={ScoutsCountData[0]?.total_scouts} color="bg-card-blue" image="/assets/images/dashboard_data_1.png" month={ScoutsCountData[0]?.current_month_total} />
                         <CardComponents user="Active Users" count={ScoutsCountData[0]?.total_users} color="bg-card-orange" image="/assets/images/dashboard_data_2.png"  month={ScoutsCountData[0]?.current_month_users} />
-                        <CardComponents user="Active Un-Alloted Locations" count={ScoutsCountData[0]?.UnAllotedLocation} color="bg-card-dark" image="/assets/images/dashboard_data_3.png"  month={ScoutsCountData[0]?.current_month_UnAllotedLocation} />
+                        <CardComponents user="Un-Alloted Locations" count={ScoutsCountData[0]?.UnAllotedLocation} color="bg-card-dark" image="/assets/images/dashboard_data_3.png"  month={ScoutsCountData[0]?.current_month_UnAllotedLocation} />
                         <CardComponents user="Alloted Locations" count={ScoutsCountData[0]?.AllotedLocation} color="bg-card-green" image="/assets/images/dashboard_data_4.png"  month={ScoutsCountData[0]?.current_month_AllotedLocation} />
 
-                     
+
                     </div>
                 </section>
                 <section className="w-full mb-2">
@@ -335,9 +335,9 @@ const Test = () => {
                 </section>
                 <section className="w-full mb-5">
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-10 xl:grid-cols-10 gap-4">
-                        <div className="col-span-1 md:col-span-1 lg:col-span-7 border-orange dashboarMap">
+                        {/* <div className="col-span-1 md:col-span-1 lg:col-span-7 border-orange dashboarMap"> */}
                             <DashboardMap />
-                        </div>
+                        {/* </div> */}
                         <div className="col-span-1 md:col-span-1 lg:col-span-3">
                             <div className="block p-5 chart-img-dashboard border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:hover:bg-gray-700">
                                 <form className="mx-auto mb-3">
