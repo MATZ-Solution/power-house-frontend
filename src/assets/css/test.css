@@ -91,3 +91,11 @@ background-repeat: no-repeat;
     }
 }
 
+.padding-start{
+    padding-left: 5.3rem;
+}
+@media (max-width: 640px) {
+    .padding-start {
+      padding-left: 2rem; /* Adjust this value as needed */
+    }
+  }

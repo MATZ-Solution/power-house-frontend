@@ -1,6 +1,6 @@
 import React from 'react'
 
- const Banner = () => {
+ const Banner = (props:any) => {
   return (
     <>
     <section className="flex flex-col sm:flex-row items-center justify-between w-full dashboard-card-bg-img block w-full p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mb-5">
@@ -17,7 +17,7 @@ import React from 'react'
                         </p>
                     </div>
                     <div className="margin-bottom-minus w-full sm:w-1/3 mt-4 sm:mt-0">
-                        <img src="/assets/images/banner_dashboard.png" alt="Dashboard Banner" className="w-full h-auto object-cover" />
+                        <img src={`${props.image}`} alt="Dashboard Banner" className="w-full h-auto object-cover" />
                     </div>
                 </section>
     </>
