@@ -1,11 +1,13 @@
-import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AddArchitecture, AddArchitectureCSVfile } from '../Fetcher/Api';
+import { AddArchitecture, AddArchitectureCSVfile, getArchitecture } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import { DataTable } from 'mantine-datatable';
+import TableComponent from './Components/TableComponent';
 
 function SetupArchitecture(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -16,6 +18,9 @@ function SetupArchitecture(): any {
     let queryClient: any = useQueryClient();
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
+    const [search, setSearch] = useState('');
+
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
 
     const mutation = useMutation({
         mutationKey: ['AddArchitecture'],
@@ -24,8 +29,8 @@ function SetupArchitecture(): any {
             queryClient.invalidateQueries(['getArchitecture']);
             setArchitectureName('');
             setArchitecturePhoneNumber('');
-            mutation.reset(); 
-            alertSuccess("Successfully added Architecture");
+            mutation.reset();
+            alertSuccess('Successfully added Architecture');
         },
         onError: (err) => {
             mutation.reset();
@@ -34,7 +39,7 @@ function SetupArchitecture(): any {
     });
 
     const onSubmitArchitecture = (e: any) => {
-        if (!architectureName || !architecturePhoneNumber ) {
+        if (!architectureName || !architecturePhoneNumber) {
             return setArchitectureMessage('Please add all required fields');
         }
         setArchitectureMessage('');
@@ -49,7 +54,7 @@ function SetupArchitecture(): any {
             setArchitectureName('');
             setArchitecturePhoneNumber('');
             mutationArchitectureCSVfile.reset();
-            alertSuccess("Successfully added CSV file");
+            alertSuccess('Successfully added CSV file');
         },
         onError: (err) => {
             mutationArchitectureCSVfile.reset();
@@ -80,10 +85,33 @@ function SetupArchitecture(): any {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
+    const {
+        isLoading: getArchitectureIsLoading,
+        isError: getArchitectureIsError,
+        error: getArchitectureError,
+        data: getArchitectureData = [],
+    } = useQuery({
+        queryKey: ['getArchitecture'],
+        queryFn: getArchitecture,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+    useEffect(() => {
+        if (getArchitectureData.length > 0) {
+            setInitialRecords(getArchitectureData);
+        }
+    }, [getArchitectureData]);
+
+    const columns = [
+        { accessor: 'architectureName', title: 'Architecture Name' },
+        { accessor: 'architectureNumber', title: 'Architecture Phone Number' },
+    ];
+    // console.log(getArchitectureData,"getArchitectureData")
 
     return (
         <>
             {wrongFile && alertInfo('Please add a CSV file')}
+            <div className='flex flex-col gap-6'>
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <div className="border-l-[5px] border-[#F59927] px-3">
@@ -113,7 +141,7 @@ function SetupArchitecture(): any {
                                 />
                                 {architectureMessage && <p className="mt-4 text-red-800">Please Enter Architecture Phone Number</p>}
                             </div>
-                          
+
                             <div className="">
                                 <button type="button" className="btn btn-primary rounded-full px-10 py-3" onClick={onSubmitArchitecture}>
                                     Add
@@ -133,9 +161,24 @@ function SetupArchitecture(): any {
                                 </button>
                             </a>
                         </div>
+
                     </div>
                 </div>
             </div>
+            <div>
+                <ul className="flex space-x-2 rtl:space-x-reverse">
+                    <div className="border-l-[5px] border-[#F59927] px-3">
+                        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Architectures</p>
+                    </div>
+                </ul>
+
+                <div className="space-y-6 mt-3 rounded-[20px]">
+                                <TableComponent getAreaData={getArchitectureData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
+
+                        </div>
+
+
+            </div></div>
         </>
     );
 }

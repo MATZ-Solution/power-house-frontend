@@ -1,37 +1,33 @@
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+// AddArea.tsx
+
+import { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { setPageTitle } from '../store/themeConfigSlice';
-// const isRtl = useSelector((state: IRootState) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { useRef } from 'react';
-import { AddAreaCSVfile, AddAreas, getCity } from '../Fetcher/Api';
-import ModalInfo from '../components/ModaLInfo';
-import { useSelector } from 'react-redux';
+import { AddAreaCSVfile, AddAreas, getAllAreas, getCity } from '../Fetcher/Api';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import TableComponent from './Components/TableComponent';
 
 function AddArea() {
     // ################ VARIABLES ################
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
-
     const dispatch = useDispatch();
 
     let [cityValues, setCityValues] = useState('');
     let queryClient: any = useQueryClient();
-
-    // const fileInputRef = useRef(null);
     const fileInputRef = useRef<any>(null);
-
     let [wrongFile, setWrongFile] = useState(false);
     let [csvFileMessage, setCSVfileMessage] = useState('');
-
     let [values, setValues] = useState({
         cityId: '',
         cityError: false,
         areaName: '',
         areaError: false,
     });
+    const [search, setSearch] = useState('');
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
 
     // ################ MUTATION AND USE QUERY ################
 
@@ -70,17 +66,29 @@ function AddArea() {
         dispatch(setPageTitle('Add Area'));
     });
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         mutationAreaCSVfile.reset();
-    //     }, 3000);
-    // }, [mutationAreaCSVfile.isSuccess, mutationAreaCSVfile.isError]);
-
     useEffect(() => {
         setTimeout(() => {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
+
+    const {
+        isLoading: getAreaIsLoading,
+        isError: getAreaIsError,
+        error: getAreaError,
+        data: getAreaData = [],
+    } = useQuery({
+        queryKey: ['getArea'],
+        queryFn: getAllAreas,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+
+    useEffect(() => {
+        if (getAreaData.length > 0) {
+            setInitialRecords(getAreaData);
+        }
+    }, [getAreaData]);
 
     // ################ FUNCTIONS ################
 
@@ -135,30 +143,21 @@ function AddArea() {
         setCityValues(e.target.value);
         setValues({ ...values, cityId: e.target.value });
     }
+    const columns = [
+        { accessor: 'cityName', title: 'City' },
+        { accessor: 'AreaName', title: 'Area' },
+    ];
 
     return (
         <>
-            {/* {mutation.isSuccess && <ModalInfo message="Successfully added Area" success={mutation.isSuccess} />}
-            {mutation.isError && <ModalInfo message={mutation.error.message} success={mutation.isSuccess} />} */}
-            {/* {mutationAreaCSVfile.isSuccess && <ModalInfo message="Successfully add CSV file " success={mutationAreaCSVfile.isSuccess} />}
-            {mutationAreaCSVfile.isError && <ModalInfo message={mutationAreaCSVfile.error?.message} success={mutationAreaCSVfile.isSuccess} />} */}
-            {/* {wrongFile && <ModalInfo message={csvFileMessage} success={false} />} */}
             {wrongFile && alertInfo(csvFileMessage)}
-
+            <div className='flex flex-col gap-6'>
             <ul className="flex space-x-2 rtl:space-x-reverse">
                 <div className="border-l-[5px] border-[#F59927] px-3 ">
                     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Areas</p>
                 </div>
-                {/* <li>
-                    <Link to="#" className="text-primary hover:underline">
-                        SetUp Forms
-                    </Link>
-                </li>
-                <li className="before:content-['/'] ltr:before:mr-2 rtl:before:ml-2">
-                    <span>Add Area</span>
-                </li> */}
             </ul>
-            <div className={`mt-5 p-5 ${isDark ? 'bg-[#0e1726]' : 'bg-white'} rounded-[20px]`}>
+            <div className={` p-5 ${isDark ? 'bg-[#0e1726]' : 'bg-white'} rounded-[20px]`}>
                 <div className={`flex flex-col gap-5 `}>
                     <div>
                         <div className="font-semibold mb-1.5">Select City</div>
@@ -219,6 +218,14 @@ function AddArea() {
                         </button>
                     </a>
                 </div>
+            </div>
+            <div className={` rounded-[20px]`}><ul className="flex space-x-2 rtl:space-x-reverse mb-5">
+                <div className="border-l-[5px] border-[#F59927] px-3 ">
+                    <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Areas</p>
+                </div>
+            </ul><TableComponent getAreaData={getAreaData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} /></div>
+
+
             </div>
         </>
     );

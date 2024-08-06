@@ -1,11 +1,13 @@
-import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AddBuilder, AddBuilderCSVfile } from '../Fetcher/Api';
+import { AddBuilder, AddBuilderCSVfile, GetAllBuilder } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import { DataTable } from 'mantine-datatable';
+import TableComponent from './Components/TableComponent';
 
 function SetupBuilder(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -16,6 +18,9 @@ function SetupBuilder(): any {
     let queryClient: any = useQueryClient();
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
+    const [search, setSearch] = useState('');
+
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
 
     const mutation = useMutation({
         mutationKey: ['AddBuilder'],
@@ -24,17 +29,17 @@ function SetupBuilder(): any {
             queryClient.invalidateQueries(['getBuilder']);
             setBuilderName('');
             setBuilderPhoneNumber('');
-            mutation.reset(); 
-            alertSuccess("Successfully added Builder");
+            mutation.reset();
+            alertSuccess('Successfully added Builder');
         },
         onError: (err) => {
             mutation.reset();
             alertFail(err.message);
         },
     });
-    
+
     const onSubmitBuilder = (e: any) => {
-        if (!builderName || !builderPhoneNumber ) {
+        if (!builderName || !builderPhoneNumber) {
             return setBuilderMessage('Please add all required fields');
         }
         setBuilderMessage('');
@@ -49,7 +54,7 @@ function SetupBuilder(): any {
             setBuilderName('');
             setBuilderPhoneNumber('');
             mutationBuilderCSVfile.reset();
-            alertSuccess("Successfully added CSV file");
+            alertSuccess('Successfully added CSV file');
         },
         onError: (err) => {
             mutationBuilderCSVfile.reset();
@@ -80,10 +85,31 @@ function SetupBuilder(): any {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
+    const {
+        isLoading: getBuilderIsLoading,
+        isError: getBuilderIsError,
+        error: getBuilderError,
+        data: getBuilderData = [],
+    } = useQuery({
+        queryKey: ['getBuilder'],
+        queryFn: GetAllBuilder,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+    useEffect(() => {
+        if (getBuilderData.length > 0) {
+            setInitialRecords(getBuilderData);
+        }
+    }, [getBuilderData]);
 
+    const columns = [
+        { accessor: 'builderName', title: 'Builder Name' },
+        { accessor: 'builderNumber', title: 'Builder Number' },
+    ];
     return (
         <>
             {wrongFile && alertInfo('Please add a CSV file')}
+            <div className='flex flex-col gap-6'>
             <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <div className="border-l-[5px] border-[#F59927] px-3">
@@ -113,7 +139,7 @@ function SetupBuilder(): any {
                                 />
                                 {builderMessage && <p className="mt-4 text-red-800">Please Enter Builder Phone Number</p>}
                             </div>
-                          
+
                             <div className="">
                                 <button type="button" className="btn btn-primary rounded-full px-10 py-3" onClick={onSubmitBuilder}>
                                     Add
@@ -133,9 +159,22 @@ function SetupBuilder(): any {
                                 </button>
                             </a>
                         </div>
+                        <div className="space-y-6">
+                            <TableComponent getAreaData={getBuilderData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
+                        </div>
                     </div>
                 </div>
             </div>
+            <div>
+                <ul className="flex space-x-2 rtl:space-x-reverse">
+                    <div className="border-l-[5px] border-[#F59927] px-3">
+                        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Builders</p>
+                    </div>
+                </ul>
+                <div className="space-y-6 mt-3 rounded-[20px]">
+                            <TableComponent getAreaData={getBuilderData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
+                        </div>
+            </div></div>
         </>
     );
 }

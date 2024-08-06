@@ -1,11 +1,13 @@
-import { QueryClient, useMutation, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AddBuilder, AddElectrician , AddElectricianCSVfile } from '../Fetcher/Api';
+import { AddBuilder, AddElectrician, AddElectricianCSVfile, GetElectrician } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
+import { DataTable } from 'mantine-datatable';
+import TableComponent from './Components/TableComponent';
 
 function SetupElectrician(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -16,6 +18,9 @@ function SetupElectrician(): any {
     let queryClient: any = useQueryClient();
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
+    const [search, setSearch] = useState('');
+
+    const [initialRecords, setInitialRecords] = useState<any[]>([]);
 
     const mutation = useMutation({
         mutationKey: ['AddElectrician'],
@@ -24,17 +29,17 @@ function SetupElectrician(): any {
             queryClient.invalidateQueries(['getElectrician']);
             setElectricianName('');
             setElectricianPhoneNumber('');
-            mutation.reset(); 
-            alertSuccess("Successfully added Electrician");
+            mutation.reset();
+            alertSuccess('Successfully added Electrician');
         },
         onError: (err) => {
             mutation.reset();
             alertFail(err.message);
         },
     });
-    
+
     const onSubmitElectrician = (e: any) => {
-        if (!electricianName || !electricianPhoneNumber ) {
+        if (!electricianName || !electricianPhoneNumber) {
             return setElectricianMessage('Please add all required fields');
         }
         setElectricianMessage('');
@@ -49,7 +54,7 @@ function SetupElectrician(): any {
             setElectricianName('');
             setElectricianPhoneNumber('');
             mutationElectricianCSVfile.reset();
-            alertSuccess("Successfully added CSV file");
+            alertSuccess('Successfully added CSV file');
         },
         onError: (err) => {
             mutationElectricianCSVfile.reset();
@@ -80,11 +85,32 @@ function SetupElectrician(): any {
             setWrongFile(false);
         }, 3000);
     }, [wrongFile]);
-
+    const {
+        isLoading: getElectricianIsLoading,
+        isError: getElectricianIsError,
+        error: getElectricianError,
+        data: getElectricianData = [],
+    } = useQuery({
+        queryKey: ['getElectricians'],
+        queryFn: GetElectrician,
+        refetchOnWindowFocus: false,
+        retry: 1,
+    });
+    useEffect(() => {
+        if (getElectricianData.length > 0) {
+            setInitialRecords(getElectricianData);
+        }
+    }, [getElectricianData]);
+    // console.log(getElectricianData,"getElectricianData")
+    const columns = [
+        { accessor: 'electricianName', title: 'Electrician Name' },
+        { accessor: 'electricianNumber', title: 'Electrician Number' },
+    ];
     return (
         <>
             {wrongFile && alertInfo('Please add a CSV file')}
-            <div>
+            <div className='flex flex-col gap-6'>
+                <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <div className="border-l-[5px] border-[#F59927] px-3">
                         <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Electrician</p>
@@ -113,7 +139,7 @@ function SetupElectrician(): any {
                                 />
                                 {electricianMessage && <p className="mt-4 text-red-800">Please Enter Electrician Phone Number</p>}
                             </div>
-                          
+
                             <div className="">
                                 <button type="button" className="btn btn-primary rounded-full px-10 py-3" onClick={onSubmitElectrician}>
                                     Add
@@ -133,8 +159,23 @@ function SetupElectrician(): any {
                                 </button>
                             </a>
                         </div>
+
                     </div>
                 </div>
+            </div>
+            <div>
+                <ul className="flex space-x-2 rtl:space-x-reverse">
+                    <div className="border-l-[5px] border-[#F59927] px-3">
+                        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Electricians</p>
+                    </div>
+                </ul>
+
+                <div className="space-y-6 mt-3 rounded-[20px]">
+                                <TableComponent getAreaData={getElectricianData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
+
+                        </div>
+
+            </div>
             </div>
         </>
     );

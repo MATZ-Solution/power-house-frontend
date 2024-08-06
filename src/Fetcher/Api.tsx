@@ -40,7 +40,42 @@ export const getScoutCount = async () => {
     return response.data;
 };
 
+// ##############  TOP SCOUT COUNT #################
+
+export const getTopScout = async () => {
+    let token = localStorage.getItem('token');
+    const request = await fetch(`${BASE_URL}/scout/topscouts`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    let response = await request.json();
+    return response.data;
+};
+
+// ##############  TOP SCOUT COUNT #################
+// ##############  MONTHLY SCOUT COUNT #################
+
+export const getMonthlyScout = async () => {
+    let token = localStorage.getItem('token');
+    const request = await fetch(`${BASE_URL}/scout/monthlyScouts`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    let response = await request.json();
+    return response.data;
+};
+// ##############  MONTHLY SCOUT COUNT #################
+
 // ############## GET ALL SCOUT  ###############
+
 export const getAllScouts = async () => {
     let token = localStorage.getItem('token');
     try {
@@ -223,6 +258,28 @@ export const AddAreaCSVfile = async (data: any) => {
     }
 };
 
+// ############## GET ALL AREA #################
+
+export const getAllAreas = async () => {
+    let token = localStorage.getItem('token');
+    const url = new URL(`${BASE_URL}/scout/getAllAreas`);
+
+    const request = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+        },
+    });
+
+    if (!request.ok) {
+        let response = await request.json();
+        throw new Error(response.message);
+    }
+    let response = await request.json();
+    return response.data;
+};
+
 // ############## GET AREA #################
 
 export const getAreas = async (cityId: any) => {
@@ -382,7 +439,37 @@ export const AddArchitectureCSVfile = async (data: any) => {
     }
 };
 
+
+
 // ############## Add Architecture CSV #################
+
+// ############## GET Architecture  ###############
+
+export const getArchitecture = async () => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/getscouts`, {
+        const request = await fetch(`${BASE_URL}/scout/getArchitecture`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## GET Architecture #################
+
 // ################################################################################################################
 export const AddMeetingMember = async (data: any) => {
     let token = localStorage.getItem('token');
@@ -437,6 +524,59 @@ export const createSOP = async (data: any) => {
         throw error;
     }
 };
+
+
+// ############## GET Single Scout Member #################
+
+export const getSingleSop = async (sopId: any) => {
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/getSingleSop/${sopId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        // console.log(request,"req")
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        console.log(response.data)
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+};
+
+export const updateSop = async (data: any) => {
+    // console.log(data.scoutMemberNames)
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/updateSop`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        return response.message;
+    } catch (err) {
+        throw err;
+    }
+};
+// ############## Update Single Scout Member #################
+
 
 // ############## GET Alloted Locations #################
 
@@ -798,6 +938,32 @@ export const AddBuilder = async (data: { builderName: string, builderPhoneNumber
 
 // ############## Add Builder ###############################
 
+// ############## Get All Builder ###############################
+
+export const GetAllBuilder = async () => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/getscouts`, {
+        const request = await fetch(`${BASE_URL}/scout/getBuilder`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
+// ############## Add Builder ###############################
 
 // ############## Add Builder CSV FILE  #####################
 
@@ -854,7 +1020,28 @@ export const AddElectrician = async (data: { electricianName: string, electricia
 };
 
 // ############## Add Electrician ###########################
+export const GetElectrician = async () => {
+    let token = localStorage.getItem('token');
+    try {
+        // const request = await fetch(`http://localhost:2300/scout/getscouts`, {
+        const request = await fetch(`${BASE_URL}/scout/getElectricians`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
 
+        let response = await request.json();
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+};
 
 // ############## Add Electrician CSV FILE  #################
 
