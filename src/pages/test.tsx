@@ -19,6 +19,7 @@ import '../assets/css/test.css';
 import ReactApexChart from 'react-apexcharts';
 import IconDollarSign from '../components/Icon/IconDollarSign';
 import { Paginator } from 'primereact/paginator';
+import { DashboardCard } from '../components/DashboardCard';
 
 const Test = () => {
     const [filters, setFilters] = useState({});
@@ -233,6 +234,36 @@ const Test = () => {
             },
         },
     };
+    const cardData = [
+        {
+            numData: 60,
+            numMonth: 29,
+            image: 'dashboard_data_1.png',
+            title: 'Total Scouts',
+            bgColor: 'bg-card-blue',
+        },
+        {
+            numData: 6,
+            numMonth: 12,
+            image: 'dashboard_data_2.png',
+            title: 'Active Users',
+            bgColor: 'bg-card-orange',
+        },
+        {
+            numData: 64,
+            numMonth: 9,
+            image: 'dashboard_data_3.png',
+            title: 'Un-Allotted Locations',
+            bgColor: 'bg-card-dark',
+        },
+        {
+            numData: 21,
+            numMonth: 55,
+            image: 'dashboard_data_4.png',
+            title: 'Allotted Locations',
+            bgColor: 'bg-card-green',
+        },
+    ];
     return (
         <div className="">
             {/* <ModalInfo message='Successfully add scouts'/> */}
@@ -258,7 +289,10 @@ const Test = () => {
                 </section>
                 <section className="w-full mb-5">
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
-                        <div className="overflow-hidden relative bg-card-blue block p-6 rounded-lg shadow">
+                        {cardData.map((item) => {
+                            return <DashboardCard item={item} />;
+                        })}
+                        {/* <div className="overflow-hidden relative bg-card-blue block p-6 rounded-lg shadow">
                             <div className="me-16">
                                 <h5 className="mb-1 text-xl tracking-tight text-gray-900 text-white w-max">Total Scouts</h5>
                                 <p className="mb-1 text-white text-5xl font-black">50</p>
@@ -308,7 +342,7 @@ const Test = () => {
                             <div className="position-img">
                                 <img src="/assets/images/dashboard_data_4.png" alt="" className="custom-width4" />
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </section>
                 <section className="w-full mb-2">
@@ -321,7 +355,7 @@ const Test = () => {
                 <section className="w-full mb-5">
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-10 xl:grid-cols-10 gap-4">
                         <div className="col-span-1 md:col-span-1 lg:col-span-7 border-orange dashboarMap">
-                            <DashboardMap />
+                            <DashboardMap myMap={false} />
                         </div>
                         <div className="col-span-1 md:col-span-1 lg:col-span-3">
                             <div className="block p-5 chart-img-dashboard border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:hover:bg-gray-700">
@@ -433,7 +467,6 @@ const Test = () => {
                     </div>
                 </section>
             </div>
-            
         </div>
     );
 };

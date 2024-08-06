@@ -262,7 +262,8 @@ interface MarkerData {
     sops: string | null;
 }
 
-const MyMapComponent: React.FC = () => {
+const MyMapComponent: React.FC = (props:any) => {
+    console.log(props);
     const [selectedArea, setSelectedArea] = useState<string>('All');
     const [selectedBuildingType, setSelectedBuildingType] = useState<string>('All');
 
@@ -336,25 +337,30 @@ const MyMapComponent: React.FC = () => {
 
     return (
         <>
-            <div className="row">
-                <div className="w-full md:w-1/3 px-2 mb-4">
-                    <Select
-                        options={[
-                            { value: 'All', label: 'All' },
-                            ...uniqueAreas.map(area => ({ value: area, label: area }))
-                        ]}
-                        onChange={handleAreaChange}
-                        defaultValue={{ value: 'All', label: 'All' }}
-                    />
-                </div>
-                <div className="w-full flex md:w-1/3 px-2 mb-4">
-                   <b> <h1 style={myStyleCommercial}>Commercial: {commercialCount}</h1></b>
-                   <b> <h1 style={myStyleResidential}>Residential: {residentialCount}</h1></b>
-                   <b> <h1 style={myStyleProject}>Project: {projectCount}</h1></b>
-                </div>
-            </div>
-            <br />
-            <br />
+            {props.myMap && (
+                <>
+                    <div className="row">
+                        <div className="w-full md:w-1/3 px-2 mb-4">
+                            <Select
+                                options={[
+                                    { value: 'All', label: 'All' },
+                                    ...uniqueAreas.map(area => ({ value: area, label: area }))
+                                ]}
+                                onChange={handleAreaChange}
+                                defaultValue={{ value: 'All', label: 'All' }}
+                            />
+                        </div>
+                        <div className="w-full flex md:w-1/3 px-2 mb-4">
+                            <b><h1 style={myStyleCommercial}>Commercial: {commercialCount}</h1></b>
+                            <b><h1 style={myStyleResidential}>Residential: {residentialCount}</h1></b>
+                            <b><h1 style={myStyleProject}>Project: {projectCount}</h1></b>
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                </>
+            )}
+
             {isLoaded ? (
                 <GoogleMap
                     mapContainerStyle={containerStyle}
