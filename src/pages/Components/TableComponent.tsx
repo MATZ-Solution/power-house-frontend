@@ -7,9 +7,9 @@ const TableComponent = ({
     search,
     setSearch,
     columns,
-    actions 
+    actions
 }: any) => {
-    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    const PAGE_SIZES = [10, 20, 30, 50, 100];
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
     const [recordsData, setRecordsData] = useState<any[]>([]);
@@ -35,16 +35,6 @@ const TableComponent = ({
         }
     }, [search, initialRecords, pageSize, columns]);
 
-   
-    const mergedColumns = [
-        ...columns,
-        ...(actions ? [{
-            accessor: 'actions',
-            title: 'Actions',
-            render: (row: any) => actions(row)
-        }] : [])
-    ];
-
     return (
         <div className="space-y-6">
             <div className="panel">
@@ -62,14 +52,21 @@ const TableComponent = ({
                         striped
                         className="whitespace-nowrap table-striped"
                         records={recordsData}
-                        columns={mergedColumns} 
+                        columns={[
+                            ...columns,
+                            ...(actions ? [{ 
+                                accessor: 'actions', 
+                                title: 'Actions', 
+                                render: (row: any) => actions(row) 
+                            }] : [])
+                        ]}
                         totalRecords={getAreaData.length}
                         recordsPerPage={pageSize}
                         page={page}
-                        onPageChange={setPage}
+                        onPageChange={(p) => setPage(p)}
                         recordsPerPageOptions={PAGE_SIZES}
-                        onRecordsPerPageChange={setPageSize}
-                        minHeight={200}
+                        onRecordsPerPageChange={(size) => setPageSize(size)}
+                        minHeight={100}
                         paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
                     />
                 </div>
