@@ -108,7 +108,7 @@ function EditModalUser({ open, handleOpen, userID }: any): any {
         mutationKey: ['updateScoutMember'],
         mutationFn: updateScoutMember,
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['scoutMember'] });
+            queryClient.invalidateQueries({ queryKey: ['getUserData'] });
             queryClient.invalidateQueries({ queryKey: ['getSingleScoutUser'] });
             handleOpen(false);
         },
