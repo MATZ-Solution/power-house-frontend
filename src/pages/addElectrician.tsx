@@ -109,7 +109,8 @@ function SetupElectrician(): any {
     return (
         <>
             {wrongFile && alertInfo('Please add a CSV file')}
-            <div>
+            <div className='flex flex-col gap-6'>
+                <div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <div className="border-l-[5px] border-[#F59927] px-3">
                         <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Electrician</p>
@@ -158,13 +159,23 @@ function SetupElectrician(): any {
                                 </button>
                             </a>
                         </div>
-                        <div className="space-y-6">
-                            <div className="panel">
-                                <TableComponent getAreaData={getElectricianData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
-                            </div>
-                        </div>
+
                     </div>
                 </div>
+            </div>
+            <div>
+                <ul className="flex space-x-2 rtl:space-x-reverse">
+                    <div className="border-l-[5px] border-[#F59927] px-3">
+                        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Electricians</p>
+                    </div>
+                </ul>
+
+                <div className="space-y-6 mt-3 rounded-[20px]">
+                                <TableComponent getAreaData={getElectricianData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
+
+                        </div>
+
+            </div>
             </div>
         </>
     );

@@ -6,11 +6,12 @@ import { useQuery } from '@tanstack/react-query';
 import { IRootState } from '../store';
 import TableComponent from './Components/TableComponent';
 import 'tippy.js/dist/tippy.css';
+import { useNavigate } from 'react-router-dom';
 
 function Scouts() {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     useEffect(() => {
         dispatch(setPageTitle('All Locations'));
     }, [dispatch]);
@@ -21,10 +22,10 @@ function Scouts() {
     const fetchAndFilterData = async () => {
         try {
             const data = await getAllScouts();
-            return data; // Ensure to return the data
+            return data; 
         } catch (error) {
             console.error("Error fetching data:", error);
-            return []; // Return empty array in case of error
+            return []; 
         }
     };
 
@@ -97,9 +98,12 @@ function Scouts() {
                             <button
                                 type="button"
                                 className="btn btn-primary static whitespace-nowrap"
-                                onClick={() => {/* Handle action */}}
+                                onClick={() => {
+
+                                    navigate('/log');
+                                }}
                             >
-                                Action
+                                View Logs
                             </button>
                         </div>
                     )}

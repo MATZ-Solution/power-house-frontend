@@ -108,7 +108,7 @@ function SetupCities(): JSX.Element {
     return (
         <>
             {wrongFile && alertInfo('Please Add CSV File')}
-            <div>
+            <div className='flex flex-col gap-6'><div>
                 <ul className="flex space-x-2 rtl:space-x-reverse">
                     <div className="border-l-[5px] border-[#F59927] px-3">
                         <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Add Cities</p>
@@ -147,11 +147,17 @@ function SetupCities(): JSX.Element {
                             </a>
                         </div>
                     </div>
-                    <div className="space-y-6">
-                        <TableComponent getAreaData={cityData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
-                    </div>
+
                 </div>
             </div>
+            <div><ul className="flex space-x-2 rtl:space-x-reverse ">
+                    <div className="border-l-[5px] border-[#F59927] px-3">
+                        <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>Cities</p>
+                    </div>
+                </ul>
+            <div className="space-y-6 mt-5 rounded-[20px]">
+                        <TableComponent getAreaData={cityData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
+                    </div></div></div>
         </>
     );
 }
