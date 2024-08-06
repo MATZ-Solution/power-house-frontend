@@ -22,9 +22,9 @@ function UnAllotedLocation() {
 
 
 
-    
 
- 
+
+
 
 const PAGE_SIZES = [10, 20, 30, 50, 100];
 
@@ -34,18 +34,18 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
         const [initialRecords, setInitialRecords] = useState([]);
         const [recordsData, setRecordsData] = useState(initialRecords);
         const [search, setSearch] = useState('');
-   
+
         useEffect(() => {
             const from = (page - 1) * pageSize;
             const to = from + pageSize;
             setRecordsData([...initialRecords.slice(from, to)]);
         }, [page, pageSize, initialRecords]);
-    
+
         useEffect(() => {
             const fetchAndFilterData = async () => {
                 try {
                     const data = await getUnAllotedLocations();
-        
+
                     const filteredData = await data.filter((item : any) => {
                         return (
                             item.refrenceId.toString().includes(search) ||
@@ -55,17 +55,17 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                             item.address.toLowerCase().includes(search.toLowerCase()) ||
                             item.contractorName.toLowerCase().includes(search.toLowerCase()) ||
                             item.contractorNumber.toLowerCase().includes(search.toLowerCase()) ||
-                            item.scouter.toLowerCase().includes(search.toLowerCase()) 
-                            // item.assignedToMember.toLowerCase().includes(search) 
+                            item.scouter.toLowerCase().includes(search.toLowerCase())
+                            // item.assignedToMember.toLowerCase().includes(search)
                         );
                     });
-        
+
                     setInitialRecords(filteredData);
                 } catch (error) {
                     console.error("Error fetching data:", error);
                 }
             };
-        
+
             fetchAndFilterData();
         }, [search]);
 
@@ -81,7 +81,7 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
         setOpen(state);
     }
 
-    
+
 
 
     return (
@@ -90,7 +90,7 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
             <div className="space-y-6">
             <div className="border-l-[5px] border-[#F59927] px-3 ">
         <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>UnAlloted Location</p>
-    </div>  
+    </div>
                                 {/* ################################################################################## */}
                                 <div className="panel">
                     <div className="flex items-center justify-between mb-5">
@@ -101,9 +101,9 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                             striped
                             className="whitespace-nowrap table-striped"
                             records={recordsData}
-    
+
                             columns={[
-                               
+
                                 {
                                     accessor: 'buildingType',
                                     title: 'Building Type',
@@ -111,9 +111,9 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                                         <div
                                         className={`whitespace-nowrap badge ${
                                           buildingType === 'Commercial'
-                                            ? 'bg-success'
+                                            ? 'bg-info'
                                             : buildingType === 'Residential'
-                                              ? 'bg-info'
+                                              ? 'bg-primary'
                                               : ''
                                         } flex justify-center word-wrap: break-word`}
                                       >
@@ -121,13 +121,13 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                                       </div>
                                     ),
                                   },
-                                  
-                
-                                
+
+
+
                                   { accessor: 'refrenceId', title: 'Id' },
                                 { accessor: 'projectName', title: 'project Name', },
-                                { accessor: 'contractorName', title: 'Contractor Name', render: ({ contractorName }) => contractorName === "undefined" ? 'NaN' : contractorName },
-                                { accessor: 'contractorNumber', title: 'Contractor Number', render: ({ contractorNumber }) => contractorNumber === "undefined" ? 'NaN' : contractorNumber },
+                                { accessor: 'contractorName', title: 'Contractor Name', render: ({ contractorName }) => (contractorName && contractorName!=='undefined') ? contractorName : 'N/A'},
+                                { accessor: 'contractorNumber', title: 'Contractor Number', render: ({ contractorNumber }) =>  (contractorNumber && contractorNumber!=='undefined') ? contractorNumber : 'N/A' },
                                 { accessor: 'city', title: 'Address', },
                                 { accessor: 'scouter', title: 'Scouter', },
                                 // { accessor: 'assignedToMember', title: 'Assigned Member', },
@@ -165,7 +165,7 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                     </div>
                 </div>
                                 {/* ################################################################################## */}
-                                
+
             </div>
         </>
         );

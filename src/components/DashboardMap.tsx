@@ -209,13 +209,14 @@
 
 
 import React, { useState } from 'react';
-import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, InfoWindowF, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import blueMarker from '/assets/images/marker-icons/marker-icon-blue.png';
 import greenMarker from '/assets/images/marker-icons/marker-icon-green.png';
 import yellowMarker from '/assets/images/marker-icons/marker-icon-yellow.png'; // Added yellowMarker
 import { getLongAndLat } from '../Fetcher/Api';
 import { useQuery } from '@tanstack/react-query';
 import Select, { SingleValue } from 'react-select';
+import AreaSelect from './AreaSelect';
 
 const containerStyle = {
     width: '100%',
@@ -227,18 +228,7 @@ const center = {
     lat: 30.3753,
     lng: 69.3451,
 };
-const myStyleCommercial = {
-    color: 'blue',
-    margin: '10px'
-};
-const myStyleResidential = {
-    color: 'green',
-    margin: '10px'
-};
-const myStyleProject = {
-    color: '#F7A100',
-    margin: '10px'
-};
+
 interface MarkerData {
     id: number;
     projectName: string;
@@ -265,7 +255,17 @@ interface MarkerData {
 const MyMapComponent: React.FC = () => {
     const [selectedArea, setSelectedArea] = useState<string>('All');
     const [selectedBuildingType, setSelectedBuildingType] = useState<string>('All');
-
+    const [selectedMarker, setSelectedMarker] = React.useState<{
+        id: number;
+        lat: number;
+        lng: number;
+        buildingType: string;
+        area: string;
+        address: string;
+        projectType: string;
+        projectName: string;
+        city: string;
+    } | null>(null);
     const { isLoading, isError, data, error } = useQuery<MarkerData[]>({
         queryKey: ['getLongAndLat'],
         queryFn: getLongAndLat,
@@ -279,7 +279,10 @@ const MyMapComponent: React.FC = () => {
         lng: parseFloat(marker.pinLocation.split(',')[1]),
         buildingType: marker.buildingType,
         area: marker.area,
-        address: marker.address
+        address: marker.address,
+        projectType: marker.projectType,
+        projectName: marker.projectName,
+        city: marker.city
     })) || [];
 
     const filteredMarkers = markers.filter(marker =>
@@ -335,26 +338,16 @@ const MyMapComponent: React.FC = () => {
     };
 
     return (
-        <>
-            {/* <div className="row">
-                <div className="w-full md:w-1/3 px-2 mb-4">
-                    <Select
-                        options={[
-                            { value: 'All', label: 'All' },
-                            ...uniqueAreas.map(area => ({ value: area, label: area }))
-                        ]}
-                        onChange={handleAreaChange}
-                        defaultValue={{ value: 'All', label: 'All' }}
-                    />
-                </div>
-                <div className="w-full flex md:w-1/3 px-2 mb-4">
-                   <b> <h1 style={myStyleCommercial}>Commercial: {commercialCount}</h1></b>
-                   <b> <h1 style={myStyleResidential}>Residential: {residentialCount}</h1></b>
-                   <b> <h1 style={myStyleProject}>Project: {projectCount}</h1></b>
-                </div>
-            </div>
-            <br />
-            <br /> */}
+        <div className='col-span-1 md:col-span-1 lg:col-span-7'>
+<AreaSelect
+uniqueAreas={uniqueAreas}
+handleAreaChange={handleAreaChange}
+commercialCount={commercialCount}
+residentialCount={residentialCount}
+projectCount={projectCount}
+
+/>
+<div className=" border-orange dashboarMap">
             {isLoaded ? (
                 <GoogleMap
                     mapContainerStyle={containerStyle}
@@ -373,18 +366,36 @@ const MyMapComponent: React.FC = () => {
                             position={{ lat: marker.lat, lng: marker.lng }}
                             icon={{
                                 url: marker.buildingType === 'Commercial' ? blueMarker
-                                    : marker.buildingType === 'Residential' ? greenMarker
-                                    : marker.buildingType === 'Project' ? yellowMarker
+                                    : marker.buildingType === 'Residential' ? yellowMarker
+                                    : marker.buildingType === 'Project' ?greenMarker
                                     : blueMarker, // Default marker if buildingType is unknown
-                                scaledSize: new window.google.maps.Size(32, 32),
+                                scaledSize: new window.google.maps.Size(31, 62),
+                            }}
+                            onClick={() => {
+                                setSelectedMarker(marker);
                             }}
                         />
                     ))}
+                    {selectedMarker && (
+                <InfoWindowF
+                    position={selectedMarker}
+                    onCloseClick={() => setSelectedMarker(null)}
+                >
+                     <div className="p-4 bg-white rounded-lg shadow-md">
+                        <h1 className="text-lg font-bold text-primary">Project Name:</h1>
+                        <p className="text-base text-gray-800">{selectedMarker.projectName}</p>
+                        <h1 className="text-lg font-bold text-primary mt-2">Area:</h1>
+                        <p className="text-base text-gray-800">{selectedMarker.area}</p>
+                        <h1 className="text-lg font-bold text-primary mt-2">City:</h1>
+                        <p className="text-base text-gray-800">{selectedMarker.city}</p>
+                    </div>
+                </InfoWindowF>
+            )}
                 </GoogleMap>
             ) : (
                 <></>
-            )}
-        </>
+            )}</div>
+        </div>
     );
 };
 

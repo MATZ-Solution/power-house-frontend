@@ -18,7 +18,7 @@ function Referral() {
     useEffect(() => {
         dispatch(setPageTitle('All Locations'));
     });
-       
+
     const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
 
     //Skin: Striped
@@ -39,7 +39,7 @@ function Referral() {
         const fetchAndFilterData = async () => {
             try {
                 const data = await getAllScouts();
-    
+
                 const filteredData = await data.filter((item : any) => {
                     return (
                         // item.id.toString().includes(search.toLowerCase()) ||
@@ -51,25 +51,25 @@ function Referral() {
                         item.contractorNumber.toLowerCase().includes(search.toLowerCase())
                     );
                 });
-    
+
                 setInitialRecords(filteredData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         };
-    
+
         fetchAndFilterData();
     }, [search]);
 
 
 
- 
+
 
     return (
         <div className="space-y-6">
             <div className="border-l-[5px] border-[#F59927] px-3 ">
     <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>All Referral Locations</p>
-</div>  
+</div>
             {/* Skin: Striped  */}
             <div className="panel">
                 <div className="flex items-center justify-between mb-5">
@@ -84,7 +84,7 @@ function Referral() {
 
                         columns={[
                             // { accessor: 'id', title: 'ID' },
-                           
+
                             {
                                 accessor: 'projectType',
                                 title: 'Project Type',
@@ -104,8 +104,18 @@ function Referral() {
                               },
                             { accessor: 'projectName', title: 'Project Name' },
                             { accessor: 'scoutedBy', title: 'scoutedBy', },
-                            { accessor: 'contractorName', title: 'Contractor Name' },
-                            { accessor: 'contractorNumber', title: 'Contractor Number' },
+                            { accessor: 'contractorName', title: 'Contractor Name',
+                                render: ({ contractorName }) => (
+                                    // add N/A if contractorName is empty
+                                    (contractorName && contractorName!=='undefined') ? contractorName : 'N/A'
+                                )
+                                },
+                                { accessor: 'contractorNumber', title: 'Contractor Number',
+                                render: ({ contractorNumber }) => (
+                                    // add N/A if contractorNumber is empty
+                                    (contractorNumber && contractorNumber=='undefined') ? contractorNumber : 'N/A'
+                                )
+                                 },
                             { accessor: 'address', title: 'Address', },
                         ]}
                         totalRecords={initialRecords.length}
