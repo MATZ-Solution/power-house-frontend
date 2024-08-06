@@ -1,12 +1,13 @@
 import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AddBuilder, AddElectrician , AddElectricianCSVfile, GetElectrician } from '../Fetcher/Api';
+import { AddBuilder, AddElectrician, AddElectricianCSVfile, GetElectrician } from '../Fetcher/Api';
 import ModalInfo from '../components/ModaLInfo';
 import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
 import { DataTable } from 'mantine-datatable';
+import TableComponent from './Components/TableComponent';
 
 function SetupElectrician(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -18,11 +19,8 @@ function SetupElectrician(): any {
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
     const [search, setSearch] = useState('');
-    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+
     const [initialRecords, setInitialRecords] = useState<any[]>([]);
-    const [recordsData, setRecordsData] = useState<any[]>([]);
 
     const mutation = useMutation({
         mutationKey: ['AddElectrician'],
@@ -31,17 +29,17 @@ function SetupElectrician(): any {
             queryClient.invalidateQueries(['getElectrician']);
             setElectricianName('');
             setElectricianPhoneNumber('');
-            mutation.reset(); 
-            alertSuccess("Successfully added Electrician");
+            mutation.reset();
+            alertSuccess('Successfully added Electrician');
         },
         onError: (err) => {
             mutation.reset();
             alertFail(err.message);
         },
     });
-    
+
     const onSubmitElectrician = (e: any) => {
-        if (!electricianName || !electricianPhoneNumber ) {
+        if (!electricianName || !electricianPhoneNumber) {
             return setElectricianMessage('Please add all required fields');
         }
         setElectricianMessage('');
@@ -56,7 +54,7 @@ function SetupElectrician(): any {
             setElectricianName('');
             setElectricianPhoneNumber('');
             mutationElectricianCSVfile.reset();
-            alertSuccess("Successfully added CSV file");
+            alertSuccess('Successfully added CSV file');
         },
         onError: (err) => {
             mutationElectricianCSVfile.reset();
@@ -91,7 +89,7 @@ function SetupElectrician(): any {
         isLoading: getElectricianIsLoading,
         isError: getElectricianIsError,
         error: getElectricianError,
-        data: getElectricianData= [],
+        data: getElectricianData = [],
     } = useQuery({
         queryKey: ['getElectricians'],
         queryFn: GetElectrician,
@@ -101,25 +99,13 @@ function SetupElectrician(): any {
     useEffect(() => {
         if (getElectricianData.length > 0) {
             setInitialRecords(getElectricianData);
-            const from = (page - 1) * pageSize;
-            const to = from + pageSize;
-            setRecordsData([...getElectricianData.slice(from, to)]);
         }
-    }, [page, pageSize, getElectricianData]);
-    useEffect(() => {
-        if (search) {
-            const filteredData = initialRecords.filter((item: any) =>
-                item.electricianName.toLowerCase().includes(search.toLowerCase()) ||
-                item.electricianNumber.toLowerCase().includes(search.toLowerCase())
-            );
-            setRecordsData(filteredData.slice(0, pageSize));
-        } else {
-            setRecordsData(initialRecords.slice(0, pageSize));
-        }
-    }, [search, initialRecords, pageSize]);
-
-    console.log(getElectricianData,"getBuilderData")
-
+    }, [getElectricianData]);
+    // console.log(getElectricianData,"getElectricianData")
+    const columns = [
+        { accessor: 'electricianName', title: 'Electrician Name' },
+        { accessor: 'electricianNumber', title: 'Electrician Number' },
+    ];
     return (
         <>
             {wrongFile && alertInfo('Please add a CSV file')}
@@ -152,7 +138,7 @@ function SetupElectrician(): any {
                                 />
                                 {electricianMessage && <p className="mt-4 text-red-800">Please Enter Electrician Phone Number</p>}
                             </div>
-                          
+
                             <div className="">
                                 <button type="button" className="btn btn-primary rounded-full px-10 py-3" onClick={onSubmitElectrician}>
                                     Add
@@ -173,37 +159,10 @@ function SetupElectrician(): any {
                             </a>
                         </div>
                         <div className="space-y-6">
-                        <div className="panel">
-                            <div className="flex items-center justify-between mb-5">
-                                <input
-                                    type="text"
-                                    className="form-input w-auto"
-                                    placeholder="Search..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                            </div>
-                            <div className="datatables">
-                                <DataTable
-                                    striped
-                                    className="whitespace-nowrap table-striped"
-                                    records={recordsData}
-                                    columns={[
-                                        { accessor: 'electricianName', title: 'Electrician Name' },
-                                        { accessor: 'electricianNumber', title: 'Electrician Number' },
-                                    ]}
-                                    totalRecords={getElectricianData.length}
-                                    recordsPerPage={pageSize}
-                                    page={page}
-                                    onPageChange={setPage}
-                                    recordsPerPageOptions={PAGE_SIZES}
-                                    onRecordsPerPageChange={setPageSize}
-                                    minHeight={200}
-                                    paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
-                                />
+                            <div className="panel">
+                                <TableComponent getAreaData={getElectricianData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
                             </div>
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>

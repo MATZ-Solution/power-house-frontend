@@ -15,11 +15,12 @@ import { Column } from 'primereact/column';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import 'primereact/resources/primereact.min.css';
 import DashboardMap from '../components/DashboardMap';
-import '../assets/css/test.css';
+import '../assets/css/test.css';                                    
 import ReactApexChart from 'react-apexcharts';
 import IconDollarSign from '../components/Icon/IconDollarSign';
 import { Paginator } from 'primereact/paginator';
 import CardComponents from './Components/CardComponents';
+import ScoutMembersComponent from './Components/ScoutMembersComponent';
 
 const Test = () => {
     const [filters, setFilters] = useState({});
@@ -71,6 +72,8 @@ const Test = () => {
         retry: 1,
     });
 
+    console.log(ScoutsCountData,"ScoutsCountData")
+
     let {
         isLoading: isLoadingTopScouts,
         isError: isErrorTopScouts,
@@ -94,7 +97,7 @@ const Test = () => {
         retry: 1,
     });
 
-    console.log(MonthlyScoutsData)
+    // console.log(MonthlyScoutsData)
   
     const currentMonthCounts = MonthlyScoutsData?.map((item:any) => item.current_month_count);
     const currentMonthName = MonthlyScoutsData?.map((item:any) => item.month_name);
@@ -361,21 +364,11 @@ const Test = () => {
                                         <ReactApexChart series={salesByCategory.series} options={salesByCategory.options} type="donut" height={460} />
                                     )}
                                     <div className="mt-5 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                                        <div className="flex flex-col items-center">
-                                            <img src="/assets/images/chart_icon1.png" alt="" />
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Commercial</p>
-                                            <p className="text-blue-1 text-lg font-black">{ScoutsCountData[0]?.Commercial}</p>
-                                        </div>
-                                        <div className="flex flex-col items-center border-x">
-                                            <img src="/assets/images/chart_icon3.png" alt="" />
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Residential</p>
-                                            <p className="text-light-orange text-lg font-black">{ScoutsCountData[0]?.Residential}</p>
-                                        </div>
-                                        <div className="flex flex-col items-center">
-                                            <img src="/assets/images/chart_icon2.png" alt="" />
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Projects</p>
-                                            <p className="text-green-1 text-lg font-black">{ScoutsCountData[0]?.Project}</p>
-                                        </div>
+                                      <ScoutMembersComponent img="/assets/images/chart_icon1.png" col="text-blue-1" count={ScoutsCountData[0]?.Commercial}/>   
+                                      <ScoutMembersComponent img="/assets/images/chart_icon3.png" col="text-light-orange" count={ScoutsCountData[0]?.Residential}/>   
+                                      <ScoutMembersComponent img="/assets/images/chart_icon2.png" col="text-green-1" count={ScoutsCountData[0]?.Project}/>   
+
+                                      
                                     </div>
                                 </div>
                             </div>
@@ -402,26 +395,7 @@ const Test = () => {
                                         ) : (
                                             <p>No data available</p>
                                         )}
-                                        {/* <div className="flex flex-col items-center">
-                                            <p className="text-light-orange text-xl font-black">55</p>
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Amir</p>
-                                        </div>
-                                        <div className="flex flex-col items-center">
-                                            <p className="text-light-orange text-xl font-black">33</p>
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Talha</p>
-                                        </div>
-                                        <div className="flex flex-col items-center">
-                                            <p className="text-light-orange text-xl font-black">90</p>
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Romail</p>
-                                        </div>
-                                        <div className="flex flex-col items-center">
-                                            <p className="text-light-orange text-xl font-black">26</p>
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Ali</p>
-                                        </div>
-                                        <div className="flex flex-col items-center">
-                                            <p className="text-light-orange text-xl font-black">94</p>
-                                            <p className="text-sm tracking-tight text-gray-900 text-black dark:text-white">Zawar</p>
-                                        </div> */}
+                                        
                                     </div>
 
                                     {/* <div className="ltr:ml-auto rtl:mr-auto relative">

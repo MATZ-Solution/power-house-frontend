@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
 import { DataTable } from 'mantine-datatable';
+import TableComponent from './Components/TableComponent';
 
 function SetupCities(): JSX.Element {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -14,25 +15,19 @@ function SetupCities(): JSX.Element {
     const [city, setCity] = useState('');
     const [cityMessage, setCityMessage] = useState('');
     const queryClient = useQueryClient();
-    const [search, setSearch] = useState('');
-    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
     const [initialRecords, setInitialRecords] = useState<any[]>([]);
     const [recordsData, setRecordsData] = useState<any[]>([]);
     const [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
-
+    const [search, setSearch] = useState('');
     const mutation = useMutation({
-        
         mutationKey: ['AddCity'],
         mutationFn: AddCity,
         onSuccess: () => {
-           
-queryClient.invalidateQueries({queryKey: ['getCities']});
+            queryClient.invalidateQueries({ queryKey: ['getCities'] });
             setCity('');
-            mutation.reset(); 
-            alertSuccess("Successfully add City");
+            mutation.reset();
+            alertSuccess('Successfully add City');
         },
         onError: (err: any) => {
             mutation.reset();
@@ -53,11 +48,10 @@ queryClient.invalidateQueries({queryKey: ['getCities']});
         mutationKey: ['AddCityCSVfile'],
         mutationFn: AddCityCSVfile,
         onSuccess: () => {
-           
-queryClient.invalidateQueries({queryKey: ['getCities']});
+            queryClient.invalidateQueries({ queryKey: ['getCities'] });
             setCity('');
             mutationCityCSVfile.reset();
-            alertSuccess("Successfully add CSV file");
+            alertSuccess('Successfully add CSV file');
         },
         onError: (err: any) => {
             mutationCityCSVfile.reset();
@@ -91,12 +85,6 @@ queryClient.invalidateQueries({queryKey: ['getCities']});
         return () => clearTimeout(timeoutId);
     }, [wrongFile]);
 
-    useEffect(() => {
-        const from = (page - 1) * pageSize;
-        const to = from + pageSize;
-        setRecordsData([...initialRecords.slice(from, to)]);
-    }, [page, pageSize, initialRecords]);
-
     const {
         isError,
         data: cityData = [],
@@ -111,21 +99,11 @@ queryClient.invalidateQueries({queryKey: ['getCities']});
 
     useEffect(() => {
         if (cityData.length > 0) {
-            const from = (page - 1) * pageSize;
-            const to = from + pageSize;
             setInitialRecords(cityData);
-            setRecordsData([...cityData.slice(from, to)]);
         }
-    }, [page, pageSize, cityData]);
+    }, [cityData]);
 
-    useEffect(() => {
-        if (search) {
-            const filteredData = cityData.filter((item: any) => item.cityName.toLowerCase().includes(search.toLowerCase()));
-            setInitialRecords(filteredData);
-        } else {
-            setInitialRecords(cityData);
-        }
-    }, [search, cityData]);
+    const columns = [{ accessor: 'cityName', title: 'City' }];
 
     return (
         <>
@@ -170,35 +148,7 @@ queryClient.invalidateQueries({queryKey: ['getCities']});
                         </div>
                     </div>
                     <div className="space-y-6">
-                        <div className="panel">
-                            <div className="flex items-center justify-between mb-5">
-                                <input
-                                    type="text"
-                                    className="form-input w-auto"
-                                    placeholder="Search..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                            </div>
-                            <div className="datatables">
-                                <DataTable
-                                    striped
-                                    className="whitespace-nowrap table-striped"
-                                    records={recordsData}
-                                    columns={[
-                                        { accessor: 'cityName', title: 'City' },
-                                    ]}
-                                    totalRecords={cityData.length}
-                                    recordsPerPage={pageSize}
-                                    page={page}
-                                    onPageChange={setPage}
-                                    recordsPerPageOptions={PAGE_SIZES}
-                                    onRecordsPerPageChange={setPageSize}
-                                    minHeight={200}
-                                    paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
-                                />
-                            </div>
-                        </div>
+                        <TableComponent getAreaData={cityData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
                     </div>
                 </div>
             </div>

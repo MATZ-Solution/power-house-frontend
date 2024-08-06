@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { IRootState } from '../store';
 import { alertFail, alertSuccess, alertInfo } from './Components/Alert';
 import { DataTable } from 'mantine-datatable';
+import TableComponent from './Components/TableComponent';
 
 function SetupBuilder(): any {
     const isDark = useSelector((state: IRootState) => state.themeConfig.theme === 'dark' || state.themeConfig.isDarkMode);
@@ -18,11 +19,9 @@ function SetupBuilder(): any {
     let [wrongFile, setWrongFile] = useState(false);
     const fileInputRef = useRef<any>(null);
     const [search, setSearch] = useState('');
-    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
-    const [page, setPage] = useState(1);
-    const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+
     const [initialRecords, setInitialRecords] = useState<any[]>([]);
-    const [recordsData, setRecordsData] = useState<any[]>([]);
+
     const mutation = useMutation({
         mutationKey: ['AddBuilder'],
         mutationFn: AddBuilder,
@@ -30,17 +29,17 @@ function SetupBuilder(): any {
             queryClient.invalidateQueries(['getBuilder']);
             setBuilderName('');
             setBuilderPhoneNumber('');
-            mutation.reset(); 
-            alertSuccess("Successfully added Builder");
+            mutation.reset();
+            alertSuccess('Successfully added Builder');
         },
         onError: (err) => {
             mutation.reset();
             alertFail(err.message);
         },
     });
-    
+
     const onSubmitBuilder = (e: any) => {
-        if (!builderName || !builderPhoneNumber ) {
+        if (!builderName || !builderPhoneNumber) {
             return setBuilderMessage('Please add all required fields');
         }
         setBuilderMessage('');
@@ -55,7 +54,7 @@ function SetupBuilder(): any {
             setBuilderName('');
             setBuilderPhoneNumber('');
             mutationBuilderCSVfile.reset();
-            alertSuccess("Successfully added CSV file");
+            alertSuccess('Successfully added CSV file');
         },
         onError: (err) => {
             mutationBuilderCSVfile.reset();
@@ -90,7 +89,7 @@ function SetupBuilder(): any {
         isLoading: getBuilderIsLoading,
         isError: getBuilderIsError,
         error: getBuilderError,
-        data: getBuilderData= [],
+        data: getBuilderData = [],
     } = useQuery({
         queryKey: ['getBuilder'],
         queryFn: GetAllBuilder,
@@ -100,25 +99,13 @@ function SetupBuilder(): any {
     useEffect(() => {
         if (getBuilderData.length > 0) {
             setInitialRecords(getBuilderData);
-            const from = (page - 1) * pageSize;
-            const to = from + pageSize;
-            setRecordsData([...getBuilderData.slice(from, to)]);
         }
-    }, [page, pageSize, getBuilderData]);
-    useEffect(() => {
-        if (search) {
-            const filteredData = initialRecords.filter((item: any) =>
-                item.builderName.toLowerCase().includes(search.toLowerCase()) ||
-                item.builderNumber.toLowerCase().includes(search.toLowerCase())
-            );
-            setRecordsData(filteredData.slice(0, pageSize));
-        } else {
-            setRecordsData(initialRecords.slice(0, pageSize));
-        }
-    }, [search, initialRecords, pageSize]);
+    }, [getBuilderData]);
 
-    // console.log(getBuilderData,"getBuilderData")
-
+    const columns = [
+        { accessor: 'builderName', title: 'Builder Name' },
+        { accessor: 'builderNumber', title: 'Builder Number' },
+    ];
     return (
         <>
             {wrongFile && alertInfo('Please add a CSV file')}
@@ -151,7 +138,7 @@ function SetupBuilder(): any {
                                 />
                                 {builderMessage && <p className="mt-4 text-red-800">Please Enter Builder Phone Number</p>}
                             </div>
-                          
+
                             <div className="">
                                 <button type="button" className="btn btn-primary rounded-full px-10 py-3" onClick={onSubmitBuilder}>
                                     Add
@@ -172,37 +159,8 @@ function SetupBuilder(): any {
                             </a>
                         </div>
                         <div className="space-y-6">
-                        <div className="panel">
-                            <div className="flex items-center justify-between mb-5">
-                                <input
-                                    type="text"
-                                    className="form-input w-auto"
-                                    placeholder="Search..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                            </div>
-                            <div className="datatables">
-                                <DataTable
-                                    striped
-                                    className="whitespace-nowrap table-striped"
-                                    records={recordsData}
-                                    columns={[
-                                        { accessor: 'builderName', title: 'Builder Name' },
-                                        { accessor: 'builderNumber', title: 'Builder Number' },
-                                    ]}
-                                    totalRecords={getBuilderData.length}
-                                    recordsPerPage={pageSize}
-                                    page={page}
-                                    onPageChange={setPage}
-                                    recordsPerPageOptions={PAGE_SIZES}
-                                    onRecordsPerPageChange={setPageSize}
-                                    minHeight={200}
-                                    paginationText={({ from, to, totalRecords }) => `Showing ${from} to ${to} of ${totalRecords} entries`}
-                                />
-                            </div>
+                            <TableComponent getAreaData={getBuilderData} initialRecords={initialRecords} search={search} setSearch={setSearch} columns={columns} />
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
