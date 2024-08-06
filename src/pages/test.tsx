@@ -355,7 +355,7 @@ const Test = () => {
                 <section className="w-full mb-5">
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-10 xl:grid-cols-10 gap-4">
                         <div className="col-span-1 md:col-span-1 lg:col-span-7 border-orange dashboarMap">
-                            <DashboardMap myMap={false} />
+                            <DashboardMap />
                         </div>
                         <div className="col-span-1 md:col-span-1 lg:col-span-3">
                             <div className="block p-5 chart-img-dashboard border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:hover:bg-gray-700">

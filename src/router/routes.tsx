@@ -6,6 +6,7 @@ import Test from '../pages/Index';
 
 const Index = lazy(() => import('../pages/Index'));
 // const Test = lazy(() => import('../pages/test'));
+const ViewLog = lazy(() => import('../pages/View-log'));
 
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -144,6 +145,10 @@ const routes = [
         path: '/',
         element: <LoginBoxed />,
         layout: 'blank',
+    },
+    {
+        path: '/View-log',
+        element: <ViewLog />,
     },
 
     {

@@ -21,6 +21,7 @@ import IconDollarSign from '../components/Icon/IconDollarSign';
 import { Paginator } from 'primereact/paginator';
 import CardComponents from './Components/CardComponents';
 import ScoutMembersComponent from './Components/ScoutMembersComponent';
+import Banner from '../components/Banner';
 
 const Test = () => {
     const [filters, setFilters] = useState({});
@@ -298,24 +299,8 @@ const Test = () => {
             {/* <ModalInfo message='Successfully add scouts'/> */}
 
             {/* <ScreenLoader/> */}
-            <div className="romail">
-                <section className="flex flex-col sm:flex-row items-center justify-between w-full dashboard-card-bg-img block w-full p-6 bg-white border border-gray-200 rounded-3xl shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 mb-5">
-                    <div className="w-full">
-                        <h5 className="m-0 text-3xl font-bold tracking-tight text-gray-900 dark:text-black">
-                            Welcome <span className="text-light-orange">Admin</span>
-                        </h5>
-                        <div className="flex">
-                            <div className="divider"></div>
-                            <div className="divider-small"></div>
-                        </div>
-                        <p className="font-normal dashboard-para">
-                            There is no better way to understand the benefits of electrical products than seeing them in action at a <span className="font-black">Powerhouse Display Centers.</span>
-                        </p>
-                    </div>
-                    <div className="margin-bottom-minus w-full sm:w-1/3 mt-4 sm:mt-0">
-                        <img src="/assets/images/banner_dashboard.png" alt="Dashboard Banner" className="w-full h-auto object-cover" />
-                    </div>
-                </section>
+            <div className="">
+                <Banner />
                 <section className="w-full mb-5">
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
                         <CardComponents user="Total Scouts" count={ScoutsCountData[0]?.total_scouts} color="bg-card-blue" image="/assets/images/dashboard_data_1.png" month={ScoutsCountData[0]?.current_month_total} />
