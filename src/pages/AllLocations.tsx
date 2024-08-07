@@ -2,10 +2,18 @@ import React from 'react';
 import Banner from '../components/Banner';
 import '../assets/css/test.css';
 
+const bannerData = {
+    image: "/assets/images/mobile-banner.png",
+    title: "Residential Villa",
+    titleColored: "",
+    para: "There is no better way to understand the benefits of electrical products than seeing them in action at a",
+    paraBold: "Powerhouse Display Centers."
+}
+
 const AllLocations = () => {
     return (
         <>
-            <Banner image="/assets/images/mobile-banner.png"/>
+            <Banner bannerData={bannerData} />
             <section>
                 <div className="flex flex-wrap">
                     <form className="max-w-sm me-3">
@@ -29,7 +37,7 @@ const AllLocations = () => {
                         <button
                             id="dropdownDefaultButton"
                             data-dropdown-toggle="dropdown"
-                            className="text-white bg-[#F59927]  rounded-lg text-sm px-3 py-3.5 text-center inline-flex items-center"
+                            className="text-white bg-[#F59927] rounded-lg text-sm px-3 py-3.5 text-center inline-flex items-center"
                             type="button"
                         >
                             <img src="/assets/images/filter-icon.svg" alt="" width={15} />
@@ -155,21 +163,36 @@ const AllLocations = () => {
 
                     <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
                         <img src="/assets/images/currect-lolipop-hand-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                        <div className="flex justify-between flex-wrap">
+                        <div className="flex justify-center md:justify-between flex-wrap">
                             <div className="">
                                 <span className="text-gray-500">Scouted - </span>
                                 <span className="text-[#F59927] font-black">Residential</span>
-                                <p className="font-black">Location Scouted at Land No. 612 Khor Fakkan / Sharjah </p>
+                                <p className="">
+                                    Handshake request initiated on <span className="font-black">CLIFTON BLOCK 9</span> project by <span className="font-black">IMRAN YOUSAF</span>
+                                </p>
                                 <small className="text-gray-500">12-07-2024 - 3:30 PM</small>
                             </div>
                             <div className="flex flex-wrap justify-center md:justify-left">
                                 <div className="">
-                                    <img src="/assets/images/office-man.png" className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
-                                </div>
-                                <div className="ms-3">
-                                    <span className="text-gray-500">Scouted By</span>
-                                    <p className="text-[#F59927] font-black text-2xl">Amir Iqbal</p>
-                                    <small className="text-gray-500">Electrical Department</small>
+                                    <span className="text-gray-500">Requested Members</span>
+                                    <div className="mt-1 relative h-[40px]">
+                                        <img
+                                            src="/assets/images/office-man.png"
+                                            className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full absolute border-2 border-[#CFCFCF]"
+                                            alt=""
+                                        />
+                                        <img
+                                            src="/assets/images/office-man.png"
+                                            className="w-[40px] h-[40px] bottom-0 left-[25px] object-cover border-transparent rounded-full absolute border-2 border-[#CFCFCF]"
+                                            alt=""
+                                        />
+                                        <img
+                                            src="/assets/images/office-man.png"
+                                            className="w-[40px] h-[40px] bottom-0 left-[50px] object-cover border-transparent rounded-full absolute border-2 border-[#CFCFCF]"
+                                            alt=""
+                                        />
+                                        <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">+3</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -181,8 +204,8 @@ const AllLocations = () => {
                         <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">12-June-2024 - 3:30 PM </span>
                     </div>
 
-                    <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                        <img src="/assets/images/currect-lolipop-hand-dark-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                    <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center sm:text-left">
+                        <img src="/assets/images/currect-lolipop-hand-dark-blue.svg" className="absolute bottom-0 left-6 hidden sm:block" alt="" />
                         <div className="flex justify-between flex-wrap">
                             <div className="">
                                 <span className="text-gray-500">Scouted - </span>
@@ -190,7 +213,7 @@ const AllLocations = () => {
                                 <p className="font-black">Location Scouted at Land No. 612 Khor Fakkan / Sharjah </p>
                                 <small className="text-gray-500">12-07-2024 - 3:30 PM</small>
                             </div>
-                            <div className="flex flex-wrap justify-center md:justify-left">
+                            <div className="flex flex-wrap justify-center sm:justify-left">
                                 <div className="">
                                     <img src="/assets/images/office-man.png" className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
                                 </div>

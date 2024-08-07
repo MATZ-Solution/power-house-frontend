@@ -23,6 +23,14 @@ import CardComponents from './Components/CardComponents';
 import ScoutMembersComponent from './Components/ScoutMembersComponent';
 import Banner from '../components/Banner';
 
+const bannerData = {
+    image: "/assets/images/banner_dashboard.png",
+    title: "Welcome",
+    titleColored: "Admin",
+    para: "There is no better way to understand the benefits of electrical products than seeing them in action at a",
+    paraBold: "Powerhouse Display Centers."
+}
+
 const Test = () => {
     const [filters, setFilters] = useState({});
     const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -300,7 +308,7 @@ const Test = () => {
 
             {/* <ScreenLoader/> */}
             <div className="">
-                <Banner image="/assets/images/banner_dashboard.png"/>
+            <Banner bannerData={bannerData} />
                 <section className="w-full mb-5">
                     <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4">
                         <CardComponents user="Total Scouts" count={ScoutsCountData[0]?.total_scouts} color="bg-card-blue" image="/assets/images/dashboard_data_1.png" month={ScoutsCountData[0]?.current_month_total} />
