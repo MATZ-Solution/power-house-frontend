@@ -10,7 +10,7 @@ const bannerData = {
     paraBold: "Powerhouse Display Centers."
 }
 
-const AllLocations = () => {
+const LocationLogs = () => {
     return (
         <>
             <Banner bannerData={bannerData} />
@@ -231,4 +231,4 @@ const AllLocations = () => {
     );
 };
 
-export default AllLocations;
+export default LocationLogs;

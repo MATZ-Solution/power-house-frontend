@@ -7,7 +7,7 @@ import Test from '../pages/Index';
 const Index = lazy(() => import('../pages/Index'));
 // const Test = lazy(() => import('../pages/test'));
 const ViewLog = lazy(() => import('../pages/View-log'));
-const AllLocations = lazy(() => import('../pages/AllLocations'));
+const LocationLogs = lazy(() => import('../pages/LocationLogs'));
 
 const Analytics = lazy(() => import('../pages/Analytics'));
 const Finance = lazy(() => import('../pages/Finance'));
@@ -151,17 +151,17 @@ const routes = [
         path: '/View-log',
         element: <ViewLog />,
     },
-    {
-        path: '/AllLocations',
-        element: <AllLocations/>,
-    },
+    // {
+    //     path: '/AllLocations',
+    //     element: <AllLocations/>,
+    // },
     {
         path: '/dashboard',
         element: <Test />,
     },
     {
         path: '/log',
-        element: <LogScreen />,
+        element: <LocationLogs/>,
     },
     // {
     //     path: '/dashboard1',
@@ -238,7 +238,7 @@ const routes = [
         path: '/view-sop',
         element: <ViewSOP />,
     },
-    
+
     {
         path: '/alloted-location',
         element: <AllotedLocation />,
