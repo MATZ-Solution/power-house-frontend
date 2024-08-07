@@ -22,10 +22,10 @@ function Scouts() {
     const fetchAndFilterData = async () => {
         try {
             const data = await getAllScouts();
-            return data; 
+            return data;
         } catch (error) {
             console.error("Error fetching data:", error);
-            return []; 
+            return [];
         }
     };
 
@@ -86,7 +86,7 @@ function Scouts() {
                 <p className={`${isDark ? 'text-white' : 'text-black'} font-bold text-xl`}>All Locations</p>
             </div>
             <div className="panel">
-               
+
                 <TableComponent
                     getAreaData={getScoutData}
                     initialRecords={initialRecords}
@@ -100,7 +100,7 @@ function Scouts() {
                                 className="btn btn-primary static whitespace-nowrap"
                                 onClick={() => {
 
-                                    navigate('/log');
+                                    navigate(`/log/:${row?.id}`);
                                 }}
                             >
                                 View Logs

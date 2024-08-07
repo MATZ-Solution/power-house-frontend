@@ -160,7 +160,7 @@ const routes = [
         element: <Test />,
     },
     {
-        path: '/log',
+        path: '/log/:id',
         element: <LocationLogs/>,
     },
     // {

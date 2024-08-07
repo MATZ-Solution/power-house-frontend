@@ -995,7 +995,7 @@ export const AddBuilderCSVfile = async (data: any) => {
 // ############## Add Electrician ###########################
 
 export const AddElectrician = async (data: { electricianName: string, electricianPhoneNumber: string }) => {
-    
+
     let token = localStorage.getItem('token');
     try {
         // const request = await fetch(`http://localhost:2300/scout/AddElectrician`, {
@@ -1074,3 +1074,27 @@ export const AddElectricianCSVfile = async (data: any) => {
 
 
 
+export const getLocationLogsById = async (locationId: any) => {
+    console.log(locationId)
+    let token = localStorage.getItem('token');
+    try {
+        const request = await fetch(`${BASE_URL}/scout/logs/${locationId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        // console.log(request,"req")
+
+        if (!request.ok) {
+            let response = await request.json();
+            throw new Error(response?.message);
+        }
+        let response = await request.json();
+        console.log(response.data)
+        return response.data;
+    } catch (err) {
+        throw err;
+    }
+}

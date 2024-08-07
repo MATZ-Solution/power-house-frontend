@@ -112,7 +112,7 @@ function AllotedLocation() {
                                 type="button"
                                 className="btn btn-primary static whitespace-nowrap"
                                 onClick={() => {
-                                    navigate('/log');
+                                    navigate(`/log/:${row?.id}`);
                                 }}
                             >
                                 View Logs
