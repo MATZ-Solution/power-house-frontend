@@ -100,7 +100,7 @@ function Scouts() {
                                 className="btn btn-primary static whitespace-nowrap"
                                 onClick={() => {
 
-                                    navigate(`/log/:${row?.id}`);
+                                    navigate(`/log/${row?.id}`);
                                 }}
                             >
                                 View Logs
