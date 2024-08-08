@@ -133,7 +133,7 @@ const CreateCatalogue = lazy(()=> import('../pages/CreateCatalogue'));
 const ViewCatalogue = lazy(()=> import('../pages/ViewCatalogue'));
 const MeetingReport = lazy(()=> import('../pages/Meeting-report'));
 const SOPReport = lazy(()=> import('../pages/SOP-report'));
-const LogScreen = lazy(()=> import('../pages/Log'));
+
 
 const routes = [
     // dashboard
