@@ -18,6 +18,11 @@ export interface Log {
     updatedBy: UpdatedBy;
     meetingLogs: MeetingLogs;
     meetingMembers: MeetingMember[];
+    updates: {
+        name: string;
+        oldValue: string;
+        newValue: string; 
+    }[];
 }
 export interface AllotedUser {
     id: number;

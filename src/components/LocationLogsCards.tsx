@@ -22,17 +22,29 @@ const LocationLogsCards = ({ items, image }: { items: Root; image: string }) => 
             {DayAndTimeForScout}
             <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
                 <img src={`${image}`} className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                <div className="flex flex-col sm:flex-row justify-center sm:justify-between flex-wrap">
+                <div className="flex flex-col sm:flex-row justify-center sm:justify-between flex-wrap items-center">
                     <div className="flex flex-col justify-center sm:justify-start mb-3 sm:mb-0">
-                      <div className="">
-                      <span className="text-gray-500">{items?.log?.type} - </span>
-                      <span className="text-[#F59927] font-black">{items?.log?.buildingType}</span>
-                      </div>
-                        
-                        <p className="font-black max-w-sm mx-auto sm:mx-0">{items?.log?.message} </p>
+                        <div className="">
+                            <span className="text-gray-500">{items?.log?.type} - </span>
+                            <span className="text-[#F59927] font-black">{items?.log?.buildingType}</span>
+                        </div>
+                        <p className="font-black max-w-sm mx-auto sm:mx-0 mb-2">{items?.log?.message}</p>
+
+                        {/* Example of conditional rendering using a ternary operator or logical AND */}
+                        <div className="hidden sm:block">
+                        {items?.log?.updates && (
+                            <ul className="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
+                                {items.log.updates.map((ele, index) => (
+                                    <li key={index}>
+                                        Updated <strong>{ele.name}</strong> from <strong>{ele.oldValue}</strong> to <strong>{ele.newValue}</strong>.
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                        </div>
 
                         {/* Use formattedDate to display the correct date */}
-                        <small className="text-gray-500">{formattedDate}</small>
+                        {!items?.log?.updates && <small className="text-gray-500">{formattedDate}</small>}
                     </div>
                     <ScoutedByComponent item={items} />
                 </div>
