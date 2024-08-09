@@ -1,7 +1,9 @@
 import React from 'react'
 import dayjs from 'dayjs';
 
-export const DayAndTimeLine = (CreatedDate:any) => {
+export const DayAndTimeLine = ({CreatedDate}:{
+  CreatedDate: Date,
+}) => {
   return (
     <>
     <div className="relative flex items-center justify-center w-full">

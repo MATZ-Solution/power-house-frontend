@@ -1074,11 +1074,15 @@ export const AddElectricianCSVfile = async (data: any) => {
 
 
 
-export const getLocationLogsById = async (locationId: any) => {
+export const getLocationLogsById = async (locationId?: string,search?:string,selectedDate?:Date|null) => {
     console.log(locationId)
     let token = localStorage.getItem('token');
     try {
-        const request = await fetch(`${BASE_URL}/scout/logs/${locationId}`, {
+        const request = await fetch(`${BASE_URL}/scout/logs?id=${locationId}&search=${
+            search
+        }&date=${
+            selectedDate
+        }`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

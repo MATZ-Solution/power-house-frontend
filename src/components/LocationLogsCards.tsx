@@ -1,68 +1,210 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { DayAndTimeLine } from './DayAndTimeLine';
+import { Root } from '../Constants/types';
 
-// interface Log {
-//   created_at: string;
-//   buildingType?: string;
-//   message: string;
-//   created_by: {
-//     picture?: string;
-//     name: string;
-//     department?: string;
-//   };
-// }
+const LocationLogsCards = ({ items, image }: { items: Root; image: string }) => {
+    console.log(items);
 
-// interface LocationLogsCardsProps {
-//   item: {
-//     log: Log;
-//   };
-// }
+    // Determine the correct date based on the log type
+    const formattedDate = items?.log?.type === 'Scouted' ? dayjs(items?.created_at).format('DD-MMM-YYYY - hh:mm A') : dayjs(items?.date).format('DD-MMM-YYYY - hh:mm A');
 
-const LocationLogsCards = (props:any) => {
-    console.log(props);
-    
-  return (
-    <div className="">
-      <DayAndTimeLine CreatedDate={props.item?.log?.created_at}/>
+    // Determine the DayAndTimeLine component based on the log type
+    const DayAndTimeForScout =
+        items?.log?.type === 'Scouted' ? (
+            <DayAndTimeLine CreatedDate={items?.created_at ? new Date(items?.created_at) : new Date()} />
+        ) : (
+            <DayAndTimeLine CreatedDate={items?.date ? new Date(items.date) : new Date()} />
+        );
 
-      <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-        <img src="/assets/images/currect-lolipop.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-        <div className="flex justify-between flex-wrap">
-          <div className="">
-            <span className="text-gray-500">Scouted - </span>
-            <span className="text-[#F59927] font-black">{props.item?.log?.buildingType}</span>
-            <p className="font-black">{props.item?.log?.message} </p>
-            <small className="text-gray-500">{dayjs(props.item?.log?.created_at).format('DD-MMM-YYYY - hh:mm A')}</small>
-          </div>
-          <div className="flex flex-wrap justify-center md:justify-left">
-            <div className="">
-              <img
-                src={props.item?.log?.created_by?.picture || '/assets/images/office-man.png'}
-                className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
-                alt=""
-              />
+    return (
+        <div className="">
+            {DayAndTimeForScout}
+            <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                <img src={`${image}`} className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                <div className="flex flex-col sm:flex-row justify-center sm:justify-between flex-wrap">
+                    <div className="flex flex-col justify-center sm:justify-start mb-3 sm:mb-0">
+                      <div className="">
+                      <span className="text-gray-500">{items?.log?.type} - </span>
+                      <span className="text-[#F59927] font-black">{items?.log?.buildingType}</span>
+                      </div>
+                        
+                        <p className="font-black max-w-sm mx-auto sm:mx-0">{items?.log?.message} </p>
+
+                        {/* Use formattedDate to display the correct date */}
+                        <small className="text-gray-500">{formattedDate}</small>
+                    </div>
+                    <ScoutedByComponent item={items} />
+                </div>
             </div>
-
-            <ScoutedByComponent item={props.item}/>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
-const ScoutedByComponent = (props:any)=>{
-return(
-  <>
-  <div className="ms-3">
-              <span className="text-gray-500">Scouted By</span>
-              <p className="text-[#F59927] font-black text-2xl">{props.item?.log?.created_by?.name}</p>
-              <small className="text-gray-500">{props.item?.log?.created_by?.department || 'Clipsal'}</small>
-            </div>
-  </>
-)
-}
+const ScoutedByComponent = ({ item }: { item: Root }) => {
+    if (item?.log?.type === 'SOP') {
+        return null; // Return null instead of undefined
+    }
+    if (item?.log?.type === 'Updates') {
+        return (
+            <>
+                <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                    <div className="flex justify-center">
+                        <img src={item?.log?.updatedBy?.picture || '/assets/images/office-man.png'} className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
+                    </div>
 
+                    <div className="ms-0 sm:ms-3">
+                        <span className="text-gray-500">Scouted By</span>
+                        <p className="text-[#F59927] font-black text-2xl">{item?.log?.updatedBy?.name}</p>
+                        <small className="text-gray-500">{item?.log?.updatedBy?.department || 'Clipsal'}</small>
+                    </div>
+                </div>
+            </>
+        );
+    }
+    if (item?.log?.handShakeRequestedTo) {
+        return (
+            <>
+                {item?.log?.handShakeRequestedTo?.length > 1 ? (
+                    <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                        <div className="flex justify-center">
+                            <span className="text-gray-500">Requested To</span>
+                            <div className="mt-1 relative h-[40px] flex justify-center sm:justify-left">
+                                {item?.log?.handShakeRequestedTo?.slice(0, 4)?.map((user: any, index: number) => {
+                                    return (
+                                        <img
+                                            src={user?.picture || '/assets/images/office-man.png'}
+                                            className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
+                                            alt=""
+                                        />
+                                    );
+                                })}
+                                {item?.log?.handShakeRequestedTo?.length > 4 && (
+                                    <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">
+                                        {item?.log?.handShakeRequestedTo?.length - 4}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                        <div className="flex justify-center">
+                            <img
+                                src={item?.log?.handShakeRequestedTo[0]?.picture || '/assets/images/office-man.png'}
+                                className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
+                                alt=""
+                            />
+                        </div>
+
+                        <div className="ms-0 sm:ms-3">
+                            <span className="text-gray-500">Alloted To</span>
+                            <p className="text-[#F59927] font-black text-xl">{item?.log?.handShakeRequestedTo[0]?.name}</p>
+                            <small className="text-gray-500">{item?.log?.handShakeRequestedTo[0]?.department || 'Clipsal'}</small>
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    } else if (item?.log?.allotedUsers) {
+        return (
+            <>
+                {item?.log?.allotedUsers?.length > 1 ? (
+                    <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                        <div className="">
+                            <span className="text-gray-500">Alloted Members</span>
+                            <div className="mt-1 relative h-[40px] flex justify-center sm:justify-left">
+                                {item?.log?.allotedUsers?.slice(0, 4)?.map((user: any, index: number) => {
+                                    return (
+                                        <img
+                                            src={user?.picture || '/assets/images/office-man.png'}
+                                            className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
+                                            alt=""
+                                        />
+                                    );
+                                })}
+                                {item?.log?.allotedUsers?.length > 4 && (
+                                    <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">
+                                        {item?.log?.allotedUsers?.length - 4}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                        <div className="flex justify-center">
+                            <img src={item?.log?.allotedUsers[0]?.picture || '/assets/images/office-man.png'} className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
+                        </div>
+
+                        <div className="ms-0 sm:ms-3">
+                            <span className="text-gray-500">Alloted To</span>
+                            <p className="text-[#F59927] font-black text-2xl">{item?.log?.allotedUsers[0]?.name}</p>
+                            <small className="text-gray-500">{item?.log?.allotedUsers[0]?.department || 'Clipsal'}</small>
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    } else if (item?.log?.type === 'Meeting') {
+        return (
+            <>
+                {item?.log?.meetingMembers?.length > 1 ? (
+                    <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                        <div className="">
+                            <span className="text-gray-500">Members</span>
+                            <div className="mt-1 relative h-[40px] flex justify-center sm:justify-left">
+                                {item?.log?.meetingMembers?.slice(0, 4)?.map((user: any, index: number) => {
+                                    return (
+                                        <img
+                                            src={user?.picture || '/assets/images/office-man.png'}
+                                            className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full border-2 border-[#CFCFCF]"
+                                            alt=""
+                                        />
+                                    );
+                                })}
+                                {item?.log?.meetingMembers?.length > 4 && (
+                                    <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">
+                                        {item?.log?.meetingMembers?.length - 4}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ) : (
+                    <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                        <div className="flex justify-center">
+                            <img src={item?.log?.meetingMembers[0]?.picture || '/assets/images/office-man.png'} className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
+                        </div>
+
+                        <div className="ms-0 sm:ms-3">
+                            <span className="text-gray-500">Alloted To</span>
+                            <p className="text-[#F59927] font-black text-2xl">{item?.log?.meetingMembers[0]?.name}</p>
+                            <small className="text-gray-500">{item?.log?.meetingMembers[0]?.department || 'Clipsal'}</small>
+                        </div>
+                    </div>
+                )}
+            </>
+        );
+    } else if (item?.log?.type === 'Scouted') {
+        return (
+            <>
+                <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left">
+                    <div className="flex justify-center">
+                        <img src={item?.log?.created_by?.picture || '/assets/images/office-man.png'} className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
+                    </div>
+
+                    <div className="ms-0 sm:ms-3">
+                        <span className="text-gray-500">Scouted By</span>
+                        <p className="text-[#F59927] font-black text-2xl">{item?.log?.created_by?.name}</p>
+                        <small className="text-gray-500">{item?.log?.created_by?.department || 'Clipsal'}</small>
+                    </div>
+                </div>
+            </>
+        );
+    } else {
+        return <></>;
+    }
+};
 
 export default LocationLogsCards;
