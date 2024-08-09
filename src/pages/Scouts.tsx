@@ -48,6 +48,8 @@ function Scouts() {
     }, [getScoutData]);
 
     const columns = [
+        { accessor: 'refrenceId', title: 'Id' },
+        { accessor: 'projectName', title: 'Project Name' },
         {
             accessor: 'projectType',
             title: 'Project Type',
@@ -65,19 +67,41 @@ function Scouts() {
                 </div>
             ),
         },
-        // { accessor: 'projectName', title: 'Project Name' },
-        { accessor: 'scoutedBy', title: 'Scouted By' },
+        {
+            accessor: 'buildingType',
+            title: 'Building Type',
+            render: ({ buildingType }: any) => (
+                <div className={`whitespace-nowrap badge ${buildingType === 'Commercial' ? 'bg-info' : buildingType === 'Residential' ? 'bg-primary' : ''} flex justify-center word-wrap: break-word`}>
+                    {buildingType}
+                </div>
+            ),
+        },
+
+
+
         {
             accessor: 'contractorName',
             title: 'Contractor Name',
-            render: ({ contractorName }:any) => (contractorName && contractorName !== 'undefined') ? contractorName : 'N/A',
+            render: ({ contractorName }: any) =>
+                // add N/A if contractorName is empty
+                contractorName && contractorName !== 'undefined' ? contractorName : 'N/A',
         },
         {
             accessor: 'contractorNumber',
             title: 'Contractor Number',
-            render: ({ contractorNumber }:any) => (contractorNumber && contractorNumber !== 'undefined') ? contractorNumber : 'N/A',
+            render: ({ contractorNumber }: any) =>
+                // add N/A if contractorNumber is empty
+                contractorNumber && contractorNumber !== 'undefined' ? contractorNumber : 'N/A',
         },
-        { accessor: 'address', title: 'Address' },
+        { accessor: 'city', title: 'City' },
+        { accessor: 'scoutedBy', title: 'Scouted By' },
+        { accessor: 'assignedToNames', title: 'Assigned Members',
+        render: ({ assignedToNames }: any) => (
+            assignedToNames && assignedToNames !== 'undefined' ? assignedToNames : 'Not Assigned'
+        )
+         },
+        { accessor: 'address', title: 'Address',render: ({ address }: any) => (address && address !== 'undefined') ? address?.split(",")[1]?.length>=30? address?.split(",")[1]?.slice(0, 50)+ " ...":address?.split(",")[1]
+         : 'N/A' },
     ];
 
     return (

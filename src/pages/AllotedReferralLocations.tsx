@@ -24,7 +24,7 @@ function AllotedReferralLocation() {
             dispatch(setPageTitle('Alloted Location'));
         });
 
-        const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+        const PAGE_SIZES = [10, 20, 30, 50, 100];
 
         //Skin: Striped
         const [page, setPage] = useState(1);
@@ -90,46 +90,56 @@ function AllotedReferralLocation() {
                             records={recordsData}
 
                             columns={[
-                                // { accessor: 'id', title: 'ID' },
-
+                                { accessor: 'refrenceId', title: 'Id' },
+                                { accessor: 'projectName', title: 'Project Name' },
+                                {
+                                    accessor: 'projectType',
+                                    title: 'Project Type',
+                                    render: ({ projectType }:any) => (
+                                        <div
+                                            className={`whitespace-nowrap badge ${
+                                              projectType === 'Market'
+                                                ? 'bg-info'
+                                                : projectType === 'Project'
+                                                  ? 'bg-success'
+                                                  : ''
+                                            } flex justify-center`}
+                                        >
+                                            {projectType}
+                                        </div>
+                                    ),
+                                },
                                 {
                                     accessor: 'buildingType',
                                     title: 'Building Type',
-                                    render: ({ buildingType }) => (
-                                        <div
-                                        className={`whitespace-nowrap badge ${
-                                          buildingType === 'Commercial'
-                                            ? 'bg-info'
-                                            : buildingType === 'Residential'
-                                              ? 'bg-primary'
-                                              : ''
-                                        } flex justify-center word-wrap: break-word`}
-                                      >
-                                        {buildingType}
-                                      </div>
+                                    render: ({ buildingType }: any) => (
+                                        <div className={`whitespace-nowrap badge ${buildingType === 'Commercial' ? 'bg-info' : buildingType === 'Residential' ? 'bg-primary' : ''} flex justify-center word-wrap: break-word`}>
+                                            {buildingType}
+                                        </div>
                                     ),
-                                  },
+                                },
 
 
 
-                                  { accessor: 'refrenceId', title: 'Id' },
-                                { accessor: 'projectName', title: 'project Name', },
-                                { accessor: 'contractorName', title: 'Contractor Name',
-                                    render: ({ contractorName }) => (
+                                {
+                                    accessor: 'contractorName',
+                                    title: 'Contractor Name',
+                                    render: ({ contractorName }: any) =>
                                         // add N/A if contractorName is empty
-                                        (contractorName && contractorName!=='undefined') ? contractorName : 'N/A'
-                                    )
-                                    },
-                                    { accessor: 'contractorNumber', title: 'Contractor Number',
-                                    render: ({ contractorNumber }) => (
+                                        contractorName && contractorName !== 'undefined' ? contractorName : 'N/A',
+                                },
+                                {
+                                    accessor: 'contractorNumber',
+                                    title: 'Contractor Number',
+                                    render: ({ contractorNumber }: any) =>
                                         // add N/A if contractorNumber is empty
-                                        (contractorNumber && contractorNumber=='undefined') ? contractorNumber : 'N/A'
-                                    )
-                                     },
-                                { accessor: 'city', title: 'Address', },
-                                { accessor: 'scouter', title: 'Scouter', },
-                                { accessor: 'assignedToMember', title: 'Assigned Member', },
-                                { accessor: 'address', title: 'Address', },
+                                        contractorNumber && contractorNumber !== 'undefined' ? contractorNumber : 'N/A',
+                                },
+                                { accessor: 'city', title: 'City' },
+                                { accessor: 'scouter', title: 'Scouted By' },
+                                { accessor: 'assignedToMember', title: 'Assigned Members' },
+                                { accessor: 'address', title: 'Address',render: ({ address }: any) => (address && address !== 'undefined') ? address?.split(",")[1]?.length>=30? address?.split(",")[1]?.slice(0, 50)+ " ...":address?.split(",")[1]
+                                 : 'N/A' },
                             ]}
                             totalRecords={initialRecords.length}
                             recordsPerPage={pageSize}

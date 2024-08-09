@@ -17,6 +17,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { getScoutMember, ManuallyAddScoutMember } from '../Fetcher/Api';
 import TableComponent from './Components/TableComponent';
+import { render } from '@testing-library/react';
 
 function AllotedLocation() {
     const navigate = useNavigate();
@@ -63,6 +64,25 @@ function AllotedLocation() {
     }, [AllotedLocationsData]);
 
     const columns = [
+        { accessor: 'refrenceId', title: 'Id' },
+        { accessor: 'projectName', title: 'Project Name' },
+        {
+            accessor: 'projectType',
+            title: 'Project Type',
+            render: ({ projectType }:any) => (
+                <div
+                    className={`whitespace-nowrap badge ${
+                      projectType === 'Market'
+                        ? 'bg-info'
+                        : projectType === 'Project'
+                          ? 'bg-success'
+                          : ''
+                    } flex justify-center`}
+                >
+                    {projectType}
+                </div>
+            ),
+        },
         {
             accessor: 'buildingType',
             title: 'Building Type',
@@ -73,8 +93,8 @@ function AllotedLocation() {
             ),
         },
 
-        { accessor: 'refrenceId', title: 'Id' },
-        { accessor: 'projectName', title: 'project Name' },
+
+
         {
             accessor: 'contractorName',
             title: 'Contractor Name',
@@ -87,12 +107,13 @@ function AllotedLocation() {
             title: 'Contractor Number',
             render: ({ contractorNumber }: any) =>
                 // add N/A if contractorNumber is empty
-                contractorNumber && contractorNumber == 'undefined' ? contractorNumber : 'N/A',
+                contractorNumber && contractorNumber !== 'undefined' ? contractorNumber : 'N/A',
         },
-        { accessor: 'city', title: 'Address' },
-        { accessor: 'scouter', title: 'Scouter' },
-        { accessor: 'assignedToMember', title: 'Assigned Member' },
-        { accessor: 'address', title: 'Address' },
+        { accessor: 'city', title: 'City' },
+        { accessor: 'scouter', title: 'Scouted By' },
+        { accessor: 'assignedToMember', title: 'Assigned Members' },
+        { accessor: 'address', title: 'Address',render: ({ address }: any) => (address && address !== 'undefined') ? address?.split(",")[1]?.length>=30? address?.split(",")[1]?.slice(0, 50)+ " ...":address?.split(",")[1]
+         : 'N/A' },
     ];
     return (
         <div className="space-y-6">

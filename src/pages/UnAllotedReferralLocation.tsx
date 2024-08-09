@@ -26,7 +26,7 @@ function UnAllotedReferralLocation() {
 
 
 
-const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+const PAGE_SIZES = [10, 20, 30, 50, 100];
 
         //Skin: Striped
         const [page, setPage] = useState(1);
@@ -103,66 +103,73 @@ const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
                             records={recordsData}
 
                             columns={[
-
-                                {
-                                    accessor: 'buildingType',
-                                    title: 'Building Type',
-                                    render: ({ buildingType }) => (
+                                { accessor: 'refrenceId', title: 'Id' },{ accessor: 'projectName', title: 'Project Name', },{
+                                    accessor: 'projectType',
+                                    title: 'Project Type',
+                                    render: ({ projectType }:any) => (
                                         <div
-                                        className={`whitespace-nowrap badge ${
-                                          buildingType === 'Commercial'
-                                            ? 'bg-info'
-                                            : buildingType === 'Residential'
-                                              ? 'bg-primary'
-                                              : ''
-                                        } flex justify-center word-wrap: break-word`}
-                                      >
-                                        {buildingType}
-                                      </div>
-                                    ),
-                                  },
-
-
-
-                                  { accessor: 'refrenceId', title: 'Id' },
-                                { accessor: 'projectName', title: 'project Name', },
-                                { accessor: 'contractorName', title: 'Contractor Name',
-                                    render: ({ contractorName }) => (
-                                        // add N/A if contractorName is empty
-                                        (contractorName && contractorName!=='undefined') ? contractorName : 'N/A'
-                                    )
-                                    },
-                                    { accessor: 'contractorNumber', title: 'Contractor Number',
-                                    render: ({ contractorNumber }) => (
-                                        // add N/A if contractorNumber is empty
-                                        (contractorNumber && contractorNumber=='undefined') ? contractorNumber : 'N/A'
-                                    )
-                                     },
-                                { accessor: 'city', title: 'Address', },
-                                { accessor: 'scouter', title: 'Scouter', },
-                                { accessor: 'assignedToMember', title: 'Assigned Member', },
-                                { accessor: 'address', title: 'Address', },
-                                {
-                                    accessor: '', title: 'Action',
-                                    render: ({ id, assignedToMember }) => (
-                                        <div className="whitespace-wrap">
-                                            {!assignedToMember ? (
-                                                <div>
-                                                    <button
-                                                        type="button"
-                                                        className="btn btn-primary static whitespace-nowrap"
-                                                        onClick={() => handleOpen(true, id)}
-                                                    >
-                                                        Add Scoute User
-                                                    </button>
-                                                </div>
-                                            ) : (
-                                                <p>{assignedToMember}</p>
-                                            )}
+                                            className={`whitespace-nowrap badge ${
+                                              projectType === 'Market'
+                                                ? 'bg-info'
+                                                : projectType === 'Project'
+                                                  ? 'bg-success'
+                                                  : ''
+                                            } flex justify-center`}
+                                        >
+                                            {projectType}
                                         </div>
                                     ),
                                 },
-                            ]}
+                                                                {
+                                                                    accessor: 'buildingType',
+                                                                    title: 'Building Type',
+                                                                    render: ({ buildingType }) => (
+                                                                        <div
+                                                                        className={`whitespace-nowrap badge ${
+                                                                          buildingType === 'Commercial'
+                                                                            ? 'bg-info'
+                                                                            : buildingType === 'Residential'
+                                                                              ? 'bg-primary'
+                                                                              : ''
+                                                                        } flex justify-center word-wrap: break-word`}
+                                                                      >
+                                                                        {buildingType}
+                                                                      </div>
+                                                                    ),
+                                                                  },
+
+
+
+
+
+                                                                { accessor: 'contractorName', title: 'Contractor Name', render: ({ contractorName }) => (contractorName && contractorName!=='undefined') ? contractorName : 'N/A'},
+                                                                { accessor: 'contractorNumber', title: 'Contractor Number', render: ({ contractorNumber }) =>  (contractorNumber && contractorNumber!=='undefined') ? contractorNumber : 'N/A' },
+                                                                { accessor: 'city', title: 'City', },
+                                                                { accessor: 'scouter', title: 'Scouter', },
+                                                                // { accessor: 'assignedToMember', title: 'Assigned Member', },
+                                                                { accessor: 'address', title: 'Address',render: ({ address }: any) => (address && address !== 'undefined') ? address?.split(",")[1]?.length>=30? address?.split(",")[1]?.slice(0, 50)+ " ...":address?.split(",")[1]
+                                         : 'N/A' },
+                                                                {
+                                                                    accessor: '', title: 'Action',
+                                                                    render: ({ id, assignedToMember }) => (
+                                                                        <div className="whitespace-wrap">
+                                                                            {!assignedToMember ? (
+                                                                                <div>
+                                                                                    <button
+                                                                                        type="button"
+                                                                                        className="btn btn-primary static whitespace-nowrap"
+                                                                                        onClick={() => handleOpen(true, id)}
+                                                                                    >
+                                                                                        Add Scoute User
+                                                                                    </button>
+                                                                                </div>
+                                                                            ) : (
+                                                                                <p>{assignedToMember}</p>
+                                                                            )}
+                                                                        </div>
+                                                                    ),
+                                                                },
+                                                            ]}
                             totalRecords={initialRecords.length}
                             recordsPerPage={pageSize}
                             page={page}

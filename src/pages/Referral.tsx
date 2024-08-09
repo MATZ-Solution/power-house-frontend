@@ -19,7 +19,7 @@ function Referral() {
         dispatch(setPageTitle('All Locations'));
     });
 
-    const PAGE_SIZES = [5, 10, 20, 30, 50, 100];
+    const PAGE_SIZES = [10, 20, 30, 50, 100];
 
     //Skin: Striped
     const [page, setPage] = useState(1);
@@ -83,40 +83,60 @@ function Referral() {
                         records={recordsData}
 
                         columns={[
-                            // { accessor: 'id', title: 'ID' },
-
+                            { accessor: 'refrenceId', title: 'Id' },
+                            { accessor: 'projectName', title: 'Project Name' },
                             {
                                 accessor: 'projectType',
                                 title: 'Project Type',
-                                render: ({ projectType }) => (
+                                render: ({ projectType }:any) => (
                                     <div
-                                    className={`whitespace-nowrap badge ${
-                                      projectType === 'Market'
-                                        ? 'bg-success'
-                                        : projectType === 'Project'
-                                          ? 'bg-info'
-                                          : ''
-                                    } flex justify-center word-wrap: break-word`}
-                                  >
-                                    {projectType}
-                                  </div>
+                                        className={`whitespace-nowrap badge ${
+                                          projectType === 'Market'
+                                            ? 'bg-info'
+                                            : projectType === 'Project'
+                                              ? 'bg-success'
+                                              : ''
+                                        } flex justify-center`}
+                                    >
+                                        {projectType}
+                                    </div>
                                 ),
-                              },
-                            { accessor: 'projectName', title: 'Project Name' },
-                            { accessor: 'scoutedBy', title: 'scoutedBy', },
-                            { accessor: 'contractorName', title: 'Contractor Name',
-                                render: ({ contractorName }) => (
+                            },
+                            {
+                                accessor: 'buildingType',
+                                title: 'Building Type',
+                                render: ({ buildingType }: any) => (
+                                    <div className={`whitespace-nowrap badge ${buildingType === 'Commercial' ? 'bg-info' : buildingType === 'Residential' ? 'bg-primary' : ''} flex justify-center word-wrap: break-word`}>
+                                        {buildingType}
+                                    </div>
+                                ),
+                            },
+
+
+
+                            {
+                                accessor: 'contractorName',
+                                title: 'Contractor Name',
+                                render: ({ contractorName }: any) =>
                                     // add N/A if contractorName is empty
-                                    (contractorName && contractorName!=='undefined') ? contractorName : 'N/A'
-                                )
-                                },
-                                { accessor: 'contractorNumber', title: 'Contractor Number',
-                                render: ({ contractorNumber }) => (
+                                    contractorName && contractorName !== 'undefined' ? contractorName : 'N/A',
+                            },
+                            {
+                                accessor: 'contractorNumber',
+                                title: 'Contractor Number',
+                                render: ({ contractorNumber }: any) =>
                                     // add N/A if contractorNumber is empty
-                                    (contractorNumber && contractorNumber=='undefined') ? contractorNumber : 'N/A'
-                                )
-                                 },
-                            { accessor: 'address', title: 'Address', },
+                                    contractorNumber && contractorNumber !== 'undefined' ? contractorNumber : 'N/A',
+                            },
+                            { accessor: 'city', title: 'City' },
+                            { accessor: 'scoutedBy', title: 'Scouted By' },
+                            { accessor: 'assignedToNames', title: 'Assigned Members',
+                            render: ({ assignedToNames }: any) => (
+                                assignedToNames && assignedToNames !== 'undefined' ? assignedToNames : 'Not Assigned'
+                            )
+                             },
+                            { accessor: 'address', title: 'Address',render: ({ address }: any) => (address && address !== 'undefined') ? address?.split(",")[1]?.length>=30? address?.split(",")[1]?.slice(0, 50)+ " ...":address?.split(",")[1]
+                             : 'N/A' },
                         ]}
                         totalRecords={initialRecords.length}
                         recordsPerPage={pageSize}
