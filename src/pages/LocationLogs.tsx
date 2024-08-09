@@ -8,17 +8,18 @@ import Loader from './Elements/Loader';
 import { LoadingOverlay } from '@mantine/core';
 import dayjs from 'dayjs';
 import ScreenLoader from './Elements/ScreenLoader';
+import { log } from 'console';
 
 const bannerData = {
-    image: "/assets/images/mobile-banner.png",
-    title: "Residential Villa",
-    titleColored: "",
-    para: "There is no better way to understand the benefits of electrical products than seeing them in action at a",
-    paraBold: "Powerhouse Display Centers."
-}
+    image: '/assets/images/mobile-banner.png',
+    title: 'Residential Villa',
+    titleColored: '',
+    para: 'There is no better way to understand the benefits of electrical products than seeing them in action at a',
+    paraBold: 'Powerhouse Display Centers.',
+};
 
 const LocationLogs = () => {
-    const {id}= useParams();
+    const { id } = useParams();
     // now we can use the id to fetch the data from the server
     // and display the data on the page
     const { isLoading, isError, data, error } = useQuery({
@@ -27,17 +28,19 @@ const LocationLogs = () => {
         refetchOnWindowFocus: false,
         retry: 1,
     });
-    console.log(data);
-    if(isLoading){
-        return  <ScreenLoader />
+    // console.log(data);
+    if (isLoading) {
+        return <ScreenLoader />;
     }
 
     return (
         <>
-            <Banner bannerData={{
-                ...bannerData,
-                title:data[0]?.log?.projectName
-            }} />
+            <Banner
+                bannerData={{
+                    ...bannerData,
+                    title: data[0]?.log?.projectName,
+                }}
+            />
             <section>
                 {/* <div className="flex flex-wrap">
                     <form className="max-w-sm me-3">
@@ -95,166 +98,127 @@ const LocationLogs = () => {
                         </div>
                     </div>
                 </div> */}
-                {
-                    data.map((item:any, index:number) => {
-                        if(item?.log?.type === 'Scouted'){
-                            
-                            return(
-                           <div className="">
-                    <div className="relative flex items-center justify-center w-full">
-                        <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
-                        <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{
-                            dayjs(item?.log?.created_at).format('DD-MMM-YYYY - hh:mm A')
-                    }</span>
-                    </div>
-
-                    <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                        <img src="/assets/images/currect-lolipop.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                        <div className="flex justify-between flex-wrap">
+                {data.map((item: any, index: number) => {
+                    console.log(item);
+                    if (item?.log?.type === 'Scouted') {
+                        return (
                             <div className="">
-                                <span className="text-gray-500">Scouted - </span>
-                                <span className="text-[#F59927] font-black">{
-                                    item?.log?.buildingType
-                        }</span>
-                                <p className="font-black">{
-                                    item?.log?.message
-                                    } </p>
-                                <small className="text-gray-500">{
-                                    dayjs(item?.created_at).format('DD-MMM-YYYY - hh:mm A')}</small>
-                            </div>
-                            <div className="flex flex-wrap justify-center md:justify-left">
-                                <div className="">
-                                    <img src={
-                                        item?.log?.created_by?.picture || "/assets/images/office-man.png"
-                                    } className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
+                                <div className="relative flex items-center justify-center w-full">
+                                    <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
+                                    <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">
+                                        {dayjs(item?.log?.created_at).format('DD-MMM-YYYY - hh:mm A')}
+                                    </span>
                                 </div>
 
+                                <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                                    <img src="/assets/images/currect-lolipop.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                                    <div className="flex justify-center md:justify-between flex-wrap">
+                                        <div className="">
+                                            <span className="text-gray-500">Scouted - </span>
+                                            <span className="text-[#F59927] font-black">{item?.log?.buildingType}</span>
+                                            <p className="font-black">{item?.log?.message} </p>
 
-                                <div className="ms-3">
-                                    <span className="text-gray-500">Scouted By</span>
-                                    <p className="text-[#F59927] font-black text-2xl">{
-                                        item?.log?.created_by?.name
-                                        }</p>
-                                    <small className="text-gray-500">{
-                                        item?.log?.created_by?.department || 'Clipsal'
-                                        }</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                        )
-                    }
-                        else if(item?.log?.type === 'Alloted'){
-                            return(
-                                <div className="">
-                         <div className="relative flex items-center justify-center w-full">
-                             <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
-                             <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{
-                                 dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')
-                         }</span>
-                         </div>
+                                            <small className="text-gray-500">{dayjs(item?.created_at).format('DD-MMM-YYYY - hh:mm A')}</small>
+                                        </div>
+                                        <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                        <div className="flex justify-center sm:block">
+                                                <img
+                                                    src={item?.log?.created_by?.picture || '/assets/images/office-man.png'}
+                                                    className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
+                                                    alt=""
+                                                />
+                                            </div>
 
-                         <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                             <img src="/assets/images/currect-lolipop-green.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                             <div className="flex justify-between flex-wrap">
-                                 <div className="">
-                                     <span className="text-gray-500">Alloted - </span>
-                                     <span className="text-[#F59927] font-black">{
-                                         item?.log?.buildingType
-                             }</span>
-                                     <p className="font-black">{
-                                         item?.log?.message
-                                         } </p>
-                                     <small className="text-gray-500">{
-                                         dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
-                                 </div>
-                                 {
-                                    item?.log?.allotedUsers?.length>1 ? (
-                                    <div className="flex flex-wrap justify-center md:justify-left">
-                                <div className="">
-                                    <span className="text-gray-500">Alloted Members</span>
-                                    <div className="mt-1 relative h-[40px] flex">
-                                        {item?.log?.allotedUsers?.slice(0,4)?.map((user:any, index:number) => {
-                                            return(<img
-                                            src={
-                                                user?.picture || "/assets/images/office-man.png"
-
-                                            }
-                                            className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
-                                            alt=""
-                                        />)
-                                        })}
-                                        {
-                                            item?.log?.allotedUsers?.length>4 && <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">{
-
-                                                item?.log?.allotedUsers?.length-4
-                                            }</div>
-                                        }
-
-
+                                            <div className="ms-0 sm:ms-3">
+                                                <span className="text-gray-500">Scouted By</span>
+                                                <p className="text-[#F59927] font-black text-2xl">{item?.log?.created_by?.name}</p>
+                                                <small className="text-gray-500">{item?.log?.created_by?.department || 'Clipsal'}</small>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        ):(
-                        <div className="flex flex-wrap justify-center md:justify-left">
-                                     <div className="">
-                                         <img src={
-                                             item?.log?.allotedUsers[0]?.picture || "/assets/images/office-man.png"
-                                         } className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
-                                     </div>
+                        );
+                    } else if (item?.log?.type === 'Alloted') {
+                        return (
+                            <div className="" >
+                                <div className="relative flex items-center justify-center w-full">
+                                    <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
+                                    <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</span>
+                                </div>
 
+                                <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                                    <img src="/assets/images/currect-lolipop-green.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                                    <div className="flex justify-center md:justify-between flex-wrap">
+                                        <div className="">
+                                            <span className="text-gray-500">Alloted - </span>
+                                            <span className="text-[#F59927] font-black">{item?.log?.buildingType}</span>
+                                            <p className="font-black">{item?.log?.message} </p>
+                                            <small className="text-gray-500">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
+                                        </div>
+                                        {item?.log?.allotedUsers?.length > 1 ? (
+                                            <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                <div className="flex justify-center sm:block">
+                                                    <span className="text-gray-500">Alloted Members</span>
+                                                    <div className="mt-1 relative h-[40px] flex">
+                                                        {item?.log?.allotedUsers?.slice(0, 4)?.map((user: any, index: number) => {
+                                                            return (
+                                                                <img
+                                                                    src={user?.picture || '/assets/images/office-man.png'}
+                                                                    className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
+                                                                    alt=""
+                                                                />
+                                                            );
+                                                        })}
+                                                        {item?.log?.allotedUsers?.length > 4 && (
+                                                            <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">
+                                                                {item?.log?.allotedUsers?.length - 4}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                <div className="flex justify-center sm:block">
+                                                    <img
+                                                        src={item?.log?.allotedUsers[0]?.picture || '/assets/images/office-man.png'}
+                                                        className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
+                                                        alt=""
+                                                    />
+                                                </div>
 
-                                     <div className="ms-3">
-                                         <span className="text-gray-500">Alloted To</span>
-                                         <p className="text-[#F59927] font-black text-2xl">{
-                                             item?.log?.allotedUsers[0]?.name
-                                             }</p>
-                                         <small className="text-gray-500">{
-                                             item?.log?.allotedUsers[0]?.department || 'Clipsal'
-                                             }</small>
-                                     </div>
+                                                <div className="ms-0 sm:ms-3">
+                                                    <span className="text-gray-500">Alloted To</span>
+                                                    <p className="text-[#F59927] font-black text-2xl">{item?.log?.allotedUsers[0]?.name}</p>
+                                                    <small className="text-gray-500">{item?.log?.allotedUsers[0]?.department || 'Clipsal'}</small>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    } else if (item?.log?.type === 'SOP') {
+                        return (
+                            <div className="">
+                                <div className="relative flex items-center justify-center w-full">
+                                    <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
+                                    <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</span>
+                                </div>
 
-
-
-
-                                 </div>
-                                 )
-                                 }
-
-
-                             </div>
-                         </div>
-                     </div>
-                             )
-                        }
-                        else if(item?.log?.type === 'SOP'){
-                            return(
-                                <div className="">
-                         <div className="relative flex items-center justify-center w-full">
-                             <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
-                             <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{
-                                 dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')
-                         }</span>
-                         </div>
-
-                         <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                             <img src="/assets/images/currect-lolipop-green.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                             <div className="flex justify-between flex-wrap">
-                                 <div className="">
-                                     <span className="text-gray-500">SOP - </span>
-                                     <span className="text-[#F59927] font-black">{
-                                         item?.log?.buildingType
-                             }</span>
-                                     <p className="font-black">{
-                                         item?.log?.message
-                                         } </p>
-                                     <small className="text-gray-500">{
-                                         dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
-                                 </div>
-                                 {/* {
+                                <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                                    <img src="/assets/images/currect-lolipop-green.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                                    <div className="flex justify-center md:justify-between flex-wrap">
+                                        <div className="">
+                                            <span className="text-gray-500">SOP - </span>
+                                            <span className="text-[#F59927] font-black">{item?.log?.buildingType}</span>
+                                            <p className="font-black">{item?.log?.message} </p>
+                                            <small className="text-gray-500">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
+                                        </div>
+                                        {/* {
                                     item?.log?.allotedUsers?.length>1 ? (
-                                    <div className="flex flex-wrap justify-center md:justify-left">
+                                    <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
                                 <div className="">
                                     <span className="text-gray-500">Requested Members</span>
                                     <div className="mt-1 relative h-[40px]">
@@ -279,7 +243,7 @@ const LocationLogs = () => {
                                 </div>
                             </div>
                         ):(
-                        <div className="flex flex-wrap justify-center md:justify-left">
+                        <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
                                      <div className="">
                                          <img src={
                                              item?.log?.allotedUsers?.picture || "/assets/images/office-man.png"
@@ -287,7 +251,7 @@ const LocationLogs = () => {
                                      </div>
 
 
-                                     <div className="ms-3">
+                                     <div className="ms-0 sm:ms-3">
                                          <span className="text-gray-500">Alloted To</span>
                                          <p className="text-[#F59927] font-black text-2xl">{
                                              item?.log?.allotedUsers?.name
@@ -303,316 +267,230 @@ const LocationLogs = () => {
                                  </div>
                                  )
                                  } */}
-
-
-                             </div>
-                         </div>
-                     </div>
-                             )
-                        }
-                        else if(item?.log?.type === 'Handshake'){
-
-
-                            if(item?.log?.subType==='Requested'){
-
-                                return(    <div className="">
-                                <div className="relative flex items-center justify-center w-full">
-                                    <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
-                                    <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{
-                                        dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')
-                                }</span>
-                                </div>
-
-                                <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                                    <img src="/assets/images/currect-lolipop-hand-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                                    <div className="flex justify-between flex-wrap">
-                                        <div className="">
-                                            <span className="text-gray-500">Handshake - </span>
-                                            <span className="text-[#F59927] font-black">{
-                                                item?.log?.buildingType
-                                    }</span>
-                                            <p className="font-black">{
-                                                item?.log?.message
-                                                } </p>
-                                            <small className="text-gray-500">{
-                                                dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
-                                        </div>
-                                        {
-                                           item?.log?.handShakeRequestedTo?.length>1 ? (
-                                           <div className="flex flex-wrap justify-center md:justify-left">
-                                       <div className="">
-                                           <span className="text-gray-500">Requested To</span>
-                                           <div className="mt-1 relative h-[40px] flex">
-                                               {item?.log?.handShakeRequestedTo?.slice(0,4)?.map((user:any, index:number) => {
-                                                   return(<img
-                                                   src={
-                                                       user?.picture || "/assets/images/office-man.png"
-                                                   }
-                                                   className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
-                                                   alt=""
-                                               />)
-                                               })}
-                                               {
-                                                   item?.log?.handShakeRequestedTo?.length>4 && <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">{
-
-                                                       item?.log?.handShakeRequestedTo?.length-4
-                                                   }</div>
-                                               }
-
-
-                                           </div>
-                                       </div>
-                                   </div>
-                               ):(
-
-                               <div className="flex flex-wrap justify-center md:justify-left">
-                                            <div className="">
-                                                <img src={
-                                                    item?.log?.handShakeRequestedTo[0]?.picture || "/assets/images/office-man.png"
-                                                } className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
-                                            </div>
-
-
-                                            <div className="ms-3">
-                                                <span className="text-gray-500">Alloted To</span>
-                                                <p className="text-[#F59927] font-black text-xl">{
-                                                    item?.log?.handShakeRequestedTo[0]?.name
-                                                    }</p>
-                                                <small className="text-gray-500">{
-                                                    item?.log?.handShakeRequestedTo[0]?.department || 'Clipsal'
-                                                    }</small>
-                                            </div>
-
-
-
-
-                                        </div>
-                                        )
-                                        }
-
-
                                     </div>
-                                </div>
-                            </div>)
-
-                            }
-                            else{
-                                return(<div className="">
-                                <div className="relative flex items-center justify-center w-full">
-                                    <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
-                                    <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{
-                                        dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')
-                                }</span>
-                                </div>
-
-                                <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                                    <img src="/assets/images/currect-lolipop-hand-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                                    <div className="flex justify-between flex-wrap">
-                                        <div className="">
-                                            <span className="text-gray-500">HandShake - </span>
-                                            <span className="text-[#F59927] font-black">{
-                                                item?.log?.buildingType
-                                    }</span>
-                                            <p className="font-black">{
-                                                item?.log?.message
-                                                } </p>
-                                            <small className="text-gray-500">{
-                                                dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
-                                        </div>
-                                        {
-                                           item?.log?.handShakeRequestedTo?.length>1 ? (
-                                           <div className="flex flex-wrap justify-center md:justify-left">
-                                       <div className="">
-                                           <span className="text-gray-500">Requested To</span>
-                                           <div className="mt-1 relative h-[40px] flex">
-                                               {item?.log?.handShakeRequestedTo?.slice(0,4)?.map((user:any, index:number) => {
-                                                   return(<img
-                                                   src={
-                                                       user?.picture || "/assets/images/office-man.png"
-                                                   }
-                                                   className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
-                                                   alt=""
-                                               />)
-                                               })}
-                                               {
-                                                   item?.log?.handShakeRequestedTo?.length>4 && <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">{
-
-                                                       item?.log?.handShakeRequestedTo?.length-4
-                                                   }</div>
-                                               }
-
-
-                                           </div>
-                                       </div>
-                                   </div>
-                               ):(
-                               <div className="flex flex-wrap justify-center md:justify-left">
-                                            <div className="">
-                                                <img src={
-                                                    item?.log?.handShakeRequestedTo[0]?.picture || "/assets/images/office-man.png"
-                                                } className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
-                                            </div>
-
-
-                                            <div className="ms-3">
-                                                <span className="text-gray-500">Alloted To</span>
-                                                <p className="text-[#F59927] font-black text-2xl">{
-                                                    item?.log?.handShakeRequestedTo[0]?.name
-                                                    }</p>
-                                                <small className="text-gray-500">{
-                                                    item?.log?.handShakeRequestedTo[0]?.department || 'Clipsal'
-                                                    }</small>
-                                            </div>
-
-
-
-
-                                        </div>
-                                        )
-                                        }
-
-
-                                    </div>
-                                </div>
-                            </div>)
-
-                            }
-                        }
-                        else if(item?.log?.type === 'Meeting'){
-                           return( <div className="">
-                            <div className="relative flex items-center justify-center w-full">
-                                <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
-                                <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{
-                                    dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')
-                            }</span>
-                            </div>
-
-                            <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                                <img src="/assets/images/currect-lolipop-hand-dark-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                                <div className="flex justify-between flex-wrap">
-                                    <div className="">
-                                        <span className="text-gray-500">Meeting - </span>
-                                        <span className="text-[#F59927] font-black">{
-                                            item?.log?.buildingType
-                                }</span>
-                                        <p className="font-black">{
-                                            item?.log?.message
-                                            } </p>
-                                        <small className="text-gray-500">{
-                                            dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
-                                    </div>
-                                    {
-                                       item?.log?.meetingMembers?.length>1 ? (
-                                       <div className="flex flex-wrap justify-center md:justify-left">
-                                   <div className="">
-                                       <span className="text-gray-500">Members</span>
-                                       <div className="mt-1 relative h-[40px] flex">
-                                           {item?.log?.meetingMembers?.slice(0,4)?.map((user:any, index:number) => {
-                                               return(<img
-                                               src={
-                                                   user?.picture || "/assets/images/office-man.png"
-                                               }
-                                               className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full border-2 border-[#CFCFCF]"
-                                               alt=""
-                                           />)
-                                           })}
-                                           {
-                                               item?.log?.meetingMembers?.length>4 && <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">{
-
-                                                   item?.log?.meetingMembers?.length-4
-                                               }</div>
-                                           }
-
-
-                                       </div>
-                                   </div>
-                               </div>
-                           ):(
-                           <div className="flex flex-wrap justify-center md:justify-left">
-                                        <div className="">
-                                            <img src={
-                                                item?.log?.meetingMembers[0]?.picture || "/assets/images/office-man.png"
-                                            } className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
-                                        </div>
-
-
-                                        <div className="ms-3">
-                                            <span className="text-gray-500">Alloted To</span>
-                                            <p className="text-[#F59927] font-black text-2xl">{
-                                                item?.log?.meetingMembers[0]?.name
-                                                }</p>
-                                            <small className="text-gray-500">{
-                                                item?.log?.meetingMembers[0]?.department || 'Clipsal'
-                                                }</small>
-                                        </div>
-
-
-
-
-                                    </div>
-                                    )
-                                    }
-
-
                                 </div>
                             </div>
-                        </div>
-)
-                        }
-                        else if(item?.log?.type==='Updates'){
-                            return(
+                        );
+                    } else if (item?.log?.type === 'Handshake') {
+                        if (item?.log?.subType === 'Requested') {
+                            return (
                                 <div className="">
-                         <div className="relative flex items-center justify-center w-full">
-                             <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
-                             <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{
-                                 dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')
-                         }</span>
-                         </div>
+                                    <div className="relative flex items-center justify-center w-full">
+                                        <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
+                                        <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</span>
+                                    </div>
 
-                         <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
-                             <img src="/assets/images/currect-lolipop-setting.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
-                             <div className="flex justify-between flex-wrap">
-                                 <div className="">
-                                     <span className="text-gray-500">Updates - </span>
-                                     <span className="text-[#F59927] font-black">{
-                                         item?.log?.buildingType
-                             }</span>
-                                     <p className="font-black">{
-                                         item?.log?.message
-                                         } </p>
-                                     <small className="text-gray-500">{
-                                         dayjs(item?.created_at).format('DD-MMM-YYYY - hh:mm A')}</small>
-                                 </div>
-                                 <div className="flex flex-wrap justify-center md:justify-left">
-                                     <div className="">
-                                         <img src={
-                                             item?.log?.updatedBy?.picture || "/assets/images/office-man.png"
-                                         } className="w-[70px] h-[70px] object-cover border-transparent rounded-full" alt="" />
-                                     </div>
+                                    <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                                        <img src="/assets/images/currect-lolipop-hand-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                                        <div className="flex justify-center md:justify-between flex-wrap">
+                                            <div className="">
+                                                <span className="text-gray-500">Handshake - </span>
+                                                <span className="text-[#F59927] font-black">{item?.log?.buildingType}</span>
+                                                <p className="font-black">{item?.log?.message} </p>
+                                                <small className="text-gray-500">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
+                                            </div>
+                                            {item?.log?.handShakeRequestedTo?.length > 1 ? (
+                                                <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                    <div className="flex justify-center sm:block">
+                                                        <span className="text-gray-500">Requested To</span>
+                                                        <div className="mt-1 relative h-[40px] flex">
+                                                            {item?.log?.handShakeRequestedTo?.slice(0, 4)?.map((user: any, index: number) => {
+                                                                return (
+                                                                    <img
+                                                                        src={user?.picture || '/assets/images/office-man.png'}
+                                                                        className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
+                                                                        alt=""
+                                                                    />
+                                                                );
+                                                            })}
+                                                            {item?.log?.handShakeRequestedTo?.length > 4 && (
+                                                                <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">
+                                                                    {item?.log?.handShakeRequestedTo?.length - 4}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                    <div className="flex justify-center sm:block">
+                                                        <img
+                                                            src={item?.log?.handShakeRequestedTo[0]?.picture || '/assets/images/office-man.png'}
+                                                            className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
+                                                            alt=""
+                                                        />
+                                                    </div>
 
+                                                    <div className="ms-0 sm:ms-3">
+                                                        <span className="text-gray-500">Alloted To</span>
+                                                        <p className="text-[#F59927] font-black text-xl">{item?.log?.handShakeRequestedTo[0]?.name}</p>
+                                                        <small className="text-gray-500">{item?.log?.handShakeRequestedTo[0]?.department || 'Clipsal'}</small>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        } else {
+                            return (
+                                <div className="">
+                                    <div className="relative flex items-center justify-center w-full">
+                                        <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
+                                        <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</span>
+                                    </div>
 
-                                     <div className="ms-3">
-                                         <span className="text-gray-500">Scouted By</span>
-                                         <p className="text-[#F59927] font-black text-2xl">{
-                                             item?.log?.updatedBy?.name
-                                             }</p>
-                                         <small className="text-gray-500">{
-                                             item?.log?.updatedBy?.department || 'Clipsal'
-                                             }</small>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </div>
-                             )
+                                    <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                                        <img src="/assets/images/currect-lolipop-hand-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                                        <div className="flex justify-center md:justify-between flex-wrap">
+                                            <div className="">
+                                                <span className="text-gray-500">HandShake - </span>
+                                                <span className="text-[#F59927] font-black">{item?.log?.buildingType}</span>
+                                                <p className="font-black">{item?.log?.message} </p>
+                                                <small className="text-gray-500">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
+                                            </div>
+                                            {item?.log?.handShakeRequestedTo?.length > 1 ? (
+                                                <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                    <div className="flex justify-center sm:block">
+                                                        <span className="text-gray-500">Requested To</span>
+                                                        <div className="mt-1 relative h-[40px] flex">
+                                                            {item?.log?.handShakeRequestedTo?.slice(0, 4)?.map((user: any, index: number) => {
+                                                                return (
+                                                                    <img
+                                                                        src={user?.picture || '/assets/images/office-man.png'}
+                                                                        className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full  border-2 border-[#CFCFCF]"
+                                                                        alt=""
+                                                                    />
+                                                                );
+                                                            })}
+                                                            {item?.log?.handShakeRequestedTo?.length > 4 && (
+                                                                <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">
+                                                                    {item?.log?.handShakeRequestedTo?.length - 4}
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                    <div className="flex justify-center sm:block">
+                                                        <img
+                                                            src={item?.log?.handShakeRequestedTo[0]?.picture || '/assets/images/office-man.png'}
+                                                            className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
+                                                            alt=""
+                                                        />
+                                                    </div>
+
+                                                    <div className="ms-0 sm:ms-3">
+                                                        <span className="text-gray-500">Alloted To</span>
+                                                        <p className="text-[#F59927] font-black text-2xl">{item?.log?.handShakeRequestedTo[0]?.name}</p>
+                                                        <small className="text-gray-500">{item?.log?.handShakeRequestedTo[0]?.department || 'Clipsal'}</small>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            );
                         }
-                    })
-                }
+                    } else if (item?.log?.type === 'Meeting') {
+                        return (
+                            <div className="">
+                                <div className="relative flex items-center justify-center w-full">
+                                    <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
+                                    <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</span>
+                                </div>
 
+                                <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                                    <img src="/assets/images/currect-lolipop-hand-dark-blue.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                                    <div className="flex justify-center md:justify-between flex-wrap">
+                                        <div className="">
+                                            <span className="text-gray-500">Meeting - </span>
+                                            <span className="text-[#F59927] font-black">{item?.log?.buildingType}</span>
+                                            <p className="font-black">{item?.log?.message} </p>
+                                            <small className="text-gray-500">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</small>
+                                        </div>
+                                        {item?.log?.meetingMembers?.length > 1 ? (
+                                            <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                <div className="flex justify-center sm:block">
+                                                    <span className="text-gray-500">Members</span>
+                                                    <div className="mt-1 relative h-[40px] flex">
+                                                        {item?.log?.meetingMembers?.slice(0, 4)?.map((user: any, index: number) => {
+                                                            return (
+                                                                <img
+                                                                    src={user?.picture || '/assets/images/office-man.png'}
+                                                                    className="w-[40px] h-[40px] bottom-0 left-0 object-cover border-transparent rounded-full border-2 border-[#CFCFCF]"
+                                                                    alt=""
+                                                                />
+                                                            );
+                                                        })}
+                                                        {item?.log?.meetingMembers?.length > 4 && (
+                                                            <div className="absolute bottom-0 left-[75px] flex items-center justify-center w-[40px] h-[40px] bg-[#2E2E30] text-white font-black rounded-full border-2 border-[#CFCFCF]">
+                                                                {item?.log?.meetingMembers?.length - 4}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                                <div className="flex justify-center sm:block">
+                                                    <img
+                                                        src={item?.log?.meetingMembers[0]?.picture || '/assets/images/office-man.png'}
+                                                        className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
+                                                        alt=""
+                                                    />
+                                                </div>
 
+                                                <div className="ms-0 sm:ms-3">
+                                                    <span className="text-gray-500">Alloted To</span>
+                                                    <p className="text-[#F59927] font-black text-2xl">{item?.log?.meetingMembers[0]?.name}</p>
+                                                    <small className="text-gray-500">{item?.log?.meetingMembers[0]?.department || 'Clipsal'}</small>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    } else if (item?.log?.type === 'Updates') {
+                        return (
+                            <div className="">
+                                <div className="relative flex items-center justify-center w-full">
+                                    <hr className="w-full h-px my-8 bg-[#D7D7D7] border-0" />
+                                    <span className="absolute px-3 w-max text-black bg-[#eee9] -translate-x-1/2 left-1/2 font-black">{dayjs(item?.date).format('DD-MMM-YYYY - hh:mm A')}</span>
+                                </div>
 
+                                <div className="relative block py-4 px-10 padding-start bg-[#F9F9F9] border border-gray-200 rounded-lg shadow text-center md:text-left">
+                                    <img src="/assets/images/currect-lolipop-setting.svg" className="absolute bottom-0 left-6 hidden md:block" alt="" />
+                                    <div className="flex justify-center md:justify-between flex-wrap">
+                                        <div className="">
+                                            <span className="text-gray-500">Updates - </span>
+                                            <span className="text-[#F59927] font-black">{item?.log?.buildingType}</span>
+                                            <p className="font-black">{item?.log?.message} </p>
+                                            <small className="text-gray-500">{dayjs(item?.created_at).format('DD-MMM-YYYY - hh:mm A')}</small>
+                                        </div>
+                                        <div className="flex flex-wrap flex-col sm:flex-row justify-center md:justify-left mt-3 md:mt-0">
+                                        <div className="flex justify-center sm:block">
+                                                <img
+                                                    src={item?.log?.updatedBy?.picture || '/assets/images/office-man.png'}
+                                                    className="w-[70px] h-[70px] object-cover border-transparent rounded-full"
+                                                    alt=""
+                                                />
+                                            </div>
 
-
+                                            <div className="ms-0 sm:ms-3">
+                                                <span className="text-gray-500">Scouted By</span>
+                                                <p className="text-[#F59927] font-black text-2xl">{item?.log?.updatedBy?.name}</p>
+                                                <small className="text-gray-500">{item?.log?.updatedBy?.department || 'Clipsal'}</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    }
+                })}
             </section>
         </>
     );
