@@ -9,10 +9,13 @@ import { LoadingOverlay } from '@mantine/core';
 import dayjs from 'dayjs';
 import ScreenLoader from './Elements/ScreenLoader';
 import { isPending } from '@reduxjs/toolkit';
-import DatePicker from 'react-flatpickr';
+// import DatePicker from 'react-flatpickr';
 import { set } from 'react-datepicker/dist/date_utils';
 import IconXCircle from '../components/Icon/IconXCircle';
-// import DatePicker from 'react-datepicker';
+
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 // import DateRangePicker from './Forms/DateRangePicker';
 
 
@@ -93,22 +96,20 @@ const LocationLogs = () => {
                     <div className="flex justify-between gap-2">
                         {/* <p className="mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Date</p> */}
                         <DatePicker
-                            options={{
-                                altInput: true,
-                                altFormat: 'F j, Y',
-                                dateFormat: 'Y-m-d',
-                                defaultDate: new Date(),
+    dateFormat="dd-MM-yyyy"
+    selected={selectedDate}
+    onChange={(date) => {
+        setSelectedDate(date);
+        console.log(date);
+    }}
+    className="p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    showTimeSelect={false} // Ensures only date is shown
+    placeholderText="Select a date" // Adds a placeholder text
+    
+    maxDate={new Date(new Date().setFullYear(new Date().getFullYear() + 1))} // Sets the maximum selectable date to one year in the future
+/>
 
-                                onChange: (selectedDates: any) => {
-                                    setSelectedDate(selectedDates);
-                                    console.log(selectedDates);
-                                },
-                            }}
-                            value={selectedDate??new Date()}
-                            className="p-3 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        />
-
-
+{/* <DatePicker onChange={onChange} value={value} /> */}
 
 
 {(
