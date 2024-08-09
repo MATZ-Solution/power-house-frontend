@@ -103,7 +103,23 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
                             records={recordsData}
 
                             columns={[
-
+{ accessor: 'refrenceId', title: 'Id' },{ accessor: 'projectName', title: 'Project Name', },{
+    accessor: 'projectType',
+    title: 'Project Type',
+    render: ({ projectType }:any) => (
+        <div
+            className={`whitespace-nowrap badge ${
+              projectType === 'Market'
+                ? 'bg-info'
+                : projectType === 'Project'
+                  ? 'bg-success'
+                  : ''
+            } flex justify-center`}
+        >
+            {projectType}
+        </div>
+    ),
+},
                                 {
                                     accessor: 'buildingType',
                                     title: 'Building Type',
@@ -124,14 +140,15 @@ const PAGE_SIZES = [10, 20, 30, 50, 100];
 
 
 
-                                  { accessor: 'refrenceId', title: 'Id' },
-                                { accessor: 'projectName', title: 'project Name', },
+
+
                                 { accessor: 'contractorName', title: 'Contractor Name', render: ({ contractorName }) => (contractorName && contractorName!=='undefined') ? contractorName : 'N/A'},
                                 { accessor: 'contractorNumber', title: 'Contractor Number', render: ({ contractorNumber }) =>  (contractorNumber && contractorNumber!=='undefined') ? contractorNumber : 'N/A' },
-                                { accessor: 'city', title: 'Address', },
+                                { accessor: 'city', title: 'City', },
                                 { accessor: 'scouter', title: 'Scouter', },
                                 // { accessor: 'assignedToMember', title: 'Assigned Member', },
-                                { accessor: 'address', title: 'Address', },
+                                { accessor: 'address', title: 'Address',render: ({ address }: any) => (address && address !== 'undefined') ? address?.split(",")[1]?.length>=30? address?.split(",")[1]?.slice(0, 50)+ " ...":address?.split(",")[1]
+         : 'N/A' },
                                 {
                                     accessor: '', title: 'Action',
                                     render: ({ id, assignedToMember }) => (

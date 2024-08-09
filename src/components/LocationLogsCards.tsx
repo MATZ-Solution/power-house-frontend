@@ -7,12 +7,12 @@ const LocationLogsCards = ({ items, image }: { items: Root; image: string }) => 
     console.log(items);
 
     // Determine the correct date based on the log type
-    const formattedDate = items?.log?.type === 'Scouted' ? dayjs(items?.created_at).format('DD-MMM-YYYY - hh:mm A') : dayjs(items?.date).format('DD-MMM-YYYY - hh:mm A');
+    const formattedDate = items?.log?.type === 'Scouted' ? dayjs(items?.log.created_at).format('DD-MMM-YYYY - hh:mm A') : dayjs(items?.date).format('DD-MMM-YYYY - hh:mm A');
 
     // Determine the DayAndTimeLine component based on the log type
     const DayAndTimeForScout =
         items?.log?.type === 'Scouted' ? (
-            <DayAndTimeLine CreatedDate={items?.created_at ? new Date(items?.created_at) : new Date()} />
+            <DayAndTimeLine CreatedDate={items?.log.created_at ? new Date(items?.log.created_at) : new Date()} />
         ) : (
             <DayAndTimeLine CreatedDate={items?.date ? new Date(items.date) : new Date()} />
         );
